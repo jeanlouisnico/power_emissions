@@ -1,0 +1,66 @@
+function send2sqlcomplete(datein, Emissions)
+tablesql = 'emissions' ;
+conn = postgresql('uoulu','rxelmhrhjF3!', 'PortNumber', 5432, 'Server', '128.214.253.150', 'DatabaseName', 'making_city_emissions') ;
+
+sqlquery = ['SELECT id FROM ' tablesql ' ORDER BY id DESC LIMIT 1'];
+idtable = fetch(conn,sqlquery) ;
+
+if isempty(idtable)
+    idmax = 0 ;
+else
+    idmax = idtable.id ;
+end
+s(1).id = idmax + 1 ;
+
+% alldata = sqlread(conn, 'emissions') ;
+% 
+% idmax = max(alldata.id) ;
+% 
+% if isempty(idmax)
+%     idmax = 0 ;
+% 	s(1).id = idmax + 1 ;
+% else
+% 	s(1).id = idmax + 1 ;
+% end
+
+countries = fieldnames(Emissions) ;
+emdatabases = {'EcoInvent' 'EM'} ;
+
+% id | date_time | country | emdb | emissionintprod | emissionintcons
+scount = 0 ;
+for icountry = 1:length(countries)
+    for iemi = 1:length(emdatabases)
+        scount = scount + 1 ;
+        if scount > 1
+            s(scount).id = idmax + scount ;
+        end 
+        switch emdatabases{iemi}
+            case 'EcoInvent'
+                dbemi = 'EcoInvent' ;
+            case 'EM'
+                dbemi = 'electricitymap_Emissions' ;
+        end
+        s(scount).date_time = datein ;
+        s(scount).country   = countries{icountry} ;
+        s(scount).emdb   = emdatabases{iemi} ;
+        try
+            s(scount).emissionintprod   = Emissions.(countries{icountry}).TSO.(dbemi).intensityprod ;
+        catch
+            s(scount).emissionintprod   = 0 ;
+        end
+        try
+            s(scount).emissionintcons   = Emissions.(countries{icountry}).TSO.(dbemi).intensitycons ;
+        catch
+            s(scount).emissionintcons   = 0 ;
+        end
+    end
+end
+
+try
+    data = struct2table(s) ;
+catch
+    data = struct2table(s, 'AsArray',true) ;
+end
+sqlwrite(conn,'emissions',data, 'ColumnType',["bigserial","timestamp","varchar(50)","varchar(50)","float","float"]) ;
+	
+close(conn) ;
