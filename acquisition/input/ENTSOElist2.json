@@ -1,0 +1,362 @@
+[
+  {
+    "countrycode": "AL",
+    "query": "10YAL-KESH-----5"
+  },
+  {
+    "countrycode": "AX",
+    "query": "10Y1001A1001A46L"
+  },
+  {
+    "countrycode": "DE_50Hz",
+    "query": "10YDE-VE-------2"
+  },
+  {
+    "countrycode": "DE_Amprion",
+    "query": "10YDE-RWENET---I"
+  },
+  {
+    "countrycode": "AT",
+    "query": "10YAT-APG------L"
+  },
+  {
+    "countrycode": "BY",
+    "query": "10Y1001A1001A51S"
+  },
+  {
+    "countrycode": "BE",
+    "query": "10YBE----------2"
+  },
+  {
+    "countrycode": "BA",
+    "query": "10YBA-JPCC-----D"
+  },
+  {
+    "countrycode": "BG",
+    "query": "10YCA-BULGARIA-R"
+  },
+  {
+    "countrycode": "",
+    "query": "10YDOM-CZ-DE-SKK"
+  },
+  {
+    "countrycode": "HR",
+    "query": "10YHR-HEP------M"
+  },
+  {
+    "countrycode": "",
+    "query": "10YDOM-REGION-1V"
+  },
+  {
+    "countrycode": "CY",
+    "query": "10YCY-1001A0003J"
+  },
+  {
+    "countrycode": "CZ",
+    "query": "10YCZ-CEPS-----N"
+  },
+  {
+    "countrycode": "",
+    "query": "10Y1001A1001A63L"
+  },
+  {
+    "countrycode": "",
+    "query": "10Y1001A1001A82H"
+  },
+  {
+    "countrycode": "DK",
+    "query": "10Y1001A1001A65H"
+  },
+  {
+    "countrycode": "DK_DK1",
+    "query": "10YDK-1--------W"
+  },
+  {
+    "countrycode": "DK_DK2",
+    "query": "10YDK-2--------M"
+  },
+  {
+    "countrycode": "",
+    "query": "10Y1001A1001A796"
+  },
+  {
+    "countrycode": "EE",
+    "query": "10Y1001A1001A39I"
+  },
+  {
+    "countrycode": "FI",
+    "query": "10YFI-1--------U"
+  },
+  {
+    "countrycode": "MK",
+    "query": "10YMK-MEPSO----8"
+  },
+  {
+    "countrycode": "FR",
+    "query": "10YFR-RTE------C"
+  },
+  {
+    "countrycode": "",
+    "query": "11Y0-0000-0265-K"
+  },
+  {
+    "countrycode": "",
+    "query": "10Y1001C--00098F"
+  },
+  {
+    "countrycode": "",
+    "query": "17Y0000009369493"
+  },
+  {
+    "countrycode": "DE",
+    "query": "10Y1001A1001A83F"
+  },
+  {
+    "countrycode": "GR",
+    "query": "10YGR-HTSO-----Y"
+  },
+  {
+    "countrycode": "Hu",
+    "query": "10YHU-MAVIR----U"
+  },
+  {
+    "countrycode": "IS",
+    "query": "IS"
+  },
+  {
+    "countrycode": "",
+    "query": "10Y1001A1001A59C"
+  },
+  {
+    "countrycode": "IE",
+    "query": "10YIE-1001A00010"
+  },
+  {
+    "countrycode": "IT",
+    "query": "10YIT-GRTN-----B"
+  },
+  {
+    "countrycode": "",
+    "query": "10Y1001A1001A885"
+  },
+  {
+    "countrycode": "",
+    "query": "10Y1001A1001A893"
+  },
+  {
+    "countrycode": "IT_BR",
+    "query": "10Y1001A1001A699"
+  },
+  {
+    "countrycode": "IT_CA",
+    "query": "10Y1001C--00096J"
+  },
+  {
+    "countrycode": "IT_CNO",
+    "query": "10Y1001A1001A70O"
+  },
+  {
+    "countrycode": "IT_CSO",
+    "query": "10Y1001A1001A71M"
+  },
+  {
+    "countrycode": "IT_FO",
+    "query": "10Y1001A1001A72K"
+  },
+  {
+    "countrycode": "",
+    "query": "10Y1001A1001A66F"
+  },
+  {
+    "countrycode": "",
+    "query": "10Y1001A1001A84D"
+  },
+  {
+    "countrycode": "",
+    "query": "10Y1001A1001A85B"
+  },
+  {
+    "countrycode": "",
+    "query": "10Y1001A1001A877"
+  },
+  {
+    "countrycode": "IT_NO",
+    "query": "10Y1001A1001A73I"
+  },
+  {
+    "countrycode": "",
+    "query": "10Y1001A1001A80L"
+  },
+  {
+    "countrycode": "",
+    "query": "10Y1001A1001A68B"
+  },
+  {
+    "countrycode": "",
+    "query": "10Y1001A1001A81J"
+  },
+  {
+    "countrycode": "",
+    "query": "10Y1001A1001A67D"
+  },
+  {
+    "countrycode": "IT_PR",
+    "query": "10Y1001A1001A76C"
+  },
+  {
+    "countrycode": "IT_RO",
+    "query": "10Y1001A1001A77A"
+  },
+  {
+    "countrycode": "IT_SAR",
+    "query": "10Y1001A1001A74G"
+  },
+  {
+    "countrycode": "IT_SIC",
+    "query": "10Y1001A1001A75E"
+  },
+  {
+    "countrycode": "IT_SO",
+    "query": "10Y1001A1001A788"
+  },
+  {
+    "countrycode": "RU_KGD",
+    "query": "10Y1001A1001A50U"
+  },
+  {
+    "countrycode": "LV",
+    "query": "10YLV-1001A00074"
+  },
+  {
+    "countrycode": "LT",
+    "query": "10YLT-1001A0008Q"
+  },
+  {
+    "countrycode": "LU",
+    "query": "10YLU-CEGEDEL-NQ"
+  },
+  {
+    "countrycode": "MT",
+    "query": "10Y1001A1001A93C"
+  },
+  {
+    "countrycode": "ME",
+    "query": "10YCS-CG-TSO---S"
+  },
+  {
+    "countrycode": "GB",
+    "query": "10YGB----------A"
+  },
+  {
+    "countrycode": "NL",
+    "query": "10YNL----------L"
+  },
+  {
+    "countrycode": "NO_NO1",
+    "query": "10YNO-1--------2"
+  },
+  {
+    "countrycode": "NO_NO2",
+    "query": "10YNO-2--------T"
+  },
+  {
+    "countrycode": "NO_NO3",
+    "query": "10YNO-3--------J"
+  },
+  {
+    "countrycode": "NO_NO4",
+    "query": "10YNO-4--------9"
+  },
+  {
+    "countrycode": "NO_NO5",
+    "query": "10Y1001A1001A48H"
+  },
+  {
+    "countrycode": "NO",
+    "query": "10YNO-0--------C"
+  },
+  {
+    "countrycode": "PL",
+    "query": "10YPL-AREA-----S"
+  },
+  {
+    "countrycode": "PT",
+    "query": "10YPT-REN------W"
+  },
+  {
+    "countrycode": "MD",
+    "query": "10Y1001A1001A990"
+  },
+  {
+    "countrycode": "RO",
+    "query": "10YRO-TEL------P"
+  },
+  {
+    "countrycode": "RU_RU1",
+    "query": "10Y1001A1001A49F"
+  },
+  {
+    "countrycode": "SE_SE1",
+    "query": "10Y1001A1001A44P"
+  },
+  {
+    "countrycode": "SE_SE2",
+    "query": "10Y1001A1001A45N"
+  },
+  {
+    "countrycode": "SE_SE3",
+    "query": "10Y1001A1001A46L"
+  },
+  {
+    "countrycode": "SE_SE4",
+    "query": "10Y1001A1001A47J"
+  },
+  {
+    "countrycode": "CS",
+    "query": "10YCS-SERBIATSOV"
+  },
+  {
+    "countrycode": "SK",
+    "query": "10YSK-SEPS-----K"
+  },
+  {
+    "countrycode": "SI",
+    "query": "10YSI-ELES-----O"
+  },
+  {
+    "countrycode": "",
+    "query": "10Y1001A1001A016"
+  },
+  {
+    "countrycode": "ES",
+    "query": "10YES-REE------0"
+  },
+  {
+    "countrycode": "SE",
+    "query": "10YSE-1--------K"
+  },
+  {
+    "countrycode": "CH",
+    "query": "10YCH-SWISSGRIDZ"
+  },
+  {
+    "countrycode": "DE_TenneT",
+    "query": "10YDE-EON------1"
+  },
+  {
+    "countrycode": "DE_Transnet",
+    "query": "10YDE-ENBW-----N"
+  },
+  {
+    "countrycode": "TR",
+    "query": "10YTR-TEIAS----W"
+  },
+  {
+    "countrycode": "UA",
+    "query": "10YUA-WEPS-----0"
+  },
+  {
+    "countrycode": "KX",
+    "query": "10Y1001C--00100H"
+  }
+]
