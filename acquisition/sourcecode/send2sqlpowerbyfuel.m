@@ -45,12 +45,13 @@ for icountry = 1:length(countries)
             s(scount).date_time = datein ;
             s(scount).country   = countries{icountry} ;
             s(scount).fuel   = allfuels{ifuel} ;
+            s(scount).powersource   = powerdatabases{iemi} ;
             try
                 s(scount).power_generated   = Power.(countries{icountry}).(powerdatabases{iemi}).byfuel.(allfuels{ifuel}) ;
             catch
                 s(scount).power_generated   = 0 ;
             end
-            s(scount).powersource   = powerdatabases{iemi} ;
+            
         end
     end
 end

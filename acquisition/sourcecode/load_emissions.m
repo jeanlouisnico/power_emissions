@@ -18,6 +18,6 @@ p = mfilename('fullpath') ;
 fparts = split(filepath, filesep) ;
 fparts = join(fparts(1:end-1), filesep) ;
 
-Emissions.newem = jsondecode(fileread([fparts{1} filesep 'input' filesep 'co2emissions_uoulu.json']));
+Emissions.newem = jsondecode(fileread([fparts{1} filesep 'input' filesep 'general' filesep 'co2emissions_uoulu.json']));
 
 warning('ON', 'MATLAB:table:ModifiedAndSavedVarnames')

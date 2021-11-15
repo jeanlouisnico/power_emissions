@@ -29,6 +29,10 @@ if ~isfile([filepath filesep 'setup' filesep 'ini.json'])
                               'DatabaseName', setup.DB.name) ;
             n = 1 ;
             disp('connection successfull!!');
+            % This creates the table if they do not
+            % exist. If you want to reset the table,
+            % please use the resetDb.m function
+            executeSQLScript(conn,'emissions.sql') ;
         catch
             warning('Could not connect to the postgreSQL database. Check that all the data are correct');
             setup.DB
@@ -72,6 +76,10 @@ else
                                                   'DatabaseName', setup.DB.name) ;
                                 n3 = 1 ;
                                 disp('connection successfull!!');
+                                % This creates the table if they do not
+                                % exist. If you want to reset the table,
+                                % please use the resetDb.m function
+                                executeSQLScript(conn,'emissions.sql') ;
                             catch
                                 warning('Could not connect to the postgreSQL database. Check that all the data are correct');
                                 setup.DB

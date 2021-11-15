@@ -8,9 +8,13 @@ conn = connDB ;
 tablename = 'rekistery_fi' ;
 
 alldata                 = sqlread(conn, tablename) ;
-alldata.mainfuel    	= fillmissing(alldata.mainfuel,'constant',"");
-alldata.standbyfuel     = fillmissing(alldata.standbyfuel,'constant',"");
-alldata.standbyfuel_1   = fillmissing(alldata.standbyfuel_1,'constant',"");
+if isempty(alldata)
+    update = true ;
+else
+    alldata.mainfuel    	= fillmissing(alldata.mainfuel,'constant',"");
+    alldata.standbyfuel     = fillmissing(alldata.standbyfuel,'constant',"");
+    alldata.standbyfuel_1   = fillmissing(alldata.standbyfuel_1,'constant',"");
+end
 
 if update
     filename = 'Energiaviraston voimalaitosrekisteri.xlsx' ;
@@ -42,5 +46,6 @@ if update
     end
     data = addvars(t1,[1:height(t1)]','Before','Name','NewVariableNames', 'id') ;
     sqlwrite(conn,tablename,data, 'ColumnType',["bigserial","varchar(100)","varchar(100)","varchar(100)","varchar(100)","varchar(100)","integer","varchar(100)","varchar(100)","numeric","numeric","numeric","numeric","numeric","numeric","numeric","numeric","numeric","numeric","numeric","numeric","varchar(100)","varchar(100)","varchar(100)"]) ;
+    alldata = rekisterypostgre(false) ;
 end
 

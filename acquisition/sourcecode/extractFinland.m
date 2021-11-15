@@ -1,4 +1,4 @@
-function Power = extractFinland(Power)
+function Power = extractFinland
 
 %% Load power Finland
 % The load in Finland can be fetch from two sources: Fingrid and ENTSOE.
@@ -11,22 +11,22 @@ function Power = extractFinland(Power)
 
 
 %%%%% TO GET THROUGH THE FINGRID API %%%%%%%%
-Power.CHP_DH     = fetchFingrid('CHP_DH')   ; % MWh/h 
-Power.CHP_Ind    = fetchFingrid('CHP_Ind')   ; % MWh/h 
-Power.NuclearP   = fetchFingrid('NuclearP')  ; % MWh/h 
-Power.OtherProd  = fetchFingrid('OtherProd1') + fetchFingrid('OtherProd2')    ; % MWh/h 
-Power.WindP      = fetchFingrid('WindP')     ; % MWh/h 
-Power.SolarP     = fetchFingrid('SolarP')       ; % MWh/h 
-Power.HydroP     = fetchFingrid('HydroP')    ; % MWh/h 
+Power.bytech.CHP_DH     = fetchFingrid('CHP_DH')   ; % MWh/h 
+Power.bytech.CHP_Ind    = fetchFingrid('CHP_Ind')   ; % MWh/h 
+Power.bytech.NuclearP   = fetchFingrid('NuclearP')  ; % MWh/h 
+Power.bytech.OtherProd  = fetchFingrid('OtherProd1') + fetchFingrid('OtherProd2')    ; % MWh/h 
+Power.bytech.WindP      = fetchFingrid('WindP')     ; % MWh/h 
+Power.bytech.SolarP     = fetchFingrid('SolarP')       ; % MWh/h 
+Power.bytech.HydroP     = fetchFingrid('HydroP')    ; % MWh/h 
 
-Power.FI.TSO.TotalConsumption = fetchFingrid('TotalConsumption') ; % MWh/h 
-Power.FI.TSO.TotalProduction = fetchFingrid('TotalProduction')   ; % MWh/h
+Power.TotalConsumption = fetchFingrid('TotalConsumption') ; % MWh/h 
+Power.TotalProduction = fetchFingrid('TotalProduction')   ; % MWh/h
 
-Power.FI.TSO.TradeRU  = -fetchFingrid('TradeRussia')  ; % MWh/h 
-Power.FI.TSO.TradeEE = -fetchFingrid('TradeEstonia') ; % MWh/h 
-Power.FI.TSO.TradeSE  = -(fetchFingrid('TradeSweden4') + fetchFingrid('TradeSweden1'))  ; % MWh/h 
-Power.FI.TSO.TradeNO  = -fetchFingrid('TradeNorway')  ; % MWh/h 
+Power.TradeRU  = -fetchFingrid('TradeRussia')  ; % MWh/h 
+Power.TradeEE = -fetchFingrid('TradeEstonia') ; % MWh/h 
+Power.TradeSE  = -(fetchFingrid('TradeSweden4') + fetchFingrid('TradeSweden1'))  ; % MWh/h 
+Power.TradeNO  = -fetchFingrid('TradeNorway')  ; % MWh/h 
 
-Power.FI.TSO.SystemState  = fetchFingrid('SystemState')  ; % MWh/h 
+Power.SystemState  = fetchFingrid('SystemState')  ; % MWh/h 
 
 %%%%% TO GET THROUGH THE FINGRID API %%%%%%%%

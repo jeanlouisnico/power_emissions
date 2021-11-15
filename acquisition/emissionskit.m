@@ -14,9 +14,7 @@ for icountry = 1:length(Country)
     Power.(country_code{icountry}).ENTSOE.bytech = ENTSOE ;
     Power.(country_code{icountry}).ENTSOE.byfuel = ENTSOEbyfuel(ENTSOE) ;
     Power.(country_code{icountry}).ENTSOE.TotalConsumption = PoweroutLoad ;
-    if ~strcmp(Country{icountry}, 'Finland')
-        Power.(country_code{icountry}).TSO.bytech = TSO ;
-    end
+    Power.(country_code{icountry}).TSO = TSO ;
 end
 
 %% Load Emissions data
@@ -422,7 +420,6 @@ try
     % Test the connection, if it is valid then continue saving in the sql
     % database. If it is not valid, save using the xml format
     connDB ;
-    send2sql(currenttime, Emissions.FI.TSO.EcoInvent.intensitycons) ;
     send2sqlcomplete(currenttime, Emissions) ;
     send2sqlpowerbyfuel(currenttime, Power) ;
 catch

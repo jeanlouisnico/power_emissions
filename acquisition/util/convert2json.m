@@ -51,4 +51,9 @@ for icountry = 1:length(allcountries)
     end
 end
 
-dlmwrite('co2emissions_uoulu.json',jsonencode(s),'delimiter','');
+p = mfilename('fullpath') ;
+[filepath,~,~] = fileparts(p) ;
+fparts = split(filepath, filesep) ;
+fparts = join(fparts(1:end-1), filesep) ;
+
+dlmwrite([fparts{1} filesep 'input' filesep 'general' filesep 'co2eq_parameters_uoulu.json'],jsonencode(s),'delimiter','');

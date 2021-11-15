@@ -6,7 +6,7 @@ p = mfilename('fullpath') ;
 fparts = split(filepath, filesep) ;
 fparts = join(fparts(1:end-1), filesep) ;
 
-val = jsondecode(fileread([fparts{1} filesep 'input' filesep 'co2eq_parameters.json']));
+val = jsondecode(fileread([fparts{1} filesep 'input' filesep 'general' filesep 'co2eq_parameters.json']));
 
 allzones = fieldnames(val.emissionFactors.zoneOverrides) ;
 
