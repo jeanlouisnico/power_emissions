@@ -38,3 +38,14 @@ just run *emissionskit* from the command window
 ```
 
 ### Continuous run
+
+## Related work
+
+The electricitymap project is a popular tool and well made for putting together the power networks. The network file from electricitymap was used to set up the power markets. The emission coefficient factors were used to aggregate the IPCC emission factors. Our method uses the IPCC data for comparison purposes and use primarily the EcoInvent data as a point of reference.
+
+Read more about our method here
+
+## How to cite
+
+Please cite this package using our main publication.
+

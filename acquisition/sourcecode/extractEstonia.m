@@ -36,7 +36,7 @@ transmission = webread('https://dashboard.elering.ee/api/transmission/cross-bord
 Powerout.Finland = transmission.data.finland ;
 Powerout.Russia = transmission.data.russia_narva + transmission.data.russia_pihkva ;
 Powerout.Latvia = transmission.data.latvia ;
-%% HEre is a second extract from the Latvian TSO that has more regular updates for Estonia (about every 3 minutes)
+%% Here is a second extract from the Latvian TSO that has more regular updates for Estonia (about every 3 minutes)
 
 options = weboptions('Timeout',15) ;
 timeextract = datestr(now, 'yyyy-mm-dd') ;
