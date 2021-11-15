@@ -426,6 +426,13 @@ catch
     % All variables are stored in xml format saved at the same location than
     % this function as XMLEmissions.xml. We are not storing data
     % therefore only the latest data are provided.
+    p = mfilename('fullpath') ;
+    [filepath,~,~] = fileparts(p) ;
+    fparts = split(filepath, filesep) ;
+    fparts = join(fparts(1:end-1), filesep) ;
+    
+    archivepath = [fparts{1} filesep 'output'] ;
+
     Filename = [sprintf('%02d',currenttime.Year) sprintf('%02d',currenttime.Month) sprintf('%02d',currenttime.Day) sprintf('%02d',currenttime.Hour) '_Emissions.xml'] ;
 
     if isfile(Filename)
@@ -447,11 +454,9 @@ catch
         s.EmissionsFinland.Data(1).Power = Power ;
         s.EmissionsFinland.Data(1).Emissions = Emissions ;
     end
-    p = mfilename('fullpath') ;
-    p  = split(p, filesep) ;
-    p  = join(p(1:end-1),filesep) ;
-    struct2xml(s, [p{1} filesep Filename]);
-    extract4Tableau ;
+    
+    struct2xml(s, [archivepath filesep Filename]);
+%     extract4Tableau(archivepath) ;
     
     %%% Archive the data
     if archive
@@ -463,13 +468,17 @@ catch
                        sprintf('%02d',currenttimetemp.Hour) '_Emissions.xml'] ;
 
 
-        archivepath = [p{1} filesep 'archive' filesep 'xml'] ;
+        archivepath = [archivepath filesep 'archive' filesep 'xml'] ;
 
         if ~exist(archivepath, 'dir')
            mkdir(archivepath)
         end
         try
-            copyfile(Filenameold, 'C:\Users\jlouis\Oulun yliopisto\Environmental Emissions - General\archive\xml');
+            archivepathtemp = 'C:\TEMP\archive\xml' ;
+            if ~exist(archivepathtemp, 'dir')
+               mkdir(archivepathtemp)
+            end
+            copyfile(Filenameold, archivepathtemp) ;
             disp('file copied')
         catch
             % Error might happen if data were missing
