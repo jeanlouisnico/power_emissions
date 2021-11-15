@@ -1,6 +1,6 @@
 function send2sqlpowerbyfuel(datein, Power)
 tablesql = 'powerbyfuel' ;
-conn = postgresql('uoulu','rxelmhrhjF3!', 'PortNumber', 5432, 'Server', '128.214.253.150', 'DatabaseName', 'making_city_emissions') ;
+conn = connDB ;
 
 sqlquery = ['SELECT id FROM ' tablesql ' ORDER BY id DESC LIMIT 1'];
 idtable = fetch(conn,sqlquery) ;

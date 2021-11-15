@@ -47,7 +47,7 @@ switch country
         %%%%% TO GET THROUGH THE ENTSOE API %%%%%%%%
         [ENTSOE, PoweroutLoad] = ENTSOE_meth(country) ;
         %%%%% TO GET THROUGH THE ENTSOE API %%%%%%%%
-        TSO    = 0 ;
+        TSO    = extractFinland(Power) ;
     otherwise
         
 end

@@ -28,6 +28,7 @@ if ~isfile([filepath filesep 'setup' filesep 'ini.json'])
                               'Server', setup.DB.server, ...
                               'DatabaseName', setup.DB.name) ;
             n = 1 ;
+            disp('connection successfull!!');
         catch
             warning('Could not connect to the postgreSQL database. Check that all the data are correct');
             setup.DB
@@ -70,6 +71,7 @@ else
                                                   'Server', setup.DB.server, ...
                                                   'DatabaseName', setup.DB.name) ;
                                 n3 = 1 ;
+                                disp('connection successfull!!');
                             catch
                                 warning('Could not connect to the postgreSQL database. Check that all the data are correct');
                                 setup.DB

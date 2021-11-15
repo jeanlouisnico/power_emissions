@@ -68,20 +68,31 @@ end
 % For Fingrid data, the easiest way is to invoke the curl system to
 % retrieve data. In the example below, we are retrieving the .json file and
 % read it to retrieve the last instance.
-securitytoken = 'ku4916xp7o35yofwTiPnbRBwXdrfFN69RKEcpFD1' ;
 
-curlcall = ['curl -X GET --header "Accept: application/json" --header "x-api-key: ' ...
-            securitytoken '" "https://api.fingrid.fi/v1/variable/' ...
-             num2str(codeID{1}) '/events/json?start_time=' ...
-             periodStartchar '&end_time=' ...
-             periodEndchar '"'] ;
-     
-[~, p] = system(curlcall) ;
-jsonout = findstr('[', p) ;
-Powerout = jsondecode(p(jsonout:end)) ;
-if isempty(Powerout)
+p = mfilename('fullpath') ;
+[filepath,~,~] = fileparts(p) ;
+fparts = split(filepath, filesep) ;
+fparts = join(fparts(1:end-1), filesep) ;
+setup = jsondecode(fileread([fparts{1} filesep 'setup' filesep 'ini.json']));
+
+securitytoken = setup.Fingrid.securityToken ;
+
+if isempty(securitytoken)
     Retrieveresult = 0 ;
 else
-    Retrieveresult = Powerout.value ;
+    curlcall = ['curl -X GET --header "Accept: application/json" --header "x-api-key: ' ...
+                securitytoken '" "https://api.fingrid.fi/v1/variable/' ...
+                 num2str(codeID{1}) '/events/json?start_time=' ...
+                 periodStartchar '&end_time=' ...
+                 periodEndchar '"'] ;
+
+    [~, p] = system(curlcall) ;
+    jsonout = findstr('[', p) ;
+    Powerout = jsondecode(p(jsonout:end)) ;
+    if isempty(Powerout)
+        Retrieveresult = 0 ;
+    else
+        Retrieveresult = Powerout.value ;
+    end
 end
 

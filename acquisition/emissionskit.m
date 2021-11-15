@@ -1,33 +1,5 @@
-function EmissionsFinland_timer(src, eventdata)
+function emissionskit(src, eventdata)
 % This is the main routine for running the emission code from MatLab
-%% Load power Finland
-% The load in Finland can be fetch from two sources: Fingrid and ENTSOE.
-% The Fingrid API provides real-time data updated eevry 3 minutes (except
-% for solar) while the ENTSOE API provides data on hourly basis. 
-%%%
-% The first method uses the Fingrid API. to get it work, one will need to
-% generate a security token for accessing it.
-
-%%%%% TO GET THROUGH THE FINGRID API %%%%%%%%
-Power.FI.TSO.bytech.CHP_DH     = fetchFingrid('CHP_DH')   ; % MWh/h 
-Power.FI.TSO.bytech.CHP_Ind    = fetchFingrid('CHP_Ind')   ; % MWh/h 
-Power.FI.TSO.bytech.NuclearP   = fetchFingrid('NuclearP')  ; % MWh/h 
-Power.FI.TSO.bytech.OtherProd  = fetchFingrid('OtherProd1') + fetchFingrid('OtherProd2')    ; % MWh/h 
-Power.FI.TSO.bytech.WindP      = fetchFingrid('WindP')     ; % MWh/h 
-Power.FI.TSO.bytech.SolarP     = fetchFingrid('SolarP')       ; % MWh/h 
-Power.FI.TSO.bytech.HydroP     = fetchFingrid('HydroP')    ; % MWh/h 
-
-Power.FI.TSO.TotalConsumption = fetchFingrid('TotalConsumption') ; % MWh/h 
-Power.FI.TSO.TotalProduction = fetchFingrid('TotalProduction')   ; % MWh/h
-
-Power.FI.TSO.TradeRU  = -fetchFingrid('TradeRussia')  ; % MWh/h 
-Power.FI.TSO.TradeEE = -fetchFingrid('TradeEstonia') ; % MWh/h 
-Power.FI.TSO.TradeSE  = -(fetchFingrid('TradeSweden4') + fetchFingrid('TradeSweden1'))  ; % MWh/h 
-Power.FI.TSO.TradeNO  = -fetchFingrid('TradeNorway')  ; % MWh/h 
-
-Power.FI.TSO.SystemState  = fetchFingrid('SystemState')  ; % MWh/h 
-
-%%%%% TO GET THROUGH THE FINGRID API %%%%%%%%
 
 %% Exchange of Power
 % For the other countries, it is necessary to loop through each connected
@@ -441,85 +413,90 @@ for ipower = 1:length(FIsource)
     end
 end
 %% Save all values in XML files
-% All variables are stored in xml format saved at the same location than
-% this function as XMLEmissionsFinland.xml. We are not storing data
-% therefore only the latest data are provided.
+
 currenttime = datetime(now, "ConvertFrom", "datenum") ;
 
-% Filename = [sprintf('%02d',currenttime.Year) sprintf('%02d',currenttime.Month) sprintf('%02d',currenttime.Day) sprintf('%02d',currenttime.Hour) '_Emissions.xml'] ;
-% 
-% if isfile(Filename)
-%     archive = false ;
-%     s = xml2struct2(Filename) ;
-%     nbrexistingdata = length(s.EmissionsFinland.Data) ;
-%     if nbrexistingdata == 1
-%         s.EmissionsFinland.Data(nbrexistingdata+1).Date = datestr(currenttime, 'dd-mm-yyyy HH:MM:SS') ;
-%         s.EmissionsFinland.Data(nbrexistingdata+1).Power = Power ;
-%         s.EmissionsFinland.Data(nbrexistingdata+1).Emissions = Emissions ;
-%     else
-%         s.EmissionsFinland.Data{nbrexistingdata+1}.Date = datestr(currenttime, 'dd-mm-yyyy HH:MM:SS') ;
-%         s.EmissionsFinland.Data{nbrexistingdata+1}.Power = Power ;
-%         s.EmissionsFinland.Data{nbrexistingdata+1}.Emissions = Emissions ;
-%     end
-% else  
-%     archive = true ;
-%     s.EmissionsFinland.Data(1).Date = datestr(currenttime, 'dd-mm-yyyy HH:MM:SS') ;
-%     s.EmissionsFinland.Data(1).Power = Power ;
-%     s.EmissionsFinland.Data(1).Emissions = Emissions ;
-% end
-% p = mfilename('fullpath') ;
-% p  = split(p, filesep) ;
-% p  = join(p(1:end-1),filesep) ;
-% struct2xml(s, [p{1} filesep Filename]);
-% extract4Tableau ;
+%% Send the data to the server
 
-%% Send the data to the Puhti server in CSC
+try 
+    % Test the connection, if it is valid then continue saving in the sql
+    % database. If it is not valid, save using the xml format
+    connDB ;
+    send2sql(currenttime, Emissions.FI.TSO.EcoInvent.intensitycons) ;
+    send2sqlcomplete(currenttime, Emissions) ;
+    send2sqlpowerbyfuel(currenttime, Power) ;
+catch
+    % All variables are stored in xml format saved at the same location than
+    % this function as XMLEmissions.xml. We are not storing data
+    % therefore only the latest data are provided.
+    Filename = [sprintf('%02d',currenttime.Year) sprintf('%02d',currenttime.Month) sprintf('%02d',currenttime.Day) sprintf('%02d',currenttime.Hour) '_Emissions.xml'] ;
 
-send2sql(currenttime, Emissions.FI.TSO.EcoInvent.intensitycons) ;
-send2sqlcomplete(currenttime, Emissions) ;
-send2sqlpowerbyfuel(currenttime, Power) ;
+    if isfile(Filename)
+        archive = false ;
+        s = xml2struct2(Filename) ;
+        nbrexistingdata = length(s.EmissionsFinland.Data) ;
+        if nbrexistingdata == 1
+            s.EmissionsFinland.Data(nbrexistingdata+1).Date = datestr(currenttime, 'dd-mm-yyyy HH:MM:SS') ;
+            s.EmissionsFinland.Data(nbrexistingdata+1).Power = Power ;
+            s.EmissionsFinland.Data(nbrexistingdata+1).Emissions = Emissions ;
+        else
+            s.EmissionsFinland.Data{nbrexistingdata+1}.Date = datestr(currenttime, 'dd-mm-yyyy HH:MM:SS') ;
+            s.EmissionsFinland.Data{nbrexistingdata+1}.Power = Power ;
+            s.EmissionsFinland.Data{nbrexistingdata+1}.Emissions = Emissions ;
+        end
+    else  
+        archive = true ;
+        s.EmissionsFinland.Data(1).Date = datestr(currenttime, 'dd-mm-yyyy HH:MM:SS') ;
+        s.EmissionsFinland.Data(1).Power = Power ;
+        s.EmissionsFinland.Data(1).Emissions = Emissions ;
+    end
+    p = mfilename('fullpath') ;
+    p  = split(p, filesep) ;
+    p  = join(p(1:end-1),filesep) ;
+    struct2xml(s, [p{1} filesep Filename]);
+    extract4Tableau ;
+    
+    %%% Archive the data
+    if archive
+        %%% Archive old files
+        currenttimetemp = datetime(now, "ConvertFrom", "datenum")- hours(1) ;
+        Filenameold = [sprintf('%02d',currenttimetemp.Year) ...
+                       sprintf('%02d',currenttimetemp.Month) ...
+                       sprintf('%02d',currenttimetemp.Day) ...
+                       sprintf('%02d',currenttimetemp.Hour) '_Emissions.xml'] ;
 
 
+        archivepath = [p{1} filesep 'archive' filesep 'xml'] ;
 
-S = struct("emissions", struct("time", datestr(currenttime, 'dd-mm-yyyy HH:MM:SS'), "emissionintensity", num2str(Emissions.FI.TSO.EcoInvent.intensitycons))) ;
-s = jsonencode(S) ;
-JSONFILE_name= sprintf('%s.json','emissions') ;
-fid=fopen(JSONFILE_name,'w');
-fprintf(fid, s);
-fclose('all');
-movefile('emissions.json','C:\Users\jlouis\OneDrive - Oulun yliopisto\CSC');
+        if ~exist(archivepath, 'dir')
+           mkdir(archivepath)
+        end
+        try
+            copyfile(Filenameold, 'C:\Users\jlouis\Oulun yliopisto\Environmental Emissions - General\archive\xml');
+            disp('file copied')
+        catch
+            % Error might happen if data were missing
+        end
+        try 
+            movefile(Filenameold, archivepath)
+            disp('file moved')
+        catch
+            % Error might happen if data were missing
+        end
+        %%% Archive old files
+    end 
+end
+
+% S = struct("emissions", struct("time", datestr(currenttime, 'dd-mm-yyyy HH:MM:SS'), "emissionintensity", num2str(Emissions.FI.TSO.EcoInvent.intensitycons))) ;
+% s = jsonencode(S) ;
+% JSONFILE_name = sprintf('%s.json','emissions') ;
+% fid=fopen(JSONFILE_name,'w');
+% fprintf(fid, s);
+% fclose('all');
+% movefile('emissions.json','C:\Users\jlouis\OneDrive - Oulun yliopisto\CSC');
 % system('C:\temp\MobaXterm_Portable_v21.3\MobaXterm_Personal_21.3.exe test.sh') ;
 
-%% Archive the data
 
-% if archive
-%     %%% Archive old files
-%     currenttimetemp = datetime(now, "ConvertFrom", "datenum")- hours(1) ;
-%     Filenameold = [sprintf('%02d',currenttimetemp.Year) ...
-%                    sprintf('%02d',currenttimetemp.Month) ...
-%                    sprintf('%02d',currenttimetemp.Day) ...
-%                    sprintf('%02d',currenttimetemp.Hour) '_Emissions.xml'] ;
-%                
-% 
-%     archivepath = [p{1} filesep 'archive' filesep 'xml'] ;
-%     
-%     if ~exist(archivepath, 'dir')
-%        mkdir(archivepath)
-%     end
-%     try
-%         copyfile(Filenameold, 'C:\Users\jlouis\Oulun yliopisto\Environmental Emissions - General\archive\xml');
-%         disp('file copied')
-%     catch
-%         % Error might happen if data were missing
-%     end
-%     try 
-%         movefile(Filenameold, archivepath)
-%         disp('file moved')
-%     catch
-%         % Error might happen if data were missing
-%     end
-%     %%% Archive old files
-% end
 
 %% Function extract from table
     function Emissionsextract = extractdata(Tech, Country, EmissionsCategory, Emissions)
