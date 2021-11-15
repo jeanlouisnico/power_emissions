@@ -55,7 +55,14 @@ n = 0 ;
        end
     end
     function url = getURLentsoe(documentType, processType, In_Domain, periodStart, periodEnd, domainzone)
-        securityToken = '138bbbf6-03e7-408d-9af6-ad7103ebe961' ; % PRIVATE - CHANGE FOR IMPLEMENTATION DO NOT SHARE 
+        p = mfilename('fullpath') ;
+        [filepath,~,~] = fileparts(p) ;
+        fparts = split(filepath, filesep) ;
+        fparts = join(fparts(1:end-1), filesep) ;
+        setup = jsondecode(fileread([fparts{1} filesep 'setup' filesep 'ini.json']));
+
+        securityToken = setup.ENTSOE.securityToken ;
+        
         url = ['https://transparency.entsoe.eu/api?securityToken=' securityToken ...
            '&documentType=' documentType ...
            '&processType=' processType ...
