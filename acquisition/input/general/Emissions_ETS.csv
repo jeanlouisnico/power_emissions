@@ -1,0 +1,16 @@
+﻿Technology,Country,Global warming
+coal,FI,340
+oil,FI,263.87
+gas,FI,201.95
+peat,FI,381.59
+other_biogas,FI,0
+biomass,FI,0
+coal_chp,FI,340
+oil_chp,FI,263.87
+gas_chp,FI,201.95
+hydro_runof,FI,0
+nuclear_BWR,FI,0
+nuclear_PWR,FI,0
+waste,FI,263.88
+solar,FI,0
+windon,FI,0
