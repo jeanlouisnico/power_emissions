@@ -493,17 +493,6 @@ catch
     end 
 end
 
-% S = struct("emissions", struct("time", datestr(currenttime, 'dd-mm-yyyy HH:MM:SS'), "emissionintensity", num2str(Emissions.FI.TSO.EcoInvent.intensitycons))) ;
-% s = jsonencode(S) ;
-% JSONFILE_name = sprintf('%s.json','emissions') ;
-% fid=fopen(JSONFILE_name,'w');
-% fprintf(fid, s);
-% fclose('all');
-% movefile('emissions.json','C:\Users\jlouis\OneDrive - Oulun yliopisto\CSC');
-% system('C:\temp\MobaXterm_Portable_v21.3\MobaXterm_Personal_21.3.exe test.sh') ;
-
-
-
 %% Function extract from table
     function Emissionsextract = extractdata(Tech, Country, EmissionsCategory, Emissions)
         if isa(Emissions, 'table')
