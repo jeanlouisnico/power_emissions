@@ -24,9 +24,12 @@ url = ['https://opendata.reseaux-energies.fr/api/records/1.0/search/?dataset=eco
         startingdate '+TO+' ...
         endingdate ...
         '%5D&rows=500&sort=-date_heure&facet=nature&facet=date_heure'] ;
-
-data = webread(url) ;
-
+try
+    data = webread(url) ;
+catch
+    power = 0 ;
+    return;
+end
 n = 0 ;
 loopstart = size(data.records, 1) ;
 

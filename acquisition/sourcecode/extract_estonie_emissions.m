@@ -5,11 +5,13 @@ function [energy, databyfuel] = extract_estonie_emissions(power)
 currenttime = javaObject("java.util.Date") ; 
 timezone = -currenttime.getTimezoneOffset()/60 ;
 timeextract = datetime(datetime(datestr(now)) - hours(timezone)) ;
+isforeign = isforeign_region ;
 
 if isfile('Estonia_data.csv')
     FileInfo = dir('Estonia_data.csv') ;
     datecompare = datetime(now, "ConvertFrom", "datenum") ;
-    datefile    = datetime(datenum(FileInfo.date, 'dd-mmm-yyyy HH:MM:ss'), "ConvertFrom", "datenum") ;
+    datefile    = datetime(FileInfo.datenum, "ConvertFrom", "datenum") ;
+
     % Check daily if the data have changed
     if ~(datecompare.Year == datefile.Year && datecompare.Month==datefile.Month && datecompare.Day==datefile.Day)
         [fuelEm, fuelEmnorm] = importestoniafuel ;
@@ -21,9 +23,10 @@ else
     [fuelEm, fuelEmnorm] = importestoniafuel ;
     writetimetable(fuelEmnorm, 'Estonia_data.csv') ;
 end
-
-systemdata_month = webread('https://dashboard.elering.ee/api/balance/total/latest') ;
-
+try
+    systemdata_month = webread('https://dashboard.elering.ee/api/balance/total/latest') ;
+catch
+end
 %% Clean the emission file from nan values 
 % if it is there since we do not need them and it is easier to extract the
 % last valid values from the dataset
@@ -64,10 +67,12 @@ fuelratioout   = array2table(Ratio_year_n_1 .* fuelratiotemp.thermal3.Variables,
 if isfield(power, 'thermal')
     byfuel = fuelratioout.Variables * power.thermal ;
     energy.byfuel = array2table(byfuel, 'VariableNames',  fuelratioout.Properties.VariableNames) ;
-else
+elseif isa(power,'struct')
     thermal = power.consumption - power.production_renewable - power.solar ;
-    byfuel = table(fuelratioout.Variables * thermal, 'VariableNames', fuelratioout.Properties.VariableNames) ;
-    energy.byfuel = array2table(byfuel, 'VariableNames',  fuelratioout.Properties.VariableNames) ;
+    energy.byfuel = array2table(fuelratioout.Variables * thermal, 'VariableNames',  fuelratioout.Properties.VariableNames) ;
+else
+    thermal = 0 ;
+    energy.byfuel = array2table(fuelratioout.Variables * thermal, 'VariableNames',  fuelratioout.Properties.VariableNames) ;
 end
 if isfield(power, 'wind')
     if isempty(power.wind)

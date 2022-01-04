@@ -17,6 +17,7 @@ else
 end
 
 if update
+    feature('DefaultCharacterSet','UTF-8')
     filename = 'Energiaviraston voimalaitosrekisteri.xlsx' ;
     %%%
     % Determine where demo folder is.

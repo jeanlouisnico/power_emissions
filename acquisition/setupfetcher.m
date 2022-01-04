@@ -1,5 +1,5 @@
 function setupfetcher()
-
+warning('on')
 p = mfilename('fullpath') ;
 [filepath,~,~] = fileparts(p) ;
 
@@ -73,7 +73,7 @@ else
                                 conn = postgresql(setup.DB.username,setup.DB.password, ...
                                                   'PortNumber', str2double(setup.DB.port), ...
                                                   'Server', setup.DB.server, ...
-                                                  'DatabaseName', setup.DB.name) ;
+                                                  'DatabaseName', lower(setup.DB.name)) ;
                                 n3 = 1 ;
                                 disp('connection successfull!!');
                                 % This creates the table if they do not

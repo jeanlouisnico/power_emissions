@@ -5,8 +5,12 @@ timezone = -currenttime.getTimezoneOffset()/60 ;
 
 %% Get the mix for the previous month to complement the data from statistic Estonia
 
-systemdata_month = webread('https://dashboard.elering.ee/api/balance/total/latest') ;
-
+try 
+    systemdata_month = webread('https://dashboard.elering.ee/api/balance/total/latest') ;
+catch
+    Powerout = 0 ;
+    return;
+end
 t = uint64(systemdata_month.data.timestamp*1000) ;
 d = datetime(t,'ConvertFrom','epochtime','TicksPerSecond',1e3,'Format','dd-MMM-yyyy HH:mm:ss.SSS') ;
 
@@ -31,12 +35,16 @@ if isempty(Powerout.solar)
     Powerout.solar = systemdata.data.plan(find((alldates.Hour == d.Hour)==1)).solar_energy_forecast_operator ;
 end
 
-transmission = webread('https://dashboard.elering.ee/api/transmission/cross-border/latest') ;
-
+try
+    transmission = webread('https://dashboard.elering.ee/api/transmission/cross-border/latest') ;
+catch
+    Powerout = 0 ;
+    return;
+end
 Powerout.Finland = transmission.data.finland ;
 Powerout.Russia = transmission.data.russia_narva + transmission.data.russia_pihkva ;
 Powerout.Latvia = transmission.data.latvia ;
-%% Here is a second extract from the Latvian TSO that has more regular updates for Estonia (about every 3 minutes)
+%% HEre is a second extract from the Latvian TSO that has more regular updates for Estonia (about every 3 minutes)
 
 options = weboptions('Timeout',15) ;
 timeextract = datestr(now, 'yyyy-mm-dd') ;
@@ -47,17 +55,20 @@ catch
 end
 
 if isa(estoniaprod, 'struct')
-    t = estoniaprod.data(1).data(end).x ;
-    d = datetime(t,'ConvertFrom','epochtime','TicksPerSecond',1e3,'Format','dd-MMM-yyyy HH:mm:ss.SSS') + hours(timezone) ;
-
-    Powerout.thermal = estoniaprod.data(1).data(end).y ;
-    Powerout.unknown = estoniaprod.data(2).data(end).y ;
-    Powerout.wind = estoniaprod.data(3).data(end).y ;
-    Powerout.hydro = estoniaprod.data(4).data(end).y ;
-    Powerout.nuclear = estoniaprod.data(5).data(end).y ;
-    Powerout.productionLV = estoniaprod.data(6).data(end).y ;
-    Powerout.consumptionLV = estoniaprod.data(7).data(end).y ;
-    Powerout.import = estoniaprod.data(8).data(end).y ;
+    try
+        t = estoniaprod.data(1).data(end).x ;
+        d = datetime(t,'ConvertFrom','epochtime','TicksPerSecond',1e3,'Format','dd-MMM-yyyy HH:mm:ss.SSS') + hours(timezone) ;
+    
+        Powerout.thermal = estoniaprod.data(1).data(end).y ;
+        Powerout.unknown = estoniaprod.data(2).data(end).y ;
+        Powerout.wind = estoniaprod.data(3).data(end).y ;
+        Powerout.hydro = estoniaprod.data(4).data(end).y ;
+        Powerout.nuclear = estoniaprod.data(5).data(end).y ;
+        Powerout.productionLV = estoniaprod.data(6).data(end).y ;
+        Powerout.consumptionLV = estoniaprod.data(7).data(end).y ;
+        Powerout.import = estoniaprod.data(8).data(end).y ;
+    catch
+    end
 end
 
 
