@@ -5,9 +5,9 @@ The module was originally created in 2014 for the use in smart home application.
 
 ## Pre-requisite
 
-In principle, the model can be run without any additional package, toolbox, or software. However, for a smooth implementation and plotting purposes, couple of external tools are requires: PostgreSQL ([Portable](https://github.com/garethflowers/postgresql-portable) or [official release](https://www.postgresql.org/download/)) and [Plotly](https://plotly.com/matlab/). PostgreSQL is used as it store data on a remote server. If psql is not installed, all data generated will be stored in an xml file in the project folder. The access to the PostgreSQL is set up in the beginning of the model and has to be run once. Changes can be made at any time by running the setup file again.
+In principle, the model can be run without any additional package, toolbox, or software. However, for a smooth implementation and plotting purposes, couple of external tools are requires: PostgreSQL ([Portable](https://github.com/garethflowers/postgresql-portable) or [official release](https://www.postgresql.org/download/)) and [Plotly](https://plotly.com/matlab/). PostgreSQL is used to store data on a remote server or localhost (to be defined in the initialization phase). If psql is not installed, all data generated will be stored in an xml file in the project folder. The access to the PostgreSQL is set up in the beginning of the model and has to be run once. Changes can be made at any time by running the setup file again.
 
-Regarding plotly, it it only used in the post process if one want to create html figures and/or present the data on an online graphing tool which is handy. You will have to setup plotly as it is recommended by their developers and it should run quite smoothly.
+Regarding [plotly](https://github.com/plotly/plotly_matlab), it is only used in the post process if one want to create html figures and/or present the data on an online graphing tool which is handy. You will have to setup plotly as it is recommended by their developers and it should run quite smoothly.
 
 ### Create database
 
@@ -39,9 +39,11 @@ just run *emissionskit* from the command window
 
 ### Continuous run
 
+run the data fetcher interface for starting up both the timer for data gathering and plotting. 
+
 ## Related work
 
-The electricitymap project is a popular tool and well made for putting together the power networks. The network file from electricitymap was used to set up the power markets. The emission coefficient factors were used to aggregate the IPCC emission factors. Our method uses the IPCC data for comparison purposes and use primarily the EcoInvent data as a point of reference.
+The electricitymap project is a popular tool and well made for putting together the power networks. The network file from electricitymap was used to set up the power markets. The emission coefficient factors were used to aggregate the IPCC emission factors. Our method uses the IPCC data for comparison purposes and use primarily the EcoInvent data as a point of reference. There are fundamental differences on the environmental side of the model and represent the main difference with electricitymap.
 
 Read more about our method here
 
