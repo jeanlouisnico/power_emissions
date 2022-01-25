@@ -5,9 +5,11 @@ The module was originally created in 2014 for the use in smart home application.
 
 ## Pre-requisite
 
-In principle, the model can be run without any additional package, toolbox, or software. However, for a smooth implementation and plotting purposes, couple of external tools are requires: PostgreSQL ([Portable](https://github.com/garethflowers/postgresql-portable) or [official release](https://www.postgresql.org/download/)) and [Plotly](https://plotly.com/matlab/). PostgreSQL is used to store data on a remote server or localhost (to be defined in the initialization phase). If psql is not installed, all data generated will be stored in an xml file in the project folder. The access to the PostgreSQL is set up in the beginning of the model and has to be run once. Changes can be made at any time by running the setup file again.
+In principle, the model can be run without any additional package, toolbox, or software. However, for a smooth implementation and plotting purposes, couple of external tools are requires: **<u>PostgreSQL</u>** ([Portable](https://github.com/garethflowers/postgresql-portable) or [official release](https://www.postgresql.org/download/)) and [**<u>Plotly</u>**](https://plotly.com/matlab/). 
 
-Regarding [plotly](https://github.com/plotly/plotly_matlab), it is only used in the post process if one want to create html figures and/or present the data on an online graphing tool which is handy. You will have to setup plotly as it is recommended by their developers and it should run quite smoothly.
+PostgreSQL is used to store data on a remote server or localhost (to be defined in the initialization phase). If psql is not installed, all data generated will be stored in an xml file in the project folder. The access to the PostgreSQL is set up in the beginning of the model and has to be run once. Changes can be made at any time by running the setup file again. The easiest (and admin free) way to get PostgreSQL is through the [PortableApps.com Platform](http://portableapps.com/download), but not mandatory as it is available on [github](https://github.com/garethflowers/postgresql-portable).
+
+Regarding [plotly](https://github.com/plotly/plotly_matlab), it is used in the post process if one wants to create html figures and/or present the data on an online graphing tool which is handy. You will have to setup plotly as it is recommended by their developers and it should run quite smoothly.
 
 ### Create database
 
@@ -15,9 +17,9 @@ Before starting the model, you will have to setup a database in PostgreSQL. You 
 
 When the setupfetcher is run, you will have to give data about:
 
-- Get a security Token key from Fingrid to get access to their API 
-- Get a security Token key from ENTSOE to get access to their API 
-- Set up the access to your psql database if you are going to use it.
+1. Get a security Token key from [Fingrid](https://data.fingrid.fi/en/pages/apis) to get access to their API 
+2. Get a security Token key from [ENTSOE](https://transparency.entsoe.eu/content/static_content/Static%20content/web%20api/Guide.html#_request_methods) (see section 2 of their documentation) to get access to their API 
+3. Set up the access to your PostgreSQL database.
 
 If none of the security token are given, access to the TSO data are not provided and the model will run (but most likely giving incorrect output since it won't work as intended)
 
