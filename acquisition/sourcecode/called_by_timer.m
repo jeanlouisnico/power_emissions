@@ -1,6 +1,6 @@
 function  called_by_timer(app, event) 
     try 
-        EmissionsFinland_timer ;
+        emissionskit ;
     catch me
         disp(datestr(now))
         disp( getReport( me, 'extended', 'hyperlinks', 'on' ) )

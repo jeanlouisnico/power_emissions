@@ -19,8 +19,8 @@ if ~isfile([filepath filesep 'setup' filesep 'ini.json'])
         % This requires to have postgresql installed on the computer or on
         % a remote machine
     n = 0 ;
+    setup = postgressetup(setup) ;
     while n == 0
-        setup = postgressetup(setup) ;
         % Try the postgresql connection    
         try
             conn = postgresql(setup.DB.username,setup.DB.password, ...
@@ -34,15 +34,25 @@ if ~isfile([filepath filesep 'setup' filesep 'ini.json'])
             % please use the resetDb.m function
             executeSQLScript(conn,'emissions.sql') ;
         catch
-            warning('Could not connect to the postgreSQL database. Check that all the data are correct');
-            setup.DB
-            str = input('Do you want to re-initiliaze postgreSQL connection? [Y]/N ','s') ;
-            if strcmp(str, 'Y') || strcmp(str, '')
-                n = 0 ;
-            else
-                setup.DB = '' ;
-                n = 1 ;
-                warning('The postreSQL connection was not set, re-run this file if you want to set up again.')
+            try 
+                conn = postgresql(setup.DB.username,setup.DB.password, ...
+                                  'PortNumber', str2double(setup.DB.port), ...
+                                  'Server', setup.DB.server) ;
+                setupdb_psql(setup.DB.name) ;
+                executeSQLScript(conn,'createdb.sql') ;
+                disp(['creating ' setup.DB.name ' database successfull!!']);
+            catch
+                warning('Could not connect to the postgreSQL database. Check that all the data are correct or that you have installed PostGreSQL');
+                setup.DB
+                str = input('Do you want to re-initiliaze postgreSQL connection? [Y]/N ','s') ;
+                if strcmp(str, 'Y') || strcmp(str, '')
+                    n = 0 ;
+                    setup = postgressetup(setup) ;
+                else
+                    setup.DB = '' ;
+                    n = 1 ;
+                    warning('The postreSQL connection was not set, re-run this file if you want to set up again.')
+                end
             end
         end
     end
@@ -66,8 +76,8 @@ else
                         n2 = 1 ;
                     case 'DB'
                         n3 = 0 ;
+                        setup = postgressetup(setup) ;
                         while n3 == 0
-                            setup = postgressetup(setup) ;
                             % Try the postgresql connection    
                             try
                                 conn = postgresql(setup.DB.username,setup.DB.password, ...
@@ -81,15 +91,27 @@ else
                                 % please use the resetDb.m function
                                 executeSQLScript(conn,'emissions.sql') ;
                             catch
-                                warning('Could not connect to the postgreSQL database. Check that all the data are correct');
-                                setup.DB
-                                str = input('Do you want to re-initiliaze postgreSQL connection? [Y]/N ','s') ;
-                                if strcmp(str, 'Y') || strcmp(str, '')
-                                    n3 = 0 ;
-                                else
+                                try 
+                                    conn = postgresql(setup.DB.username,setup.DB.password, ...
+                                                      'PortNumber', str2double(setup.DB.port), ...
+                                                      'Server', setup.DB.server) ;
+                                    setupdb_psql(setup.DB.name) ;
+                                    executeSQLScript(conn,'createdb.sql') ;
+                                    disp(['creating ' setup.DB.name ' database successfull!!']);
+                                catch
+                                    warning('Could not connect to the postgreSQL database. Check that all the data are correct or that you have installed PostGreSQL');
+                                    warning('The postreSQL connection was not set, re-run this file if you want to set up again.')
+                                    setup.DB
                                     setup.DB = '' ;
                                     n3 = 1 ;
-                                    warning('The postreSQL connection was not set, re-run this file if you want to set up again.')
+%                                     str = input('Do you want to re-initiliaze postgreSQL connection? [Y]/N ','s') ;
+%                                     if strcmp(str, 'Y') || strcmp(str, '')
+%                                         n3 = 0 ;
+%                                     else
+%                                         setup.DB = '' ;
+%                                         n3 = 1 ;
+%                                         warning('The postreSQL connection was not set, re-run this file if you want to set up again.')
+%                                     end
                                 end
                             end
                         end
