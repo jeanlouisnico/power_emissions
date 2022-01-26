@@ -85,20 +85,16 @@ try
             ylabel(f1,'Power production by fuel type [MWh]')
             exportgraphics(f1,'Power_System_State.png') ;
         catch
-    %         yyaxis 'left'
-            var2plot = T2.Variables ;
-    %         plot(alltime,var2plot) ;
-
-    %         legend(fuelmeritorder, 'Location', 'best')
-    %         title([Countrydis '-' Emissions])
-    %         colororder(newcolors) ;
-    %         h1 = legend(fuelmeritorder, 'Location', 'bestoutside') ;
-    %         lbl = f1.Children(1).String ;
-    %         numlbl = length(lbl) ;
-    %         order = sort(1:1:numlbl,'descend') ;
-    %         newlbl = lbl(order) ;
-    %         h1 = legend(findobj(f1.Children(2),'Type','area'),newlbl, 'Location', 'best') ;
-            xlabel('Time [3 minutes]')
+%             yyaxis 'left'
+             var2plot = T2.Variables ;
+%             plot(f1, alltime,T2.Variables) ;
+%             legend(fuelmeritorder)
+%             colororder(f1, newcolors) ;
+%             ylim([0, max(max(T2.Variables)) + 500]) ;
+%             ylabel('Power production by fuel type [MWh]')
+%             xlabel('Time [3 minutes]')
+%             exportgraphics(f1,'Power_System_State.png') ;
+            
         end
     end 
     close(conn)
@@ -153,7 +149,7 @@ try
     % end
     ylabel(hAx(2), 'CO_{2} Emissions intensity [gCO2/kWh]')
     ylabel(hAx(1), 'Power generation [MWh]')
-
+    exportgraphics(f1,'Power_System_State.png')
     % % xlim([min(alltime) max(alltime)]) ;
     % 
     % % ylabel('CO_{2} Emissions intensity [gCO2/kWh]')
@@ -166,7 +162,7 @@ try
             fig = fig2plotly(f1, 'offline', true, 'filename','Emissions', 'open', false) ;
         end
     else
-        warning_('plotly was not installed, go to https://github.com/plotly/plotly_matlab to get the latest version of plotly and enable online and offline plotting')
+        warning('plotly was not installed, go to https://github.com/plotly/plotly_matlab to get the latest version of plotly and enable online and offline plotting')
     end
     close(f1) ;
     %set(0,'DefaultFigureVisible','on');

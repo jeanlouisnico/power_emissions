@@ -419,7 +419,8 @@ currenttime = datetime(now, "ConvertFrom", "datenum") ;
 try 
     % Test the connection, if it is valid then continue saving in the sql
     % database. If it is not valid, save using the xml format
-    connDB ;
+    conn = connDB ;
+    close(conn);
     send2sqlcomplete(currenttime, Emissions) ;
     send2sqlpowerbyfuel(currenttime, Power) ;
 catch
