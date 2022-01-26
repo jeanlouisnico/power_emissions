@@ -9,6 +9,12 @@ else
 end
 for iEFSource = 1:length(EFSourcelist)
     EFSource = EFSourcelist{iEFSource} ;
+    if isa(Power.FR.TSO.bytech, "double")
+        Emissions.FR.TSO.(EFSource).intensityprod = 0 ;
+        continue ;
+    else
+        alltech = fieldnames(Power.FR.TSO.bytech) ;
+    end
     alltech = fieldnames(Power.FR.TSO.bytech) ;
     hydro               = 0 ;
     solar               = 0 ;
@@ -98,15 +104,27 @@ end
 
 %%%
 % Re-allocate the energy byfuel for statistical purposes.
-Power.FR.TSO.byfuel.nuclear = Power.FR.TSO.bytech.nuclear ;
-Power.FR.TSO.byfuel.hydro = Power.FR.TSO.bytech.hydro + Power.FR.TSO.bytech.hydrodam + Power.FR.TSO.bytech.hydropumped;
-Power.FR.TSO.byfuel.solar = Power.FR.TSO.bytech.solar ;
-Power.FR.TSO.byfuel.oil = Power.FR.TSO.bytech.oil_chp + Power.FR.TSO.bytech.oil ;
-Power.FR.TSO.byfuel.coal = Power.FR.TSO.bytech.coal ;
-Power.FR.TSO.byfuel.gas = Power.FR.TSO.bytech.gas +  Power.FR.TSO.bytech.gas_chp;
-Power.FR.TSO.byfuel.wind = Power.FR.TSO.bytech.wind ;
-Power.FR.TSO.byfuel.biomass = Power.FR.TSO.bytech.biomass ;
-Power.FR.TSO.byfuel.others = Power.FR.TSO.bytech.waste + Power.FR.TSO.bytech.biogas ;
+if isa(Power.FR.TSO.bytech, "double")
+    Power.FR.TSO.byfuel.nuclear = 0;
+    Power.FR.TSO.byfuel.hydro = 0;
+    Power.FR.TSO.byfuel.solar = 0 ;
+    Power.FR.TSO.byfuel.oil = 0 ;
+    Power.FR.TSO.byfuel.coal = 0 ;
+    Power.FR.TSO.byfuel.gas =0;
+    Power.FR.TSO.byfuel.wind = 0;
+    Power.FR.TSO.byfuel.biomass = 0 ;
+    Power.FR.TSO.byfuel.others = 0 ;
+else
+    Power.FR.TSO.byfuel.nuclear = Power.FR.TSO.bytech.nuclear ;
+    Power.FR.TSO.byfuel.hydro = Power.FR.TSO.bytech.hydro + Power.FR.TSO.bytech.hydrodam + Power.FR.TSO.bytech.hydropumped;
+    Power.FR.TSO.byfuel.solar = Power.FR.TSO.bytech.solar ;
+    Power.FR.TSO.byfuel.oil = Power.FR.TSO.bytech.oil_chp + Power.FR.TSO.bytech.oil ;
+    Power.FR.TSO.byfuel.coal = Power.FR.TSO.bytech.coal ;
+    Power.FR.TSO.byfuel.gas = Power.FR.TSO.bytech.gas +  Power.FR.TSO.bytech.gas_chp;
+    Power.FR.TSO.byfuel.wind = Power.FR.TSO.bytech.wind ;
+    Power.FR.TSO.byfuel.biomass = Power.FR.TSO.bytech.biomass ;
+    Power.FR.TSO.byfuel.others = Power.FR.TSO.bytech.waste + Power.FR.TSO.bytech.biogas ;
+end
 
 
 
