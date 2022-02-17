@@ -39,19 +39,26 @@ documentTypeLoad = 'A65' ; % System total load
 processType  = 'A16' ; % Realised
 switch country
     case 'Norway'
-        idomain      = '10YNO-4--------9' ;
+        idomain = ENTSOEdomain('NO_NO4') ;
+%         idomain      = '10YNO-4--------9' ;
         [Powerout, PoweroutLoad] = getdata(documentTypeGen, documentTypeLoad, processType, idomain, bid) ;
     case 'France'
-        idomain      = '10YFR-RTE------C' ;
+        idomain = ENTSOEdomain('FR') ;
+%         idomain      = '10YFR-RTE------C' ;
         [Powerout, PoweroutLoad] = getdata(documentTypeGen, documentTypeLoad, processType, idomain, bid) ;
     case 'Estonia'
-        idomain      = '10Y1001A1001A39I' ;
+        idomain = ENTSOEdomain('EE') ;
+%         idomain      = '10Y1001A1001A39I' ;
         [Powerout, PoweroutLoad] = getdata(documentTypeGen, documentTypeLoad, processType, idomain, bid) ;
     case 'Finland'
-        idomain      = '10YFI-1--------U' ;
+        idomain = ENTSOEdomain('FI') ;
+%         idomain      = '10YFI-1--------U' ;
         [Powerout, PoweroutLoad] = getdata(documentTypeGen, documentTypeLoad, processType, idomain, bid) ;
     case 'Germany'
         idomain      = '10Y1001A1001A83F' ;
+        [Powerout, PoweroutLoad] = getdata(documentTypeGen, documentTypeLoad, processType, idomain, bid) ;
+    case 'Bulgaria'
+        idomain = ENTSOEdomain('BG') ;
         [Powerout, PoweroutLoad] = getdata(documentTypeGen, documentTypeLoad, processType, idomain, bid) ;
     case 'Sweden'
 %         SE1

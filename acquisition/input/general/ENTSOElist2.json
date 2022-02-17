@@ -1,362 +1,452 @@
 [
   {
     "countrycode": "AL",
+	"areas": "BZ/CA/MBA",
     "query": "10YAL-KESH-----5"
   },
   {
     "countrycode": "AX",
+	"areas": "BZ/MBA",
     "query": "10Y1001A1001A46L"
   },
   {
     "countrycode": "DE_50Hz",
+	"areas": "BZA/CA",
     "query": "10YDE-VE-------2"
   },
   {
     "countrycode": "DE_Amprion",
+	"areas": "CA",
     "query": "10YDE-RWENET---I"
   },
   {
     "countrycode": "AT",
+	"areas": "CA/MBA",
     "query": "10YAT-APG------L"
   },
   {
     "countrycode": "BY",
+	"areas": "BZ/CA/MBA",
     "query": "10Y1001A1001A51S"
   },
   {
     "countrycode": "BE",
+	"areas": "BZ/CA/MBA",
     "query": "10YBE----------2"
   },
   {
     "countrycode": "BA",
+	"areas": "BZ/CA/MBA",
     "query": "10YBA-JPCC-----D"
   },
   {
     "countrycode": "BG",
+	"areas": "BZ/CA/MBA",
     "query": "10YCA-BULGARIA-R"
   },
   {
-    "countrycode": "",
+    "countrycode": "CZ-DE-SKK",
+	"areas": "BZ/BZA",
     "query": "10YDOM-CZ-DE-SKK"
   },
   {
     "countrycode": "HR",
+	"areas": "BZ/CA/MBA",
     "query": "10YHR-HEP------M"
   },
   {
-    "countrycode": "",
+    "countrycode": "CWE",
+	"areas": "",
     "query": "10YDOM-REGION-1V"
   },
   {
     "countrycode": "CY",
+	"areas": "BZ/CA/MBA",
     "query": "10YCY-1001A0003J"
   },
   {
     "countrycode": "CZ",
+	"areas": "BZ/CA/MBA",
     "query": "10YCZ-CEPS-----N"
   },
   {
-    "countrycode": "",
+    "countrycode": "DE-AT-LU",
+	"areas": "BZ",	
     "query": "10Y1001A1001A63L"
   },
   {
-    "countrycode": "",
+    "countrycode": "DE-LU",
+	"areas": "MBA",	
     "query": "10Y1001A1001A82H"
   },
   {
     "countrycode": "DK",
+	"areas": "",
     "query": "10Y1001A1001A65H"
   },
   {
     "countrycode": "DK_DK1",
+	"areas": "BZ/MBA",
     "query": "10YDK-1--------W"
   },
   {
     "countrycode": "DK_DK2",
+	"areas": "BZ/MBA",	
     "query": "10YDK-2--------M"
   },
   {
-    "countrycode": "",
+    "countrycode": "DK-energinet",
+	"areas": "",
     "query": "10Y1001A1001A796"
   },
   {
     "countrycode": "EE",
+	"areas": "BZ/CA/MBA",
     "query": "10Y1001A1001A39I"
   },
   {
     "countrycode": "FI",
+	"areas": "BZ/CA/MBA",
     "query": "10YFI-1--------U"
   },
   {
     "countrycode": "MK",
+	"areas": "BZ/CA/MBA",
     "query": "10YMK-MEPSO----8"
   },
   {
     "countrycode": "FR",
+	"areas": "BZ/CA/MBA",
     "query": "10YFR-RTE------C"
   },
   {
-    "countrycode": "",
+    "countrycode": "GB-ElecLink",
+	"areas": "BZN",
     "query": "11Y0-0000-0265-K"
   },
   {
-    "countrycode": "",
+    "countrycode": "GB-IFA",
+	"areas": "BZN",
     "query": "10Y1001C--00098F"
   },
   {
-    "countrycode": "",
+    "countrycode": "GB-IFA2",
+	"areas": "BZ",
     "query": "17Y0000009369493"
   },
   {
     "countrycode": "DE",
+	"areas": "",
     "query": "10Y1001A1001A83F"
   },
   {
     "countrycode": "GR",
+	"areas": "BZ/CA/MBA",
     "query": "10YGR-HTSO-----Y"
   },
   {
     "countrycode": "Hu",
+	"areas": "BZ/CA/MBA",
     "query": "10YHU-MAVIR----U"
   },
   {
     "countrycode": "IS",
+	"areas": "",
     "query": "IS"
   },
   {
-    "countrycode": "",
+    "countrycode": "IE-SEM",
+	"areas": "BZ/MBA",
     "query": "10Y1001A1001A59C"
   },
   {
     "countrycode": "IE",
+	"areas": "CA",
     "query": "10YIE-1001A00010"
   },
   {
     "countrycode": "IT",
+	"areas": "CA/MBA",
     "query": "10YIT-GRTN-----B"
   },
   {
-    "countrycode": "",
+    "countrycode": "IT-Saco-AC",
+	"areas": "",
     "query": "10Y1001A1001A885"
   },
   {
-    "countrycode": "",
+    "countrycode": "IT-Saco-DC",
+	"areas": "",
     "query": "10Y1001A1001A893"
   },
   {
     "countrycode": "IT_BR",
+	"areas": "BZ",
     "query": "10Y1001A1001A699"
   },
   {
     "countrycode": "IT_CA",
+	"areas": "BZ",
     "query": "10Y1001C--00096J"
   },
   {
     "countrycode": "IT_CNO",
+	"areas": "BZ",
     "query": "10Y1001A1001A70O"
   },
   {
     "countrycode": "IT_CSO",
+	"areas": "BZ",
     "query": "10Y1001A1001A71M"
   },
   {
     "countrycode": "IT_FO",
+	"areas": "BZ",
     "query": "10Y1001A1001A72K"
   },
   {
-    "countrycode": "",
+    "countrycode": "IT_GR",
+	"areas": "BZ",
     "query": "10Y1001A1001A66F"
   },
   {
-    "countrycode": "",
+    "countrycode": "IT_MA_N",
+	"areas": "MBA",
     "query": "10Y1001A1001A84D"
   },
   {
-    "countrycode": "",
+    "countrycode": "IT_MA_S",
+	"areas": "MBA",
     "query": "10Y1001A1001A85B"
   },
   {
-    "countrycode": "",
+    "countrycode": "IT_MT",
+	"areas": "BZ",
     "query": "10Y1001A1001A877"
   },
   {
     "countrycode": "IT_NO",
+	"areas": "BZ",
     "query": "10Y1001A1001A73I"
   },
   {
-    "countrycode": "",
+    "countrycode": "IT_NO_AT",
+	"areas": "BZ",
     "query": "10Y1001A1001A80L"
   },
   {
-    "countrycode": "",
+    "countrycode": "IT_NO_CH",
+	"areas": "BZ",
     "query": "10Y1001A1001A68B"
   },
   {
-    "countrycode": "",
+    "countrycode": "IT_NO_FR",
+	"areas": "BZ",
     "query": "10Y1001A1001A81J"
   },
   {
-    "countrycode": "",
+    "countrycode": "IT_NO_SI",
+	"areas": "BZ",
     "query": "10Y1001A1001A67D"
   },
   {
     "countrycode": "IT_PR",
+	"areas": "BZ",
     "query": "10Y1001A1001A76C"
   },
   {
     "countrycode": "IT_RO",
+	"areas": "BZ",
     "query": "10Y1001A1001A77A"
   },
   {
     "countrycode": "IT_SAR",
+	"areas": "BZ",
     "query": "10Y1001A1001A74G"
   },
   {
     "countrycode": "IT_SIC",
+	"areas": "BZ",
     "query": "10Y1001A1001A75E"
   },
   {
     "countrycode": "IT_SO",
+	"areas": "BZ",
     "query": "10Y1001A1001A788"
   },
   {
     "countrycode": "RU_KGD",
+	"areas": "BZ/CA/MBA",
     "query": "10Y1001A1001A50U"
   },
   {
     "countrycode": "LV",
+	"areas": "BZ/CA/MBA",
     "query": "10YLV-1001A00074"
   },
   {
     "countrycode": "LT",
+	"areas": "BZ/CA/MBA",
     "query": "10YLT-1001A0008Q"
   },
   {
     "countrycode": "LU",
+	"areas": "CA",
     "query": "10YLU-CEGEDEL-NQ"
   },
   {
     "countrycode": "MT",
+	"areas": "BZ/CA/MBA",
     "query": "10Y1001A1001A93C"
   },
   {
     "countrycode": "ME",
+	"areas": "BZ/CA/MBA",
     "query": "10YCS-CG-TSO---S"
   },
   {
     "countrycode": "GB",
+	"areas": "BZ/CA/MBA",
     "query": "10YGB----------A"
   },
   {
     "countrycode": "NL",
+	"areas": "BZ/CA/MBA",
     "query": "10YNL----------L"
   },
   {
     "countrycode": "NO_NO1",
+	"areas": "BZ/MBA",
     "query": "10YNO-1--------2"
   },
   {
     "countrycode": "NO_NO2",
+	"areas": "BZ/MBA",
     "query": "10YNO-2--------T"
   },
   {
     "countrycode": "NO_NO3",
+	"areas": "BZ/MBA",
     "query": "10YNO-3--------J"
   },
   {
     "countrycode": "NO_NO4",
+	"areas": "BZ/MBA",
     "query": "10YNO-4--------9"
   },
   {
     "countrycode": "NO_NO5",
+	"areas": "BZ/MBA",
     "query": "10Y1001A1001A48H"
   },
   {
     "countrycode": "NO",
+	"areas": "CA/MBA",
     "query": "10YNO-0--------C"
   },
   {
     "countrycode": "PL",
+	"areas": "BZ/BZA/CA/MBA",
     "query": "10YPL-AREA-----S"
   },
   {
     "countrycode": "PT",
+	"areas": "BZ/CA/MBA",
     "query": "10YPT-REN------W"
   },
   {
     "countrycode": "MD",
+	"areas": "BZ/CA/MBA",
     "query": "10Y1001A1001A990"
   },
   {
     "countrycode": "RO",
+	"areas": "BZ/CA/MBA",
     "query": "10YRO-TEL------P"
   },
   {
     "countrycode": "RU_RU1",
+	"areas": "BZ/CA/MBA",
     "query": "10Y1001A1001A49F"
   },
   {
     "countrycode": "SE_SE1",
+	"areas": "BZ/MBA",
     "query": "10Y1001A1001A44P"
   },
   {
     "countrycode": "SE_SE2",
+	"areas": "BZ/MBA",
     "query": "10Y1001A1001A45N"
   },
   {
     "countrycode": "SE_SE3",
+	"areas": "BZ/MBA",
     "query": "10Y1001A1001A46L"
   },
   {
     "countrycode": "SE_SE4",
+	"areas": "BZ/MBA",
     "query": "10Y1001A1001A47J"
   },
   {
     "countrycode": "CS",
+	"areas": "BZ/CA/MBA",
     "query": "10YCS-SERBIATSOV"
   },
   {
     "countrycode": "SK",
+	"areas": "BZ/CA/MBA",
     "query": "10YSK-SEPS-----K"
   },
   {
     "countrycode": "SI",
+	"areas": "BZ/CA/MBA",
     "query": "10YSI-ELES-----O"
   },
   {
-    "countrycode": "",
+    "countrycode": "IE-N",
+	"areas": "CA",
     "query": "10Y1001A1001A016"
   },
   {
     "countrycode": "ES",
+	"areas": "BZ/CA/MBA",
     "query": "10YES-REE------0"
   },
   {
     "countrycode": "SE",
+	"areas": "CA",
     "query": "10YSE-1--------K"
   },
   {
     "countrycode": "CH",
+	"areas": "BZ/CA/MBA",
     "query": "10YCH-SWISSGRIDZ"
   },
   {
     "countrycode": "DE_TenneT",
+	"areas": "CA",
     "query": "10YDE-EON------1"
   },
   {
     "countrycode": "DE_Transnet",
+	"areas": "CA",
     "query": "10YDE-ENBW-----N"
   },
   {
     "countrycode": "TR",
+	"areas": "BZ/CA/MBA",
     "query": "10YTR-TEIAS----W"
   },
   {
     "countrycode": "UA",
+	"areas": "CTA",
     "query": "10YUA-WEPS-----0"
   },
   {
     "countrycode": "KX",
+	"areas": "BZN",
     "query": "10Y1001C--00100H"
   }
 ]
