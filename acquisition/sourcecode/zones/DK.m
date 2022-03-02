@@ -92,24 +92,24 @@ eneroutG100.waste = 0;
 eneroutL100           = struct2table(eneroutL100,"AsArray",true);
 eneroutG100           = struct2table(eneroutG100,"AsArray",true);
 
-extractAustria = {'biomass' 'coal' 'other' 'gas' 'oil' 'waste'} ;
+extractcountry_fuel = {'biomass' 'coal' 'other' 'gas' 'oil' 'waste'} ;
 extracteurostat = {'biomass' 'coal' 'unknown' 'gas' 'oil' 'waste'} ;
 
 init        = normalisedpredictthermal(end,extracteurostat).Variables / 100 ;
 thermalpower.(power(1,'Area').Variables) = TTSync.(power(1,'Area').Variables).TSO.ProductionLt100MW ;
 thermalpower.(power(2,'Area').Variables) = TTSync.(power(2,'Area').Variables).TSO.ProductionLt100MW ;
 
-newlimitL.(power(1,'Area').Variables)    = array2table(eneroutL100(1,extractAustria).Variables/sum(eneroutL100.Variables) * thermalpower.(power(1,'Area').Variables),'VariableNames', extractAustria)  ;
-newlimitL.(power(2,'Area').Variables)    = array2table(eneroutL100(1,extractAustria).Variables/sum(eneroutL100.Variables) * thermalpower.(power(2,'Area').Variables),'VariableNames', extractAustria)  ;
+newlimitL.(power(1,'Area').Variables)    = array2table(eneroutL100(1,extractcountry_fuel).Variables/sum(eneroutL100.Variables) * thermalpower.(power(1,'Area').Variables),'VariableNames', extractcountry_fuel)  ;
+newlimitL.(power(2,'Area').Variables)    = array2table(eneroutL100(1,extractcountry_fuel).Variables/sum(eneroutL100.Variables) * thermalpower.(power(2,'Area').Variables),'VariableNames', extractcountry_fuel)  ;
 
 thermalpower.(power(1,'Area').Variables) = TTSync.(power(1,'Area').Variables).TSO.ProductionGe100MW ;
 thermalpower.(power(2,'Area').Variables) = TTSync.(power(2,'Area').Variables).TSO.ProductionGe100MW ;
 
-newlimitH.(power(1,'Area').Variables)   = array2table(eneroutG100(1,extractAustria).Variables/sum(eneroutG100.Variables) * thermalpower.(power(1,'Area').Variables),'VariableNames', extractAustria)  ;
-newlimitH.(power(2,'Area').Variables)   = array2table(eneroutG100(1,extractAustria).Variables/sum(eneroutG100.Variables) * thermalpower.(power(2,'Area').Variables),'VariableNames', extractAustria)  ;
+newlimitH.(power(1,'Area').Variables)   = array2table(eneroutG100(1,extractcountry_fuel).Variables/sum(eneroutG100.Variables) * thermalpower.(power(1,'Area').Variables),'VariableNames', extractcountry_fuel)  ;
+newlimitH.(power(2,'Area').Variables)   = array2table(eneroutG100(1,extractcountry_fuel).Variables/sum(eneroutG100.Variables) * thermalpower.(power(2,'Area').Variables),'VariableNames', extractcountry_fuel)  ;
 
-prodfuel.(power(1,'Area').Variables) = array2table(newlimitL.(power(1,'Area').Variables).Variables + newlimitH.(power(1,'Area').Variables).Variables,'VariableNames', extractAustria)  ;
-prodfuel.(power(2,'Area').Variables) = array2table(newlimitL.(power(2,'Area').Variables).Variables + newlimitH.(power(2,'Area').Variables).Variables,'VariableNames', extractAustria)  ;
+prodfuel.(power(1,'Area').Variables) = array2table(newlimitL.(power(1,'Area').Variables).Variables + newlimitH.(power(1,'Area').Variables).Variables,'VariableNames', extractcountry_fuel)  ;
+prodfuel.(power(2,'Area').Variables) = array2table(newlimitL.(power(2,'Area').Variables).Variables + newlimitH.(power(2,'Area').Variables).Variables,'VariableNames', extractcountry_fuel)  ;
 
 test = TTSync.(power(1,'Area').Variables).TSO ;
     test = removevars(test,{'ProductionGe100MW','ProductionLt100MW','OffshoreWindPower', 'OnshoreWindPower', 'SolarPower'}) ;
