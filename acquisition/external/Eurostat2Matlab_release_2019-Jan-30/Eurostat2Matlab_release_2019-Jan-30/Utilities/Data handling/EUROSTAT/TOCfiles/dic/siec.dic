@@ -1,0 +1,235 @@
+TOTAL	Total
+CF	Combustible fuels
+CF_R	Combustible fuels - renewable
+CF_NR	Combustible fuels - non-renewable
+CF_NR_OTH	Combustible fuels - non-renewable - other
+FF	Fossil fuels
+SFF_P1000	Solid fossil fuels and peat
+SFF_P1000_S2000	Solid fossil fuels, peat, peat products, oil shale and oil sands
+C0000	Coal and manufactured gases
+C0000X0350-0370	Solid fossil fuels
+C0100	Hard coal
+C0110	Anthracite
+C0120	Bituminous coal
+C0121	Coking coal
+C0129	Other bituminous coal
+C0200	Brown coal
+C0210	Sub-bituminous coal
+C0220	Lignite
+C0300	Coal products
+C0310	Coal coke
+C0311	Coke oven coke
+C0312	Gas coke
+C0313	Coke breeze
+C0314	Semi cokes
+C0320	Patent fuel
+C0330	Brown coal briquettes
+C0340	Coal tar
+C0350-0370	Manufactured gases
+C0350	Coke oven gas
+C0360	Gas works gas
+C0370	Recovered gases
+C0371	Blast furnace gas
+C0372	Basic oxygen steel furnace gas
+C0379	Other recovered gases
+C0390	Other coal products
+P1000	Peat and peat products
+P1100	Peat
+P1110	Sod peat
+P1120	Milled peat
+P1200	Peat products
+P1210	Peat briquettes
+P1290	Other peat products
+S2000	Oil shale and oil sands
+SFF_OTH	Other solid fossil fuels
+G3000_C0350-370	Gas
+G3000_C0360	Natural gas and gas work gas
+G3000	Natural gas
+G3100	Compressed natural gas
+G3200	Liquefied natural gas
+O4000	Oil and petroleum products
+O4000XBIO	Oil and petroleum products (excluding biofuel portion)
+O4100_TOT_4200-4500	Crude oil, NGL, refinery feedstocks, additives and oxygenates and other hydrocarbons
+O4100_TOT_4200-4500XBIO	Crude oil, NGL, refinery feedstocks, additives and oxygenates and other hydrocarbons (excluding biofuel portion)
+O4100_TOT	Crude oil
+O4100	Conventional crude oil
+NO4100	Unconventional crude oil
+O4200	Natural gas liquids
+O4300	Refinery feedstocks
+O4400X4410	Additives and oxygenates (excluding biofuel portion)
+O4400	Additives and oxygenates
+O4410	Biofuels for blending
+O4500	Other hydrocarbons
+O4110_4300-4500	Other primary oil products
+O4200-4500	Other primary oil
+O4600	Oil products
+O4600XBIO	Oil products (excluding biofuel portion)
+O4610	Refinery gas
+O4620	Ethane
+O4630	Liquefied petroleum gases
+O4640	Naphtha
+O4650	Gasolines
+O4651	Aviation gasoline
+O4652	Motor gasoline
+O4652XR5210B	Motor gasoline (excluding biofuel portion)
+O4653	Gasoline-type jet fuel
+O4660	Kerosenes
+O4661	Kerosene-type jet fuel
+O4661XR5230B	Kerosene-type jet fuel (excluding biofuel portion)
+O4669	Other kerosene
+O4670	Gas oil and diesel oil and heavy gas oil
+O4671	Gas oil and diesel oil
+O4671XR5220B	Gas oil and diesel oil (excluding biofuel portion)
+O46711	Road diesel
+O46712	Heating and other gasoil
+O4672	Heavy gas oil
+O4680	Fuel oil
+O4681	Fuel oil (low sulphur <1%)
+O4682	Fuel oil (high sulphur >=1%)
+O4690	Other oil products
+O4690XO4694	Other oil products (excluding petroleum coke portion)
+O4691	White spirit and special boiling point industrial spirits
+O4692	Lubricants
+O4693	Paraffin waxes
+O4694	Petroleum coke
+O4695	Bitumen
+O4699	Other oil products n.e.c.
+ROIL	Refined oil products
+PP_OTH	Other petroleum products
+RA000	Renewables and biofuels
+RA100	Hydro
+RA110	Pure hydro power
+RA110ROR	Run-of-river hydro power
+RA120	Mixed hydro power
+RA120P	Mixed hydro power - pumping
+RA130	Pumped hydro power
+RA200	Geothermal
+RA300	Wind
+RA310	Wind on shore
+RA320	Wind off shore
+RA400	Solar
+RA410	Solar thermal
+RA420	Solar photovoltaic
+RA420KW_LT20	Solar photovoltaic (< 20 kW)
+RA420KW20-1000	Solar photovoltaic (20 kW - 1000 kW)
+RA420MW_GT1	Solar photovoltaic (1+ MW)
+RA420OG	Solar photovoltaic (Off grid)
+RA500	Tide, wave, ocean
+RA600	Ambient heat (heat pumps)
+R5000	Biofuels
+R5100	Solid biofuels
+R5100F	Solid biofuels - co-firing
+R5101	Primary biomass - from forest
+R5102	Branches and tree tops
+R5103	Stumps
+R5104	Roundwood
+R5105	Industrial roundwood
+R5106	Fuelwood
+R5107	Forest-based industry co-products
+R5108	Bark
+R5109	Chips, sawdust and other wood particles
+R5110-5150_W6000RI	Primary solid biofuels
+R5110	Fuelwood, wood residues and byproducts
+R5111	Wood pellets
+R5112	Post-consumer wood
+R5113	Processed wood-based fuel, produced - from feedstocks
+R5119	Other fuelwood, wood residues and byproducts
+R5120	Bagasse
+R5130	Animal waste
+R5140	Black liquor
+R5150	Other vegetal material and residues
+R5151	Agricultural biomass
+R5152	Energy crops for electricity or heat (including short rotation coppice)
+R5153	Energy crops for electricity or heat - from food and feed feedstocks
+R5154	Agricultural crop residues for electricity or heat
+W6000RI	Renewable fraction of industrial waste
+R5160	Charcoal
+R5200	Liquid biofuels
+R5210	Biogasoline
+R5210P	Pure biogasoline
+R5210B	Blended biogasoline
+R5210E	Bioethanol
+R5220	Biodiesels
+R5220P	Pure biodiesels
+R5220B	Blended biodiesels
+R5230	Bio jet kerosene
+R5230P	Pure bio jet kerosene
+R5230B	Blended bio jet kerosene
+R5250S	Sustainable biofuels
+R5251S	Sustainable biofuels Annex IX
+R5252S	Sustainable biofuels Annex IX, Part A
+R5253S	Sustainable biofuels Annex IX, Part A (a) - from algae
+R5254S	Sustainable biofuels Annex IX, Part A (b) - from biomass in mixed municipal waste
+R5255S	Sustainable biofuels Annex IX, Part A (c) - from biowaste
+R5256S	Sustainable biofuels Annex IX, Part A (d) - from biomass in industrial waste
+R5257S	Sustainable biofuels Annex IX, Part A (e) - from straw
+R5258S	Sustainable biofuels Annex IX, Part A (f) - from animal manure and sewage sludge
+R5259S	Sustainable biofuels Annex IX, Part A (g) - from palm oil effluent and empty palm fruit bunches
+R5260S	Sustainable biofuels Annex IX, Part A (h) - from tall oil pitch
+R5261S	Sustainable biofuels Annex IX, Part A (i) - from crude glycerine
+R5262S	Sustainable biofuels Annex IX, Part A (j) - from bagasse
+R5263S	Sustainable biofuels Annex IX, Part A (k) - from grape marcs and wine lees
+R5264S	Sustainable biofuels Annex IX, Part A (l) - from nut shells
+R5265S	Sustainable biofuels Annex IX, Part A (m) - from husks
+R5266S	Sustainable biofuels Annex IX, Part A (n) - from cobs cleaned of kernels of corn
+R5267S	Sustainable biofuels Annex IX, Part A (o) - from biomass fraction of wastes and residues from forestry and forest-based industries
+R5268S	Sustainable biofuels Annex IX, Part A (p) - from other non-food cellulosic material - article 2 second paragraph point (s)
+R5269S	Sustainable biofuels Annex IX, Part A (q) - from other ligno-cellulosic material - article 2 second paragraph point (r) except saw logs and veneer logs
+R5270S	Sustainable biofuels Annex IX, Part A (r) - from renewable liquid and gaseous transport fuels of non-biological origin
+R5271S	Sustainable biofuels Annex IX, Part A (s) - from carbon capture and utilisation for transport purposes, if the energy source is renewable - article 2 second paragraph point (a)
+R5272S	Sustainable biofuels Annex IX, Part A (t) - from bacteria, if the energy source is renewable - article 2 second paragraph point (a)
+R5273S	Sustainable biofuels Annex IX, Part B
+R5274S	Sustainable biofuels Annex IX, Part B (a) - from used cooking oil
+R5275S	Sustainable biofuels Annex IX, Part B (b) - from animal fats classified as categories 1 and 2 (Regulation (EC) No 1069/2009)
+R5276S	Sustainable biofuels 3(4)d first paragraph - from cereal and other starch-rich crops, sugars and oil crops and from crops grown as main crops primarily for energy purposes on agricultural land
+R5277S	Sustainable biofuels 3(4)d third paragraph, subsection (i) and (ii)
+R5278S	Sustainable biofuels - other
+R5279S	Grandfathered biofuels
+R5290	Other liquid biofuels
+R5292	Bioliquids
+R5292P	Pure bioliquids
+R5292B	Blended bioliquids (only bio-part)
+R5292S	Sustainable bioliquids
+R5292SP	Sustainable pure bioliquids
+R5292SB	Sustainable blended bioliquids (only bio-part)
+R5293S	Sustainable bioliquids from non-food sources
+R5293SP	Sustainable pure bioliquids from non-food sources
+R5293SB	Sustainable blended bioliquids (only bio-part) from non-food sources
+R5300	Biogases
+R5300B	Blended biogases
+R5310	Biogases from anaerobic fermentation
+R5311	Landfill gas
+R5312	Sewage sludge gas
+R5319	Other biogases from anaerobic fermentation
+R5320	Biogases from thermal processes
+RA500_5160	Other renewable energies
+W6000	Waste
+W6100	Industrial waste (non-renewable)
+W6100F	Industrial waste (non-renewable) - co-firing
+W6200	Municipal waste
+W6200F	Municipal waste - co-firing
+W6205	Organic waste biomass
+W6210	Renewable municipal waste
+W6210F	Renewable municipal waste - co-firing
+W6220	Non-renewable municipal waste
+W6220F	Non-renewable municipal waste - co-firing
+W6100_6220	Non-renewable waste
+W6230	Waste sludges
+N9000	Nuclear fuels and other fuels n.e.c.
+N900H	Nuclear heat
+N9100	Uranium, plutonium and thorium
+N9110	Uranium and thorium ores
+N9190	Other uranium, plutonium and thorium
+N9200	Other nuclear fuels
+E7000	Electricity
+E7100	Electricity - renewable
+E7200	Electricity - non-renewable
+H8000	Heat
+X9900R	Other fuels n.e.c. - renewable
+X9900NR	Other fuels n.e.c. - non-renewable
+X9900H	Other fuels n.e.c. - heat from chemical sources
+X9900	Other fuels n.e.c.
+BIOE	Bioenergy
+FE	Fossil energy
+RHYD	Hydrogen of renewable origin
+RSYNF	Synthetic fuels of renewable origin

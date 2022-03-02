@@ -1,0 +1,48 @@
+
+Project Dyn:Ammo
+================
+
+An open source Matlab based toolbox for the needs of macroeconomists. 
+
+Rather brief outline of the Project functionality is listed below.
+
+Treatment of dynamic macro models featuring:
+	- JAVA based user interface for a user-friendly model declaration
+	- Robust solution of rational expectations models
+	- Stable filtering techniques
+	- Flexible model simulation
+	- Symbolic differentiation
+	- Nonlinear modeling using neural networks
+
+Time series management featuring:
+	- Easy to learn manipulation of yearly/quarterly/monthly and daily data
+	- Seasonal adjustment, filtration and interpolation capabilities
+	- Frequency conversion
+	- Visualization tools
+	- Automated time series object creation from EUROSTAT data 
+		(using SDMX standard)
+	- Data input/output from/to delimited text files, or .XLS files on Windows machines
+
+Platform independent reporting capabilities (as an interface to external PDF rendering engines)
+
+
+FILE EXCHANGE
+==================
+
+Title:
+EUROSTAT data downloading facility
+
+Summary:
+Automated data importing tool with time series management and visualization capabilities
+
+Descr.:
+This code library makes it easy to import most of EUROSTAT macroeconomic data directly into Matlab. Time series manipulation and advanced plotting functionality have been implemented using special Matlab objects.
+
+A GUI has been programmed for browsing the EUROSTAT database contents and the data selection.
+
+"TUTORIALS" folder contains well documented scripts.
+
+Installation: All folders must be added to Matlab search path, including subfolders.
+
+Other Requirements:
+Allocation of Java heap memory must be increased (1 GB should be enough)

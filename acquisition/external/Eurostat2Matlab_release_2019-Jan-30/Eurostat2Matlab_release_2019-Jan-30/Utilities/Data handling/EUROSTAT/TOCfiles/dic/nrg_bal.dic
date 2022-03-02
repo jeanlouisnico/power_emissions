@@ -1,0 +1,537 @@
+PRD	Production
+PPRD	Primary production
+PPRD_RED	Primary production - Renewable Energy Directive
+IPRD	Indigenous production
+IPRD_AG	Indigenous production - associated gas
+IPRD_NAG	Indigenous production - non-associated gas
+IPRD_CG	Indigenous production - colliery gas
+UPRD	Underground production
+SPRD	Surface production
+NPRD	Net production
+PRD_OTH	Other production
+TOS	Transfer from other sources
+TOS_OIL	Transfer from other sources - oil
+TOS_COAL	Transfer from other sources - coal
+TOS_REN	Transfer from other sources - renewables
+TOS_NGAS	Transfer from other sources - natural gas
+IDCO	Into direct carry-over
+FDCO	From direct carry-over
+RCV_RCY	Recovered and recycled products
+IMP	Imports
+IMP_NET	Net imports
+IMP_FROM_EU	Imports from EU
+IMP_FROM_NEU	Imports from outside EU
+EXP	Exports
+EXP_TO_EU	Exports to EU
+STKOP_NAT	Opening stocks on national territory
+STKCL_NAT	Closing stocks on national territory
+STK_CHG	Change in stock
+STK_DRW	Stock draw
+STK_BLD	Stock build
+STK_CHG_MG	Stock changes - as defined in MOS GAS
+STK_CHG_MAIN	Stock changes at main activity utilities
+NRGSUP_CAL	Overall energy supply - calculated
+GAE	Gross available energy
+INTMARB	International maritime bunkers
+IC	Inland consumption
+IC_CAL	Inland consumption - calculated
+IC_OBS	Inland consumption - observed
+IC_CAL_MG	Inland consumption - calculated as defined in MOS GAS
+ID	Inland demand
+GID	Gross inland deliveries
+GID_CAL	Gross inland deliveries - calculated
+GID_OBS	Gross inland deliveries - observed
+GID_E	Gross inland deliveries - energy use
+GID_NE	Gross inland deliveries - non-energy use
+GIC	Gross inland consumption
+INTAVI	International aviation
+INTAVI_E	International aviation - energy use
+INTAVI_NE	International aviation - non-energy use
+NRGSUP	Total energy supply
+GIC2020-2030	Gross inland consumption (Europe 2020-2030)
+PEC2020-2030	Primary energy consumption (Europe 2020-2030)
+FEC2020-2030	Final energy consumption (Europe 2020-2030)
+PEC_DT2020	Primary energy consumption - distance to 2020 target
+PEC_DT2030	Primary energy consumption - distance to 2030 target
+FEC_DT2020	Final energy consumption - distance to 2020 target
+FEC_DT2030	Final energy consumption - distance to 2030 target
+FC_TRA_E_RED	Final consumption - transport sector - energy use - Renewable Energy Directive
+FC_TRA_ROAD_E_RED	Final consumption - transport sector - road - energy use - Renewable Energy Directive
+FC_TRA_RAIL_E_RED	Final consumption - transport sector - rail - energy use - Renewable Energy Directive
+FC_TRA_OTH_E_RED	Final consumption - other transport sector- energy use - Renewable Energy Directive
+GTI	Gross transformation input
+NTI	Net transformation input
+TI	Transformation input
+TI_E	Transformation input - energy use
+TI_EHG	Transformation input - electricity and heat generation
+TI_EHG_E	Transformation input - electricity and heat generation - energy use
+TI_EHG_NE	Transformation input - electricity and heat generation - non-energy use
+TI_EHG_EONL_E	Transformation input - electricity and heat generation - electricity only - energy use
+TI_EHG_CHP_E	Transformation input - electricity and heat generation - combined heat and power - energy use
+TI_EHG_HONL_E	Transformation input - electricity and heat generation - heat only - energy use
+TI_EHG_MAPE	Transformation input - electricity and heat generation - main activity producer electricity only
+TI_EHG_MAPE_E	Transformation input - electricity and heat generation - main activity producer electricity only - energy use
+TI_EHG_MAPE_NE	Transformation input - electricity and heat generation - main activity producer electricity only - non-energy use
+TI_EHG_MAPCHP	Transformation input - electricity and heat generation - main activity producer combined heat and power
+TI_EHG_MAPCHP_E	Transformation input - electricity and heat generation - main activity producer combined heat and power - energy use
+TI_EHG_MAPCHP_NE	Transformation input - electricity and heat generation - main activity producer combined heat and power - non-energy use
+TI_EHG_MAP	Transformation input - electricity and heat generation - main activity producers
+TI_EHG_MAPH	Transformation input - electricity and heat generation - main activity producer heat only
+TI_EHG_MAPH_E	Transformation input - electricity and heat generation - main activity producer heat only - energy use
+TI_EHG_MAPH_NE	Transformation input - electricity and heat generation - main activity producer heat only - non-energy use
+TI_EHG_APE	Transformation input - electricity and heat generation - autoproducer electricity only
+TI_EHG_APE_E	Transformation input - electricity and heat generation - autoproducer electricity only - energy use
+TI_EHG_APE_NE	Transformation input - electricity and heat generation - autoproducer electricity only - non-energy use
+TI_EHG_APCHP	Transformation input - electricity and heat generation - autoproducer combined heat and power
+TI_EHG_APCHP_E	Transformation input - electricity and heat generation - autoproducer combined heat and power - energy use
+TI_EHG_APCHP_NE	Transformation input - electricity and heat generation - autoproducer combined heat and power - non-energy use
+TI_EHG_APH	Transformation input - electricity and heat generation - autoproducer heat only
+TI_EHG_APH_E	Transformation input - electricity and heat generation - autoproducer heat only - energy use
+TI_EHG_APH_NE	Transformation input - electricity and heat generation - autoproducer heat only - non-energy use
+TI_EHG_EDHP	Transformation input - electricity and heat generation - electrically driven heat pumps
+TI_EHG_EB	Transformation input - electricity and heat generation - electric boilers
+TI_EHG_EPS	Transformation input - electricity and heat generation - electricity for pumped storage
+TI_EHG_EPS_PURE	Transformation input - electricity and heat generation - electricity for pumped storage - pure hydro plants
+TI_EHG_EPS_MIX	Transformation input - electricity and heat generation - electricity for pumped storage - mixed plants
+TI_EHG_DHEP	Transformation input - electricity and heat generation - derived heat for electricity production
+TI_EHG_OTH	Transformation input - electricity and heat generation - other
+TI_CO	Transformation input - coke ovens
+TI_CO_E	Transformation input - coke ovens - energy use
+TI_CO_NE	Transformation input - coke ovens - non-energy use
+TI_BF	Transformation input - blast furnaces
+TI_BF_E	Transformation input - blast furnaces - energy use
+TI_BF_NE	Transformation input - blast furnaces - non-energy use
+TI_GW	Transformation input - gas works
+TI_GW_E	Transformation input - gas works - energy use
+TI_GW_NE	Transformation input - gas works - non-energy use
+TI_RPI	Transformation input - refineries and petrochemical industry
+TI_RPI_E	Transformation input - refineries and petrochemical industry - energy use
+TI_RPI_NE	Transformation input - refineries and petrochemical industry - non-energy use
+TI_RPI_RI	Transformation input - refineries and petrochemical industry - refinery intake
+TI_RPI_RI_E	Transformation input - refineries and petrochemical industry - refinery intake - energy use
+TI_RPI_RI_NE	Transformation input - refineries and petrochemical industry - refinery intake - non-energy use
+TI_RPI_RI_CAL	Transformation input - refineries and petrochemical industry - refinery intake - calculated
+TI_RPI_RI_OBS	Transformation input - refineries and petrochemical industry - refinery intake - observed
+TI_RPI_BPI	Transformation input - refineries and petrochemical industry - backflows from petrochemical industry
+TI_RPI_BPI_E	Transformation input - refineries and petrochemical industry - backflows from petrochemical industry - energy use
+TI_RPI_BPI_NE	Transformation input - refineries and petrochemical industry - backflows from petrochemical industry - non-energy use
+TI_RPI_PT	Transformation input - refineries and petrochemical industry - products transferred
+TI_RPI_PT_E	Transformation input - refineries and petrochemical industry - products transferred - energy use
+TI_RPI_PT_NE	Transformation input - refineries and petrochemical industry - products transferred - non-energy use
+TI_RPI_IT	Transformation input - refineries and petrochemical industry - interproduct transfers
+TI_RPI_IT_E	Transformation input - refineries and petrochemical industry - interproduct transfers - energy use
+TI_RPI_IT_NE	Transformation input - refineries and petrochemical industry - interproduct transfers - non-energy use
+TI_RPI_DU	Transformation input - refineries and petrochemical industry - direct use
+TI_RPI_DU_E	Transformation input - refineries and petrochemical industry - direct use - energy use
+TI_RPI_DU_NE	Transformation input - refineries and petrochemical industry - direct use - non-energy use
+TI_RPI_PII	Transformation input - refineries and petrochemical industry - petrochemical industry intake
+TI_RPI_PII_E	Transformation input - refineries and petrochemical industry - petrochemical industry intake - energy use
+TI_RPI_PII_NE	Transformation input - refineries and petrochemical industry - petrochemical industry intake - non-energy use
+TI_RPI_OTH_E	Transformation input - refineries and petrochemical industry - other - energy use
+TI_PF	Transformation input - patent fuel plants
+TI_PF_E	Transformation input - patent fuel plants - energy use
+TI_PF_NE	Transformation input - patent fuel plants - non-energy use
+TI_BKBPB	Transformation input - brown coal briquettes and peat briquettes plants
+TI_BKBPB_E	Transformation input - brown coal briquettes and peat briquettes plants - energy use
+TI_BKBPB_NE	Transformation input - brown coal briquettes and peat briquettes plants - non-energy use
+TI_CL	Transformation input - coal liquefaction plants
+TI_CL_E	Transformation input - coal liquefaction plants - energy use
+TI_CL_NE	Transformation input - coal liquefaction plants - non-energy use
+TI_BNG	Transformation input - for blended natural gas
+TI_BNG_E	Transformation input - for blended natural gas - energy use
+TI_BNG_NE	Transformation input - for blended natural gas - non-energy use
+TI_LBB	Transformation input - liquid biofuels blended
+TI_LBB_E	Transformation input - liquid biofuels blended - energy use
+TI_LBB_NE	Transformation input - liquid biofuels blended - non-energy use
+TI_CPP	Transformation input - charcoal production plants
+TI_CPP_E	Transformation input - charcoal production plants - energy use
+TI_CPP_NE	Transformation input - charcoal production plants - non-energy use
+TI_GTL	Transformation input - gas-to-liquids plants
+TI_GTL_E	Transformation input - gas-to-liquids plants - energy use
+TI_GTL_NE	Transformation input - gas-to-liquids plants - non-energy use
+TI_GTL_GTL	Transformation input - gas-to-liquids plants - GTL technology
+TI_GTL_GTL_E	Transformation input - gas-to-liquids plants - GTL technology - energy use
+TI_GTL_GTL_NE	Transformation input - gas-to-liquids plants - GTL technology - non-energy use
+TI_NSP	Transformation input - not elsewhere specified
+TI_NSP_E	Transformation input - not elsewhere specified - energy use
+TI_NSP_NE	Transformation input - not elsewhere specified - non-energy use
+TI_OTH	Other transformation input
+GTO	Gross transformation output
+NTO	Net transformation output
+TO	Transformation output
+TO_EHG	Transformation output - electricity and heat generation
+TO_EHG_EONL	Transformation output - electricity and heat generation - electricity only
+TO_EHG_CHP	Transformation output - electricity and heat generation - combined heat and power
+TO_EHG_HONL	Transformation output - electricity and heat generation - heat only
+TO_EHG_MAPE	Transformation output - electricity and heat generation - main activity producer electricity only
+TO_EHG_MAPCHP	Transformation output - electricity and heat generation - main activity producer combined heat and power
+TO_EHG_MAPH	Transformation output - electricity and heat generation - main activity producer heat only
+TO_EHG_APE	Transformation output - electricity and heat generation - autoproducer electricity only
+TO_EHG_APCHP	Transformation output - electricity and heat generation - autoproducer combined heat and power
+TO_EHG_APH	Transformation output - electricity and heat generation - autoproducer heat only
+TO_EHG_EDHP	Transformation output - electricity and heat generation - electrically driven heat pumps
+TO_EHG_EB	Transformation output - electricity and heat generation - electric boilers
+TO_EHG_PH	Transformation output - electricity and heat generation - pumped hydro
+TO_EHG_EPS_PURE	Transformation output - electricity and heat generation - electricity for pumped storage - pure hydro plants
+TO_EHG_EPS_MIX	Transformation output - electricity and heat generation - electricity for pumped storage - mixed plants
+TO_EHG_OTH	Transformation output - electricity and heat generation - other sources
+TO_EHG_S_OTH	Transformation output - electricity and heat generation - other sources
+TO_EHG_G_OTH	Transformation output - electricity and heat generation - other generation
+TO_CO	Transformation output - coke ovens
+TO_BF	Transformation output - blast furnaces
+TO_GW	Transformation output - gas works
+TO_RPI	Transformation output - refineries and petrochemical industry
+TO_RPI_RO	Transformation output - refineries and petrochemical industry - refinery output
+TO_RPI_BKFLOW	Transformation output - refineries and petrochemical industry - backflows
+TO_RPI_PT	Transformation output - refineries and petrochemical industry - products transferred
+TO_RPI_IT	Transformation output - refineries and petrochemical industry - interproduct transfers
+TO_RPI_PPR	Transformation output - refineries and petrochemical industry - primary product receipts
+TO_RPI_PIR	Transformation output - refineries and petrochemical industry - petrochemical industry returns
+TO_RPI_O_OTH	Transformation output - refineries and petrochemical industry - other transformation output
+TO_PF	Transformation output - patent fuel plants
+TO_BKBPB	Transformation output - brown coal briquettes and peat briquettes plants
+TO_CL	Transformation output - coal liquefaction plants
+TO_BNG	Transformation output - blended in natural gas
+TO_LBB	Transformation output - liquid biofuels blended
+TO_CPP	Transformation output - charcoal production plants
+TO_GTL	Transformation output - gas-to-liquids plants
+TO_NSP	Transformation output - not elsewhere specified
+TO_OTH	Other transformation output
+NRG	Energy sector
+NRG_E	Energy sector - energy use
+NRG_EHG	Energy sector - electricity and heat generation
+NRG_EHG_E	Energy sector - electricity and heat generation - energy use
+NRG_EHG_NE	Energy sector - electricity and heat generation - non-energy use
+NRG_CM	Energy sector - coal mines
+NRG_CM_E	Energy sector - coal mines - energy use
+NRG_CM_NE	Energy sector - coal mines - non-energy use
+NRG_OIL_NG	Energy sector - oil and natural gas extraction plants
+NRG_OIL_NG_E	Energy sector - oil and natural gas extraction plants - energy use
+NRG_OIL_NG_NE	Energy sector - oil and natural gas extraction plants - non-energy use
+NRG_PF	Energy sector - patent fuel plants
+NRG_PF_E	Energy sector - patent fuel plants - energy use
+NRG_PF_NE	Energy sector - patent fuel plants - non-energy use
+NRG_CO	Energy sector - coke ovens
+NRG_CO_E	Energy sector - coke ovens - energy use
+NRG_CO_NE	Energy sector - coke ovens - non-energy use
+NRG_BKBPB	Energy sector - brown coal briquettes and peat briquettes plants
+NRG_BKBPB_E	Energy sector - brown coal briquettes and peat briquettes plants - energy use
+NRG_BKBPB_NE	Energy sector - brown coal briquettes and peat briquettes plants - non-energy use
+NRG_GW	Energy sector - gas works
+NRG_GW_E	Energy sector - gas works - energy use
+NRG_GW_NE	Energy sector - gas works - non-energy use
+NRG_BF	Energy sector - blast furnaces
+NRG_BF_E	Energy sector - blast furnaces - energy use
+NRG_BF_NE	Energy sector - blast furnaces - non-energy use
+NRG_PR	Energy sector - petroleum refineries (oil refineries)
+NRG_PR_E	Energy sector - petroleum refineries (oil refineries) - energy use
+NRG_PR_NE	Energy sector - petroleum refineries (oil refineries) - non-energy use
+NRG_NI	Energy sector - nuclear industry
+NRG_NI_E	Energy sector - nuclear industry - energy use
+NRG_NI_NE	Energy sector - nuclear industry - non-energy use
+NRG_CL	Energy sector - coal liquefaction plants
+NRG_CL_E	Energy sector - coal liquefaction plants - energy use
+NRG_CL_NE	Energy sector - coal liquefaction plants - non-energy use
+NRG_LNG	Energy sector - liquefaction and regasification plants (LNG)
+NRG_LNG_E	Energy sector - liquefaction and regasification plants (LNG) - energy use
+NRG_LNG_NE	Energy sector - liquefaction and regasification plants (LNG) - non-energy use
+NRG_BIOG	Energy sector - gasification plants for biogas
+NRG_BIOG_E	Energy sector - gasification plants for biogas - energy use
+NRG_BIOG_NE	Energy sector - gasification plants for biogas - non-energy use
+NRG_GTL	Energy sector - gas-to-liquids plants
+NRG_GTL_E	Energy sector - gas-to-liquids plants - energy use
+NRG_GTL_NE	Energy sector - gas-to-liquids plants - non-energy use
+NRG_GTL_GTL	Energy sector - gas-to-liquids plants - GTL technology
+NRG_GTL_GTL_E	Energy sector - gas-to-liquids plants - GTL technology - energy use
+NRG_GTL_GTL_NE	Energy sector - gas-to-liquids plants - GTL technology - non-energy use
+NRG_CPP	Energy sector - charcoal production plants
+NRG_CPP_E	Energy sector - charcoal production plants - energy use
+NRG_CPP_NE	Energy sector - charcoal production plants - non-energy use
+NRG_NSP	Energy sector - not elsewhere specified
+NRG_NSP_E	Energy sector - not elsewhere specified - energy use
+NRG_NSP_NE	Energy sector - not elsewhere specified - non-energy use
+NRG_MNBRFT_E	Energy sector - manufacturing of non-biological fuels of renewable origin used in transport - energy use
+TL	Transformation losses
+TL_EHG	Transformation losses - electricity and heat generation
+TL_EHG_EONL	Transformation losses - electricity and heat generation - electricity only
+TL_EHG_CHP	Transformation losses - electricity and heat generation - combined heat and power
+TL_EHG_HONL	Transformation losses - electricity and heat generation - heat only
+TL_EHG_MAPE	Transformation losses - electricity and heat generation - main activity producer electricity only
+TL_EHG_MAPCHP	Transformation losses - electricity and heat generation - main activity producer combined heat and power
+TL_EHG_MAPH	Transformation losses - electricity and heat generation - main activity producer heat only
+TL_EHG_APE	Transformation losses - electricity and heat generation - autoproducer electricity only
+TL_EHG_APCHP	Transformation losses - electricity and heat generation - autoproducer combined heat and power
+TL_EHG_APH	Transformation losses - electricity and heat generation - autoproducer heat only
+TL_EHG_EDHP	Transformation losses - electricity and heat generation - electrically driven heat pumps
+TL_EHG_EB	Transformation losses - electricity and heat generation - electric boilers
+TL_EHG_PH	Transformation losses - electricity and heat generation - pumped hydro
+TL_EHG_EPS_PURE	Transformation losses - electricity and heat generation - electricity for pumped storage - pure hydro plants
+TL_EHG_EPS_MIX	Transformation losses - electricity and heat generation - electricity for pumped storage - mixed plants
+TL_EHG_OTH	Transformation losses - electricity and heat generation - other sources
+TL_EHG_S_OTH	Transformation losses - electricity and heat generation - other sources
+TL_EHG_L_OTH	Transformation losses - electricity and heat generation - other losses
+TL_CO	Transformation losses - coke ovens
+TL_BF	Transformation losses - blast furnaces
+TL_GW	Transformation losses - gas works
+TL_RPI	Transformation losses - refineries and petrochemical industry
+TL_RPI_RO	Transformation losses - refineries and petrochemical industry - refinery output
+TL_RPI_BKFLOW	Transformation losses - refineries and petrochemical industry - backflows
+TL_RPI_PT	Transformation losses - refineries and petrochemical industry - products transferred
+TL_RPI_IT	Transformation losses - refineries and petrochemical industry - interproduct transfers
+TL_RPI_PPR	Transformation losses - refineries and petrochemical industry - primary product receipts
+TL_RPI_PIR	Transformation losses - refineries and petrochemical industry - petrochemical industry returns
+TL_RPI_L_OTH	Transformation losses - refineries and petrochemical industry - other losses
+TL_PF	Transformation losses - patent fuel plants
+TL_BKBPB	Transformation losses - brown coal briquettes and peat briquettes plants
+TL_CL	Transformation losses - coal liquefaction plants
+TL_BNG	Transformation losses - blended in natural gas
+TL_LBB	Transformation losses - liquid biofuels blended
+TL_CPP	Transformation losses - charcoal production plants
+TL_GTL	Transformation losses - gas-to-liquids plants
+TL_NSP	Transformation losses - not elsewhere specified
+TL_OTH	Other transformation losses
+DL	Distribution losses
+DL_E	Distribution losses - energy use
+DL_NE	Distribution losses - non-energy use
+RL	Refinery losses
+RI	Refinery intake
+RI_CAL	Refinery intake - calculated
+RI_OBS	Refinery intake - observed
+RF	Refinery fuel
+RF_ELC	Refinery fuel - electricity generation
+RF_CHP	Refinery fuel - combined heat and power production
+RF_HEAT	Refinery fuel - heat production
+VENT	Vented
+FLARE	Flared
+AIM	Available to internal market
+AFC	Available for final consumption
+AAS	Available from all sources
+AAT	Available after transformation
+FC	Final consumption
+FC_NE	Final consumption - non-energy use
+TI_NRG_FC_IND_NE	Transformation input, energy sector and final consumption in industry sector - non-energy use
+TI_NE	Transformation input - non-energy use
+NRG_NE	Energy sector - non-energy use
+FC_IND_NE	Final consumption - industry sector - non-energy use
+FC_TRA_NE	Final consumption - transport sector - non-energy use
+FC_OTH_NE	Final consumption - other sectors - non-energy use
+FC_E	Final consumption - energy use
+FC_IND	Final consumption - industry sector
+FC_IND_E	Final consumption - industry sector - energy use
+FC_IND_E_HEAT	Final consumption - industry sector - energy use - heat production
+FC_IND_E_HEAT_LM	Final consumption - industry sector - energy use - heat production with low and medium temperature
+FC_IND_E_HEAT_H	Final consumption - industry sector - energy use - heat production with high temperature
+FC_IND_E_COLD	Final consumption - industry sector - energy use - cold production
+FC_IND_E_ECH	Final consumption - industry sector - energy use - electrochemical
+FC_IND_E_MC	Final consumption - industry sector - energy use - mechanical
+FC_IND_E_SHSCWH	Final consumption - industry sector - energy use - space heating, space cooling and water heating
+FC_IND_E_LE	Final consumption - industry sector - energy use - lighting and electrical appliances
+FC_IND_E_NSP	Final consumption - industry sector - energy use - not elsewhere specified
+FC_IND_IS	Final consumption - industry sector - iron and steel
+FC_IND_IS_E	Final consumption - industry sector - iron and steel - energy use
+FC_IND_IS_NE	Final consumption - industry sector - iron and steel - non-energy use
+FC_IND_CPC	Final consumption - industry sector - chemical and petrochemical
+FC_IND_CPC_E	Final consumption - industry sector - chemical and petrochemical - energy use
+FC_IND_CPC_NE	Final consumption - industry sector - chemical and petrochemical - non-energy use
+FC_IND_NFM	Final consumption - industry sector - non-ferrous metals
+FC_IND_NFM_E	Final consumption - industry sector - non-ferrous metals - energy use
+FC_IND_NFM_NE	Final consumption - industry sector - non-ferrous metals - non-energy use
+FC_IND_NMM	Final consumption - industry sector - non-metallic minerals
+FC_IND_NMM_E	Final consumption - industry sector - non-metallic minerals - energy use
+FC_IND_NMM_NE	Final consumption - industry sector - non-metallic minerals - non-energy use
+FC_IND_TE	Final consumption - industry sector - transport equipment
+FC_IND_TE_E	Final consumption - industry sector - transport equipment - energy use
+FC_IND_TE_NE	Final consumption - industry sector - transport equipment - non-energy use
+FC_IND_MAC	Final consumption - industry sector - machinery
+FC_IND_MAC_E	Final consumption - industry sector - machinery - energy use
+FC_IND_MAC_NE	Final consumption - industry sector - machinery - non-energy use
+FC_IND_MQ	Final consumption - industry sector - mining and quarrying
+FC_IND_MQ_E	Final consumption - industry sector - mining and quarrying - energy use
+FC_IND_MQ_NE	Final consumption - industry sector - mining and quarrying - non-energy use
+FC_IND_FBT	Final consumption - industry sector - food, beverages and tobacco
+FC_IND_FBT_E	Final consumption - industry sector - food, beverages and tobacco - energy use
+FC_IND_FBT_NE	Final consumption - industry sector - food, beverages and tobacco - non-energy use
+FC_IND_PPP	Final consumption - industry sector - paper, pulp and printing
+FC_IND_PPP_E	Final consumption - industry sector - paper, pulp and printing - energy use
+FC_IND_PPP_NE	Final consumption - industry sector - paper, pulp and printing - non-energy use
+FC_IND_WP	Final consumption - industry sector - wood and wood products
+FC_IND_WP_E	Final consumption - industry sector - wood and wood products - energy use
+FC_IND_WP_NE	Final consumption - industry sector - wood and wood products - non-energy use
+FC_IND_CON	Final consumption - industry sector - construction
+FC_IND_CON_E	Final consumption - industry sector - construction - energy use
+FC_IND_CON_NE	Final consumption - industry sector - construction - non-energy use
+FC_IND_TL	Final consumption - industry sector - textile and leather
+FC_IND_TL_E	Final consumption - industry sector - textile and leather - energy use
+FC_IND_TL_NE	Final consumption - industry sector - textile and leather - non-energy use
+FC_IND_NSP	Final consumption - industry sector - not elsewhere specified
+FC_IND_NSP_E	Final consumption - industry sector - not elsewhere specified - energy use
+FC_IND_NSP_NE	Final consumption - industry sector - not elsewhere specified - non-energy use
+FC_IND_OTH_E	Final consumption - industry and other sectors - energy use
+FC_TRA	Final consumption - transport sector
+FC_TRA_E	Final consumption - transport sector - energy use
+FC_TRA_RAIL_DNAVI_E	Final consumption - transport sector - rail and domestic navigation - energy use
+FC_TRA_RAIL	Final consumption - transport sector - rail
+FC_TRA_RAIL_E	Final consumption - transport sector - rail - energy use
+FC_TRA_RAIL_NE	Final consumption - transport sector - rail - non-energy use
+FC_TRA_ROAD	Final consumption - transport sector - road
+FC_TRA_ROAD_E	Final consumption - transport sector - road - energy use
+FC_TRA_ROAD_NE	Final consumption - transport sector - road - non-energy use
+FC_TRA_DAVI	Final consumption - transport sector - domestic aviation
+FC_TRA_DAVI_E	Final consumption - transport sector - domestic aviation - energy use
+FC_TRA_DAVI_NE	Final consumption - transport sector - domestic aviation - non-energy use
+FC_TRA_DNAVI	Final consumption - transport sector - domestic navigation
+FC_TRA_DNAVI_E	Final consumption - transport sector - domestic navigation - energy use
+FC_TRA_DNAVI_NE	Final consumption - transport sector - domestic navigation - non-energy use
+FC_TRA_PIPE	Final consumption - transport sector - pipeline transport
+FC_TRA_PIPE_E	Final consumption - transport sector - pipeline transport - energy use
+FC_TRA_PIPE_NE	Final consumption - transport sector - pipeline transport - non-energy use
+FC_TRA_NSP	Final consumption - transport sector - not elsewhere specified
+FC_TRA_NSP_E	Final consumption - transport sector - not elsewhere specified - energy use
+FC_TRA_NSP_NE	Final consumption - transport sector - not elsewhere specified - non-energy use
+FC_OTH	Final consumption - other sectors
+FC_OTH_E	Final consumption - other sectors - energy use
+FC_OTH_CP	Final consumption - other sectors - commercial and public services
+FC_OTH_CP_E	Final consumption - other sectors - commercial and public services - energy use
+FC_OTH_CP_NE	Final consumption - other sectors - commercial and public services - non-energy use
+FC_OTH_HH	Final consumption - other sectors - households
+FC_OTH_HH_E	Final consumption - other sectors - households - energy use
+FC_OTH_HH_E_SH	Final consumption - other sectors - households - energy use - space heating
+FC_OTH_HH_E_SC	Final consumption - other sectors - households - energy use - space cooling
+FC_OTH_HH_E_WH	Final consumption - other sectors - households - energy use - water heating
+FC_OTH_HH_E_CK	Final consumption - other sectors - households - energy use - cooking
+FC_OTH_HH_E_LE	Final consumption - other sectors - households - energy use - lighting and electrical appliances
+FC_OTH_HH_E_OE	Final consumption - other sectors - households - energy use - other end use
+FC_OTH_HH_NE	Final consumption - other sectors - households - non-energy use
+FC_OTH_AF	Final consumption - other sectors - agriculture and forestry
+FC_OTH_AF_E	Final consumption - other sectors - agriculture and forestry - energy use
+FC_OTH_AF_NE	Final consumption - other sectors - agriculture and forestry - non-energy use
+FC_OTH_FISH	Final consumption - other sectors - fishing
+FC_OTH_FISH_E	Final consumption - other sectors - fishing - energy use
+FC_OTH_FISH_NE	Final consumption - other sectors - fishing - non-energy use
+FC_OTH_NSP	Final consumption - other sectors - not elsewhere specified
+FC_OTH_NSP_E	Final consumption - other sectors - not elsewhere specified - energy use
+FC_OTH_NSP_NE	Final consumption - other sectors - not elsewhere specified - non-energy use
+FC_OTH_RES	Final consumption - other sectors - residential
+FC_OTH_RES_E	Final consumption - other sectors - residential - energy use
+FC_OTH_RES_NE	Final consumption - other sectors - residential - non-energy use
+STATDIFF	Statistical differences
+STATDIFF_INFLOW	Statistical differences - inflow
+STATDIFF_OUTFLOW	Statistical differences - outflow
+GEP	Gross electricity production
+GEP_RED	Gross electricity production - Renewable Energy Directive
+GEP_MAP	Gross electricity production - main activity producer
+GEP_MAPE	Gross electricity production - main activity producer electricity only
+GEP_MAPCHP	Gross electricity production - main activity producer combined heat and power
+GEP_AP	Gross electricity production - autoproducer
+GEP_APE	Gross electricity production - autoproducer electricity only
+GEP_APCHP	Gross electricity production - autoproducer combined heat and power
+GEP_CHPM	Gross electricity production in CHP mode
+GEP_CHPM_SHR	Share of gross electricity production in CHP mode
+GHP	Gross heat production
+GHP_MAP	Gross heat production - main activity producer
+GHP_MAPCHP	Gross heat production - main activity producer combined heat and power
+GHP_MAPH	Gross heat production - main activity producer heat only
+GHP_AP	Gross heat production - autoproducer
+GHP_APCHP	Gross heat production - autoproducer combined heat and power
+GHP_APH	Gross heat production - autoproducer heat only
+GHP_RED	Gross heat production - Renewable Energy Directive
+GHP_HEAT_CL_RED	Gross heat production - heating and cooling - Renewable Energy Directive
+NEP	Net electricity production
+NEP_MAP	Net electricity production - main activity producer
+NEP_MAPE	Net electricity production - main activity producer electricity only
+NEP_MAPCHP	Net electricity production - main activity producer combined heat and power
+NEP_AP	Net electricity production - autoproducer
+NEP_APE	Net electricity production - autoproducer electricity only
+NEP_APCHP	Net electricity production - autoproducer combined heat and power
+NHP	Net heat production
+NHP_MAP	Net heat production - main activity producer
+NHP_MAPCHP	Net heat production - main activity producer combined heat and power
+NHP_MAPH	Net heat production - main activity producer heat only
+NHP_AP	Net heat production - autoproducer
+NHP_APCHP	Net heat production - autoproducer combined heat and power
+NHP_APH	Net heat production - autoproducer heat only
+BKFLOW	Backflows
+BKFLOW_DES	Backflows - direct export or sale
+TBKFLOW	Transformation backflows
+PPR	Primary product receipts
+IT	Interproduct transfers
+PT	Products transferred
+DU	Direct use
+GD_PI	Gross deliveries to petrochemical industry
+E_PI	Energy use in petrochemical industry
+NE_PI	Non-energy use in petrochemical industry
+NE_MSC	Non-energy use - miscellaneous
+ND_TP	Net deliveries of total products
+ND_PI	Net deliveries to the petrochemical industry
+REN	Renewable energy sources
+REN_TRA	Renewable energy sources in transport
+REN_ELC	Renewable energy sources in electricity
+REN_HEAT_CL	Renewable energy sources in heating and cooling
+EI_GDP_PPS	Energy intensity of GDP in purchasing power standards (PPS)
+EI_GDP_CLV05	Energy intensity of GDP in chain linked volumes (2005)
+EI_GDP_CLV10	Energy intensity of GDP in chain linked volumes (2010)
+EI_GDP_CLV15	Energy intensity of GDP in chain linked volumes (2015)
+GFC_HEAT_CL_E	Gross final consumption - heating and cooling - energy use
+GFC_TRA_E_NMULTI	Gross final consumption - transport - energy use - without multipliers
+GFC_TRA_E_MULTI	Gross final consumption - transport - energy use - with multipliers
+GFC_TRA_E_OT	Gross final consumption - transport - energy use - overall target calculation
+GFC_E_OT_NLIM_NST	Gross final consumption - energy use - overall target calculation (without 7% limit and without statistical transfers)
+GFC_E_OTA_LIM	Gross final consumption - energy use - overall target calculation adjusted with the 7% limit
+GFC_E_OTA	Gross final consumption - energy use - overall target calculation adjusted
+GFC_E_OT_NAVICAPA	Gross final consumption - energy use - overall target calculation without aviation cap adjustment
+GFC_E_AVI_ASHR	Gross final consumption - energy use - actual share of aviation
+GFC_ELC	Gross final consumption - electricity
+GFC_ELC_OT	Gross final consumption - electricity - overall target calculation
+LIM_OT	7% limit - overall target
+LIM_TT	7% limit - transport target
+BIOL_BIOFCON_LIM	Bioliquids and biofuels contribution - 7% limit
+BIOFCON_LIM_TRA	Biofuels contribution - 7% limit - transport
+BIOL_BIOF_FS_SHR	Share of bioliquids and biofuels from food sources
+BIOF_FS_SHR	Share of biofuels from food sources
+BIOF_BIOG_PA_SHR	Share of advanced biofuels and biogas from Annex IX Part A in final energy consumption in transport
+AVI_REC	Aviation - reported energy consumption
+AVI_AEC	Aviation - actual energy consumption 
+AVI_CAP	Aviation cap
+ST_JP_JSS	Statistical transfers, joint projects and joint support schemes
+ST_JP_JSS_TAA	Statistical transfers, joint projects and joint support schemes - total amount to be added
+ST_JP_JSS_TAD	Statistical transfers, joint projects and joint suport schemes - total amount to be deducted
+ST_MS	Statistical transfers between Member States 
+ST_MS_TAA	Statistical transfers between Member States - total amount to be added
+ST_MS_TAD	Statistical transfers between Member States - total amount to be deducted
+ST_MS_TRA	Statistical transfers between Member States - transport
+ST_MS_TRA_TAA	Statistical transfers between Member States - transport - total amount to be added
+ST_MS_TRA_TAD	Statistical transfers between Member States - transport - total amount to be deducted
+JP_MS_ELC	Joint projects between Member States - electricity
+JP_MS_ELC_TAA	Joint projects between Member States - electricity - total amount to be added
+JP_MS_ELC_TAD	Joint projects between Member States - electricity - total amount to be deducted
+JP_MS_HEAT_CL	Joint projects between Member States - heating and cooling
+JP_MS_HEAT_CL_TAA	Joint projects between Member States - heating and cooling - total amount to be added
+JP_MS_HEAT_CL_TAD	Joint projects between Member States - heating and cooling - total amount to be deducted
+JP_MS_THRD_ELC	Joint projects between Member States and third countries - electricity
+JP_MS_THRD_ELC_TAA	Joint projects between Member States and third countries - electricity - total amount to be added
+JP_MS_THRD_ELC_TAD	Joint projects between Member States and third countries - electricity - total amount to be deducted
+JSS_ELC	Joint support schemes - electricity
+JSS_ELC_TAA	Joint support schemes - electricity - total amount to be added
+JSS_ELC_TAD	Joint support schemes - electricity - total amount to be deducted
+JSS_HEAT_CL	Joint support schemes - heating and cooling
+JSS_HEAT_CL_TAA	Joint support schemes - heating and cooling - total amount to be added
+JSS_HEAT_CL_TAD	Joint support schemes - heating and cooling - total amount to be deducted
+NMLPRD	Normalised production
+NMLPRD_PURE	Normalised production - pure hydro plants
+NMLPRD_MIX	Normalised production - mixed hydro plants
+ALF_PURE	Annual load factor - pure hydro plants
+ALF_MIX	Annual load factor - mixed hydro plants
+GEP_NPUMP_MIX	Gross electricity production - without pumping - mixed hydro plants
+AVGLF_PURE	Average load factor - pure hydro plants
+AVGLF_MIX	Average load factor - mixed hydro plants
+BIOG_G_SHR	Share of biogas - grid
+BIOG_G_TRA	Biogas - grid - transport
+BIOG_G_ADJSHR	Biogas - grid - adjusted share
+CAP_NET	Installed net capacity
+MGEC	Maximum gross electricity capacity
+MGEC_CHPM	Maximum gross electricity capacity in CHP mode
+MNTC	Maximum net thermal capacity
+NTP	Net thermal production
+FUEL	Fuel used
+FUEL_CHPM	Fuel used in CHP mode
+PES	Primary energy savings

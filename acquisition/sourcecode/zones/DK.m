@@ -1,7 +1,26 @@
 
 function TTSync = DK
 
-system('C:\ProgramData\Anaconda3\envs\clock_display\python DK_request.py') ;
+pe = pyenv;
+if isempty(pe.Version)
+    errorlog("Python not installed - Cannot fetch Denmark TSO data --> solution, install python for your machine and define it in MatLab through the PythonEnvironment function") ;
+    return ;
+end
+
+p = mfilename('fullpath') ;
+[filepath,~,~] = fileparts(p) ;
+fparts = split(filepath, filesep) ;
+fparts = join(fparts(1:end-2), filesep) ;
+setup_ini = jsondecode(fileread([fparts{1} filesep 'setup' filesep 'ini.json']));
+
+try
+    pythonpath = setup_ini.python.environment ;
+catch
+    errorlog("Python environment not defined - Cannot fetch Denmark TSO data --> solution, create a python environment with the required packages. Define the path of this envs in the setupfetcher function") ;
+    return ;
+end
+
+system([pythonpath 'python ' filepath filesep 'DK_request.py']) ;
 
 setup = jsondecode(fileread('data.json'));
 
@@ -54,7 +73,7 @@ normalisedpredictthermal = array2timetable(bsxfun(@rdivide, predictedfuel(:,ther
 replacestring = cellfun(@(x) elecfuel(strcmp(elecfuel(:,1),x),2), normalisedpredictthermal.Properties.VariableNames, 'UniformOutput', false) ;
 normalisedpredictthermal.Properties.VariableNames = cat(1, replacestring{:}) ;
 
-PPDB = readtable('C:\Users\jlouis\Downloads\conventional_power_plants_EU.csv') ;
+PPDB = readtable('conventional_power_plants_EU.csv') ;
 PP_DK = PPDB(strcmp(PPDB.country,'DK'),:);
 
 allenergy = unique(PP_DK.energy_source) ;

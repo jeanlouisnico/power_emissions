@@ -56,6 +56,10 @@ if ~isfile([filepath filesep 'setup' filesep 'ini.json'])
             end
         end
     end
+    %%% setup the python environemtna where all packages are installed
+    str = input('python envs: ','s') ;
+    setup.python.environment = str ;
+
 else
     % If it exist, display the settings and offer to overwrite the data.
     fileread([filepath filesep 'setup' filesep 'ini.json'])
@@ -68,7 +72,7 @@ else
         if strcmp(str, 'Y') || strcmp(str, '')
             n2 = 0 ;
             while n2 == 0
-                str = input('Which variable would you like to reset? : ','s') ;
+                str = input('Which variable would you like to reset? (ENTSOE, DB, Fingrid, python): ','s') ;
                 switch str
                     case 'ENTSOE'
                         str = input('ENTSOE security token: ','s') ;
@@ -119,6 +123,10 @@ else
                     case 'Fingrid'
                         str = input('Fingrid security token: ','s') ;
                         setup.Fingrid.securityToken = str ;
+                        n2 = 1 ;
+                    case 'python'
+                        str = input('python envs: ','s') ;
+                        setup.python.environment = str ;
                         n2 = 1 ;
                     otherwise
                         warning('wrong input, try again')
