@@ -6,8 +6,7 @@ try
 catch
     % Import the exchange of energy between countries
     val = jsondecode(fileread('exchanges.json'));
-    
-    
+        
     % since some links are missing or not handled properly, go through each
     % zone and re-attribute the missing links to other zones
     allexch = cellfun(@(x) strsplit(x,'__') , fieldnames(val)  , 'UniformOutput' , false) ;
