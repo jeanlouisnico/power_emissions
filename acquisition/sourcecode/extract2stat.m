@@ -123,51 +123,6 @@ for itech = 1:length(tech)
     fuelratio.(techn) = table2struct(fuelratio.(techn)) ;
 end
 
-% fuelratiotemp.chp.thermal3 = Fueluse.chp(findrow,:) ;
-% fuelratiotemp.sep.thermal3 = Fueluse.sep(findrow,:) ;
-% 
-% % Get the previous year data for the same month than today
-% timetarget = timeextract - calyears(1) ;
-%     findrow = (Fueluse.chp.Year == (timetarget.Year) & Fueluse.chp.Month == timetarget.Month) ;
-% fuelratiotemp.chp.thermal1 = Fueluse.chp(findrow,:) ;
-% fuelratiotemp.sep.thermal1 = Fueluse.sep(findrow,:) ;
-% 
-% % Get the previous year data for the same month than the last data
-% % available to get a trend and extrapolate data
-% timetarget = timeextract - calmonths(nyear) - calyears(1) ;
-%     findrow = (Fueluse.chp.Year == (timetarget.Year) & Fueluse.chp.Month == timetarget.Month) ;
-% fuelratiotemp.chp.thermal2 = Fueluse.chp(findrow,:) ;
-% fuelratiotemp.sep.thermal2 = Fueluse.sep(findrow,:) ;
-% 
-% Ratio_year_n_1.chp  = fuelratiotemp.chp.thermal1.Variables ./ fuelratiotemp.chp.thermal2.Variables ;
-% Ratio_year_n_1.sep  = fuelratiotemp.sep.thermal1.Variables ./ fuelratiotemp.sep.thermal2.Variables ;
-% 
-% Ratio_year_n_1.chp(isinf(Ratio_year_n_1.chp)|isnan(Ratio_year_n_1.chp)) = 0 ;
-% Ratio_year_n_1.sep(isinf(Ratio_year_n_1.sep)|isnan(Ratio_year_n_1.sep)) = 0 ;
-% 
-% fuelratioout.chp   = array2table(Ratio_year_n_1.chp .* fuelratiotemp.chp.thermal3.Variables, 'VariableNames', fuelratiotemp.chp.thermal1.Properties.VariableNames) ;
-% fuelratioout.sep   = array2table(Ratio_year_n_1.sep .* fuelratiotemp.sep.thermal3.Variables, 'VariableNames', fuelratiotemp.sep.thermal1.Properties.VariableNames) ;
-% 
-% fuelratio.chp = array2table(fuelratioout.chp(1,fuellist).Variables ./ fuelratioout.chp.total, 'VariableNames', fuellist) ;
-% fuelratio.sep = array2table(fuelratioout.sep(1,fuellist).Variables ./ fuelratioout.sep.total, 'VariableNames', fuellist) ;
-% 
-% fuelratio.chp = table2struct(fuelratio.chp) ;
-% fuelratio.sep = table2struct(fuelratio.sep) ;
-% findrow = (Fueluse.chp.Year == (timeextract.Year - 1) & Fueluse.chp.Month == timeextract.Month) ;
-% total = Fueluse.chp.total(findrow) ;
-% fuellist = fieldnames(DHCHP.totalload) ;
-% for jfuel = 1:length(fuellist)
-%     fuelnamej = fuellist{jfuel} ;
-%     fuelratio.chp.(fuelnamej) = Fueluse.chp.(fuelnamej)(findrow) / total ;
-% end
-% 
-% findrow = (Fueluse.sep.Year == (timeextract.Year - 1) & Fueluse.sep.Month == timeextract.Month) ;
-% total = Fueluse.sep.total(findrow) ;
-% for jfuel = 1:length(fuellist)
-%     fuelnamej = fuellist{jfuel} ;
-%     fuelratio.sep.(fuelnamej) = Fueluse.sep.(fuelnamej)(findrow) / total ;
-% end
-
 %% Nested functions
 %%% Thermal power plant
     function perccat = extractper(nametech, t1, predefcat)

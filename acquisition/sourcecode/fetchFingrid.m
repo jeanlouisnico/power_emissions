@@ -18,11 +18,12 @@ codelist = {'TotalConsumption'	'193'
 'SystemState'	'209'
 } ;
 
-codeID = codelist(find(strcmp(tech, codelist)==1), 2) ;
+codeID = codelist(strcmp(tech, codelist(:,1)),2) ;
 
 %% Set up the time
-currenttime = javaObject("java.util.Date") ;
-timezone    = -currenttime.getTimezoneOffset()/60 ;
+currenttime = datetime('now','TimeZone','Europe/Helsinki') ;
+currenttimeUTC = datetime(currenttime,'TimeZone','UTC') ;
+
 switch tech
     %%%
     % The solar production from Fingrid is not live and is updated every
@@ -30,14 +31,14 @@ switch tech
     % data has to be re-written to reflect this feature, specifically for
     % solar power
     case 'SolarP'
-        periodStart = dateshift(datetime(datetime(datestr(now)) - hours(timezone), 'Format','yyyy-MM-ddHH:mm:ss'), 'start', 'hour') ;
+        periodStart = dateshift(datetime(currenttimeUTC, 'Format','yyyy-MM-ddHH:mm:ss'), 'start', 'hour') ;
             periodStartchar = [num2str(periodStart.Year) '-' ...
                                sprintf('%02d',periodStart.Month) '-' ...
                                sprintf('%02d',periodStart.Day) 'T' ...
                                sprintf('%02d',periodStart.Hour) '%3A' ...
                                sprintf('%02d',periodStart.Minute) '%3A00Z'] ;
 
-        periodEnd = dateshift(datetime(datetime(datestr(now)) - hours(timezone) + hours(1), 'Format','yyyy-MM-ddHH:mm:ss'), 'start', 'hour') ;
+        periodEnd = dateshift(datetime(currenttimeUTC + hours(1), 'Format','yyyy-MM-ddHH:mm:ss'), 'start', 'hour') ;
             periodEndchar = [num2str(periodEnd.Year) '-' ...
                                sprintf('%02d',periodEnd.Month) '-' ...
                                sprintf('%02d',periodEnd.Day) 'T' ...
@@ -49,14 +50,14 @@ switch tech
     % therefore the timezone from which the code is ran need to be included
     % to reflect the correct time
     otherwise 
-        periodStart = dateshift(datetime(datetime(datestr(now)) - hours(timezone) - minutes(6), 'Format','yyyy-MM-ddHH:mm:ss'), 'start', 'minute') ;
+        periodStart = dateshift(datetime(currenttimeUTC - minutes(6), 'Format','yyyy-MM-ddHH:mm:ss'), 'start', 'minute') ;
             periodStartchar = [num2str(periodStart.Year) '-' ...
                                sprintf('%02d',periodStart.Month) '-' ...
                                sprintf('%02d',periodStart.Day) 'T' ...
                                sprintf('%02d',periodStart.Hour) '%3A' ...
                                sprintf('%02d',periodStart.Minute) '%3A00Z'] ;
 
-        periodEnd = dateshift(datetime(datetime(datestr(now)) - hours(timezone) - minutes(3), 'Format','yyyy-MM-ddHH:mm:ss'), 'start', 'minute') ;
+        periodEnd = dateshift(datetime(currenttimeUTC - minutes(3), 'Format','yyyy-MM-ddHH:mm:ss'), 'start', 'minute') ;
             periodEndchar = [num2str(periodEnd.Year) '-' ...
                                sprintf('%02d',periodEnd.Month) '-' ...
                                sprintf('%02d',periodEnd.Day) 'T' ...

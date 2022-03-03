@@ -26,56 +26,6 @@ end
 EmissionsCategory = 'GlobalWarming' ;
 Emissionsdatabase = load_emissions ;
 
-[IndCHP, DHCHP, Sep, Windpower, fuelratio] = extract2stat ;
-             
-%% Fuel Split
-% Categories are extracted from the fuel classification of statistic
-% Finland (above extract2stat function). The
-%%%
-% Split the production from CHP based on the installed capacity of each
-% technology in Finland
-%%
-% $P_{Fuel, Tech} = P_{tech} \times \begin{bmatrix} \eta_{fuel1} \\  \vdots \\  \eta_{fueln} \end{bmatrix}$
-%
-
-fueldis = table2struct(array2table((Power.FI.TSO.bytech.CHP_DH + Power.FI.TSO.bytech.CHP_Ind) * struct2array(fuelratio.chp), "VariableNames", fieldnames(fuelratio.chp))) ;
-
-CHP_DH_Fuel  = (struct2array(fueldis)) .* struct2array(DHCHP.totalload) ./ (struct2array(DHCHP.totalload) + struct2array(IndCHP.totalload)) ;
-CHP_Ind_Fuel = (struct2array(fueldis)) .* struct2array(IndCHP.totalload) ./ (struct2array(DHCHP.totalload) + struct2array(IndCHP.totalload)) ;
-
-CHP_DH_Fuel = table2struct(array2table(CHP_DH_Fuel, "VariableNames", fieldnames(fuelratio.chp))) ;     % MWh
-CHP_Ind_Fuel = table2struct(array2table(CHP_Ind_Fuel, "VariableNames", fieldnames(fuelratio.chp))) ;   % MWh
-
-Sep_Fuel = table2struct(array2table(struct2array(Sep.ratioload) * Power.FI.TSO.bytech.OtherProd / 100 , "VariableNames", fieldnames(Sep.ratioload))) ;  % MWh
-WindCat  = table2struct(array2table(struct2array(Windpower) * Power.FI.TSO.bytech.WindP / 100 , "VariableNames", fieldnames(Windpower))) ;  % MWh
-
-if ~isfield(Sep_Fuel, 'biomass')
-    Sep_Fuel.biomass = 0 ;
-end
-if ~isfield(Sep_Fuel, 'others')
-    Sep_Fuel.others = 0 ;
-end
-%% Power categories
-% Calculate the power production per technology and store it in 2
-% categories: The low carbon tech, and the renewable energy (RES) tech.
-%%%
-% $P_{low-carbon} = P_{Nuclear} + P_{biomass, CHP} + P_{Wind} + P_{Hydro}$
-Power.FI.TSO.LowCarbon.Power = Power.FI.TSO.bytech.NuclearP + ...
-                        CHP_DH_Fuel.biomass + ...
-                        Power.FI.TSO.bytech.WindP + ...
-                        Power.FI.TSO.bytech.SolarP + ...
-                        Power.FI.TSO.bytech.HydroP + ...
-                        CHP_Ind_Fuel.biomass + ...
-                        Sep_Fuel.biomass ;
-%%%
-% $P_{RES} = P_{biomass, CHP} + P_{Wind} + P_{Hydro}$
-Power.FI.TSO.RES.Power = CHP_DH_Fuel.biomass + ...
-                              Power.FI.TSO.bytech.WindP + ...
-                              Power.FI.TSO.bytech.SolarP + ...
-                              Power.FI.TSO.bytech.HydroP + ...
-                              CHP_Ind_Fuel.biomass + ...
-                              Sep_Fuel.biomass ;
-
 %% Emissions Finland
 % Re-allocate the emissions per type of technology
 
@@ -122,29 +72,6 @@ Emissions.FI.TSO.TSO.bytech.hydro      = Power.FI.TSO.bytech.HydroP    * Emissio
 
 Emissions.FI.TSO.TSO.intensityprod = EmissionsFingrid_Total / Power.FI.TSO.TotalProduction  ; 
 % Emissions.FI.TSO.TSO.intensitycons = EmissionsFingrid_Total / Power.FI.TSO.TotalConsumption ;
-
-%% Statistic retrieval
-% All power related data are stored in 1 variable and calcualte the ratio
-% of low carbon and RES compared to total production of electricity in the
-% country.
-%%%
-% $\eta_{Low-carbon} = \frac{P_{Low-carbon}}{P_{Total}}$
-Power.FI.TSO.LowCarbon.Ratio = Power.FI.TSO.LowCarbon.Power / Power.FI.TSO.TotalProduction * 100 ;
-%%%
-% $\eta_{RES} = \frac{P_{RES}}{P_{Total}}$
-Power.FI.TSO.RES.Ratio = Power.FI.TSO.RES.Power / Power.FI.TSO.TotalProduction * 100 ;
-
-Power.FI.TSO.byfuel.nuclear   = Power.FI.TSO.bytech.NuclearP ;
-Power.FI.TSO.byfuel.biomass   = Sep_Fuel.biomass + CHP_Ind_Fuel.biomass + CHP_DH_Fuel.biomass ;
-Power.FI.TSO.byfuel.wind      = Power.FI.TSO.bytech.WindP ;
-Power.FI.TSO.byfuel.solar     = Power.FI.TSO.bytech.SolarP ;
-Power.FI.TSO.byfuel.hydro     = Power.FI.TSO.bytech.HydroP ;
-Power.FI.TSO.byfuel.coal      = Sep_Fuel.coal      + CHP_Ind_Fuel.coal     + CHP_DH_Fuel.coal ;
-Power.FI.TSO.byfuel.oil       = Sep_Fuel.oil       + CHP_Ind_Fuel.oil      + CHP_DH_Fuel.oil ;
-Power.FI.TSO.byfuel.peat      = Sep_Fuel.peat      + CHP_Ind_Fuel.peat 	+ CHP_DH_Fuel.peat ;
-Power.FI.TSO.byfuel.gas       = Sep_Fuel.gas       + CHP_Ind_Fuel.gas      + CHP_DH_Fuel.gas ;
-Power.FI.TSO.byfuel.others    = Sep_Fuel.others    + CHP_Ind_Fuel.others   + CHP_DH_Fuel.others ;
-
 
 %% Emissions Russia
 % Emissions from Russia are extracted
@@ -204,11 +131,11 @@ end
 %%%
 % Re-allocate the energy byfuel for statistical purposes.
 Power.RU.TSO.byfuel.nuclear = Power.RU.TSO.bytech.nuclear ;
-Power.RU.TSO.byfuel.hydro = Power.RU.TSO.bytech.hydro ;
-Power.RU.TSO.byfuel.solar = Power.RU.TSO.bytech.solar ;
-Power.RU.TSO.byfuel.oil = .023 * Power.RU.TSO.bytech.thermal + 2/3 * Power.RU.TSO.bytech.oil ;
-Power.RU.TSO.byfuel.coal = .4406 * Power.RU.TSO.bytech.thermal ;
-Power.RU.TSO.byfuel.gas = .5364 * Power.RU.TSO.bytech.thermal  + 1/3 * Power.RU.TSO.bytech.oil ;
+Power.RU.TSO.byfuel.hydro   = Power.RU.TSO.bytech.hydro ;
+Power.RU.TSO.byfuel.solar   = Power.RU.TSO.bytech.solar ;
+Power.RU.TSO.byfuel.oil     = .023 * Power.RU.TSO.bytech.thermal + 2/3 * Power.RU.TSO.bytech.oil ;
+Power.RU.TSO.byfuel.coal    = .4406 * Power.RU.TSO.bytech.thermal ;
+Power.RU.TSO.byfuel.gas     = .5364 * Power.RU.TSO.bytech.thermal  + 1/3 * Power.RU.TSO.bytech.oil ;
 
 %% Emissions Norway
 %%% Emissions from EcoInvent
@@ -578,86 +505,6 @@ end
 %         EmissionTotal = sum(struct2array(emission)) ;
     end
 %% function 
-    function [byfuel] = FingridEmissions(CHP_DH_Fuel, Emissionsdatabase, EFSource, CHP_Ind_Fuel, Sep_Fuel, Windpower, WindCat, EmissionsCategory, Power)
-        CHPname = fieldnames(CHP_DH_Fuel) ;
 
-        for ichp = 1:length(CHPname)
-            Cat = CHPname{ichp} ;
-            switch Cat
-                case 'others'
-                    fuelcat.chp = 'other_biogas' ;
-                    fuelcat.sep = 'other_biogas' ;
-                case 'coal'
-                    fuelcat.chp = 'coal_chp' ;
-                    fuelcat.sep = 'coal' ;
-                case 'oil'
-                    fuelcat.chp = 'oil_chp' ;
-                    fuelcat.sep = 'oil' ;
-                case 'gas'
-                    fuelcat.chp = 'gas_chp' ;
-                    fuelcat.sep = 'gas' ;
-                otherwise
-                    fuelcat.chp = Cat ;
-                    fuelcat.sep = Cat ;
-            end
-            emifactor.chp = extractdata(fuelcat.chp, 'FI', EmissionsCategory, Emissionsdatabase.(EFSource)) ; 
-            emifactor.sep = extractdata(fuelcat.sep, 'FI', EmissionsCategory, Emissionsdatabase.(EFSource)) ; 
-            CHP_DH_Emissions.(Cat)  = CHP_DH_Fuel.(Cat) * emifactor.chp ;
-            CHP_Ind_Emissions.(Cat) = CHP_Ind_Fuel.(Cat) * emifactor.chp ;
-            try 
-                Sep_Emissions.(Cat) = Sep_Fuel.(Cat) * emifactor.sep ;
-            catch
-                Sep_Emissions.(Cat) = 0 ;
-            end
-        end
-
-        Windname = fieldnames(Windpower) ;
-
-        for iwind = 1:length(Windname)
-            Cat = Windname{iwind} ;
-            Wind_Emissions.(Cat)  = WindCat.(Cat) * extractdata('windon', 'FI', EmissionsCategory, Emissionsdatabase.(EFSource)) ;
-        end
-        %%% Total Emissions Ecoinvent
-        CHP_DH_Emissions.Total  = sum(struct2array(CHP_DH_Emissions)) ;
-        CHP_Ind_Emissions.Total = sum(struct2array(CHP_Ind_Emissions)) ;
-        Sep_Emissions.Total     = sum(struct2array(Sep_Emissions)) ;
-        hydro                   = Power.FI.TSO.bytech.HydroP * extractdata('hydro_runof', 'FI', EmissionsCategory, Emissionsdatabase.(EFSource)) ;
-        solar                   = Power.FI.TSO.bytech.SolarP * extractdata('solar', 'FI', EmissionsCategory, Emissionsdatabase.(EFSource)) ;
-        wind                    = sum(struct2array(Wind_Emissions)) ;
-        nuclear                 = Power.FI.TSO.bytech.NuclearP * (extractdata('nuclear_PWR', 'FI', EmissionsCategory, Emissionsdatabase.(EFSource)) * .36 + ...
-                                                                       extractdata('nuclear_BWR', 'FI', EmissionsCategory, Emissionsdatabase.(EFSource)) * .64) ;
-
-%         %%% Total Emissions Energia Teolisuus
-%         CHP_DH_EmissionsET.Total  = sum(struct2array(CHP_DH_EmissionsET)) ;
-%         CHP_Ind_EmissionsET.Total = sum(struct2array(CHP_Ind_EmissionsET)) ;
-%         Sep_EmissionsET.Total     = sum(struct2array(Sep_EmissionsET)) ;
-
-        %%% Final Emissions Ecoinvent
-        % This is the final emissions expressed in kgCO2 (in case of global
-        % warming indicator)
-%         total = nuclear + wind + solar + hydro + Sep_Emissions.Total + CHP_Ind_Emissions.Total + CHP_DH_Emissions.Total ;
-        %%%
-        % This is the emission intensity expressed in kg/MWh or g/kWh for the
-        % EcoInvent database
-
-        %%% Final Emissions Energia Teolisuus
-        % This is the final emissions expressed in kgCO2.
-        %%%
-        % This is the emission intensity expressed in kg/MWh or g/kWh for the
-        % Energia Teolisuus database
-        
-        %%% Emission by fuel EcoInvent
-        byfuel.nuclear   = nuclear ;
-        byfuel.biomass   = Sep_Emissions.biomass + CHP_Ind_Emissions.biomass + CHP_DH_Emissions.biomass ;
-        byfuel.wind      = wind ;
-        byfuel.solar     = solar  ;
-        byfuel.hydro     = hydro  ;
-        byfuel.coal      = Sep_Emissions.coal + CHP_Ind_Emissions.coal + CHP_DH_Emissions.coal ;
-        byfuel.oil       = Sep_Emissions.oil + CHP_Ind_Emissions.oil + CHP_DH_Emissions.oil ;
-        byfuel.peat      = Sep_Emissions.peat + CHP_Ind_Emissions.peat + CHP_DH_Emissions.peat ;
-        byfuel.gas       = Sep_Emissions.gas + CHP_Ind_Emissions.gas + CHP_DH_Emissions.gas ;
-        byfuel.others    = Sep_Emissions.others + CHP_Ind_Emissions.others + CHP_DH_Emissions.others ;
-        
-    end
 
 end
