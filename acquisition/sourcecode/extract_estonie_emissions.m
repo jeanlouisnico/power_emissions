@@ -9,7 +9,7 @@ isforeign = isforeign_region ;
 
 if isfile('Estonia_data.csv')
     FileInfo = dir('Estonia_data.csv') ;
-    datecompare = datetime(now, "ConvertFrom", "datenum") ;
+    datecompare = datetime('now') ;
     datefile    = datetime(FileInfo.datenum, "ConvertFrom", "datenum") ;
 
     % Check daily if the data have changed
@@ -84,7 +84,11 @@ else
     energy.byfuel = addvars(energy.byfuel, power.production_renewable, 'NewVariableNames', 'wind') ;
 end
 
-energy.byfuel = addvars(energy.byfuel, power.solar, 'NewVariableNames', 'solar') ;
+if isempty(power.solar)
+    energy.byfuel = addvars(energy.byfuel, 0, 'NewVariableNames', 'solar') ;
+else
+    energy.byfuel = addvars(energy.byfuel, power.solar, 'NewVariableNames', 'solar') ;
+end
 
 %% Calculate power by fuel category
 

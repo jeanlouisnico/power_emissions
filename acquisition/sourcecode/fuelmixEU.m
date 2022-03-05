@@ -1,7 +1,7 @@
 function [alldata, seasonal] = fuelmixEU(country, plotbin, type)
 
 [codes, countries, source.liquidfuel, source.solidfuel, source.gasfuel, source.elecfuel] = setnames ;
-
+data2 = loadEUfuelmonth ;
 for icountry = 1:length(country)
     if isa(country,'char') || isa(country,'string')
         if length(country) > 2
@@ -29,9 +29,8 @@ for icountry = 1:length(country)
             end
         end
     end
-    json_result_merged = load('json_result_merged.mat') ;
-    data2 = json_result_merged.data2 ;
 
+%     json_result_merged = load('json_result_merged.mat') ;
     % Only combustible fuels
     toplot = {'CF_R', 'CF_NR', 'C0000', 'G3000', 'O4000XBIO'} ;
     if plotbin
@@ -40,13 +39,17 @@ for icountry = 1:length(country)
 
     % All fuels
 
-    toplot = {'CF_R' 'CF_NR' 'C0000' 'G3000' 'O4000XBIO'	'RA110' 'RA120' 'RA130' 'RA200' 'RA310'	 'RA320' 'RA410' 'RA420' 'RA500_5160' 'N9000' 'X9900'} ;
+    toplot = {'CF_R' 'CF_NR' 'C0000' 'G3000' 'O4000XBIO' 'P1100'	'RA110' 'RA120' 'RA130' 'RA200' 'RA310'	 'RA320' 'RA410' 'RA420' 'RA500_5160' 'N9000' 'X9900'} ;
     if plotbin
         plotfuelmix(data2, geo2plot, toplot, source, geo2plot, 'year')
     end
 
     dataall.(geo2plot)      = data2.(geo2plot)(:,toplot) ;
-
+    
+    % Convert the Peat data into energy, considering an energy content of
+    % 10.1 GJ/t of peat [statistic finland] and a plant efficiency of 70%
+    dataall.(geo2plot).P1100 = dataall.(geo2plot).P1100 * 1000 * 10.1 * .00027777778 * .7 ; 
+    
     dataallperc.(geo2plot)  = array2timetable(bsxfun(@rdivide, dataall.(geo2plot)(:,toplot).Variables, sum(dataall.(geo2plot)(:,toplot).Variables,2, 'omitnan')) * 100, "RowTimes", dataall.(geo2plot).Time, 'VariableNames', toplot) ;
 
     %%% Fuel by season, summer or winter
@@ -188,9 +191,9 @@ end
                     'GE'	'Georgia'} ;
 
         solidfuel = {'C0100' 'Hard coal'
-            'C0200' 'Brown coal'
-            'P1100' 'Peat'
-            'S2000' 'Oil shale and oil sands'} ;
+                    'C0200' 'Brown coal'
+                    'P1100' 'Peat'
+                    'S2000' 'Oil shale and oil sands'} ;
         
         gasfuel = {'G3000'	'Natural gas'} ;
         

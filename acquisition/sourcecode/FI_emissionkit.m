@@ -1,41 +1,12 @@
-function TTSync = extractSweden
-
-
-Powerindex = {'production', ...
-              'nuclear', ...
-              'hydro', ...
-              'thermal', ...
-              'wind', ...
-              'unknown', ...
-              'consumption'} ;
-
-currenttime = javaObject("java.util.Date") ; 
-timezone = -currenttime.getTimezoneOffset()/60 ;
-
-timeextract = datetime('now', 'Format','yyyy-MM-dd','TimeZone','Europe/Stockholm') ;
-
-url = ['https://www.svk.se/ControlRoom/GetProductionHistory/?productionDate=' char(timeextract) '&countryCode=SE'] ;
-data = webread(url);
-
-for itech = 1:length(data)
-    Time = datetime(datestr(datenum(1970,1,1, timezone, 0, 0) + ([data(itech).data(:).x]/1000)/(24*3600))) ;
-    Power.(Powerindex{data(itech).name}) = timetable([data(itech).data(:).y]', 'RowTimes', Time) ;
-end
-
-for itech = 1:length(data)
-    Powerextract = tail(Power.(Powerindex{data(itech).name}), 1) ;
-%     Powerout.Time = Powerextract.Time ;
-    Powerout.(Powerindex{data(itech).name}) = Powerextract.Var1 ;
-end
-if ~isfield(Powerout,'solar')
-    Powerout.solar = 0 ;
-end
+function TTSync = FI_emissionkit(Powerout, installedcap,d)
+Powerout = struct2table(Powerout) ;
+d = datetime(d,'Format','dd/MM/uuuu HH:mm:ss') ;
 %% The emission kit method
-d = datetime(timeextract,'Format','dd/MM/uuuu HH:mm:ss') ;
+
 elecfuel = retrieveEF ;
 
-[alldata, ~] = fuelmixEU({'Sweden'}, false, 'absolute') ;
-alphadigit = countrycode('Sweden') ;
+[alldata, ~] = fuelmixEU({'Finland'}, false, 'absolute') ;
+alphadigit = countrycode('Finland') ;
 nuclear = {'N9000'} ;
 thermal = {'CF_R' 'C0000' 'CF_NR' 'G3000' 'O4000XBIO' 'X9900' 'P1100'} ;
 hydro = {'RA110' 'RA120' 'RA130'} ;
@@ -55,7 +26,7 @@ genbyfuel_hydro = array2timetable(genbyfuel_hydro, "RowTimes", d, "VariableNames
     replacestring = cellfun(@(x) elecfuel(strcmp(elecfuel(:,1),x),2), genbyfuel_hydro.Properties.VariableNames, 'UniformOutput', false) ;
     genbyfuel_hydro.Properties.VariableNames = cat(1, replacestring{:}) ;
 
-genbyfuel_wind = Powerout.wind(end) .* normalisedpredictwind(end,:).Variables/100 ;
+genbyfuel_wind = Powerout.windon(end) .* normalisedpredictwind(end,:).Variables/100 ;
 genbyfuel_wind = array2timetable(genbyfuel_wind, "RowTimes", d, "VariableNames", wind) ;
     replacestring = cellfun(@(x) elecfuel(strcmp(elecfuel(:,1),x),2), genbyfuel_wind.Properties.VariableNames, 'UniformOutput', false) ;
     genbyfuel_wind.Properties.VariableNames = cat(1, replacestring{:}) ;
@@ -70,16 +41,45 @@ genbyfuel_nuclear = array2timetable(genbyfuel_nuclear, "RowTimes", d, "VariableN
     replacestring = cellfun(@(x) elecfuel(strcmp(elecfuel(:,1),x),2), genbyfuel_nuclear.Properties.VariableNames, 'UniformOutput', false) ;
     genbyfuel_nuclear.Properties.VariableNames = cat(1, replacestring{:}) ;
 
-thermalpower = Powerout.thermal + Powerout.unknown ;
+extractFinland = {'CHP_DH' 'CHP_Ind' 'other'} ;
+
+thermalpower = sum(Powerout(:,extractFinland).Variables) ;
 
 genbyfuel_thermal = thermalpower .* normalisedpredictthermal(end,:).Variables/100 ;
 genbyfuel_thermal = array2timetable(genbyfuel_thermal, "RowTimes", d, "VariableNames", thermal) ;
 
 replacestring = cellfun(@(x) elecfuel(strcmp(elecfuel(:,1),x),2), genbyfuel_thermal.Properties.VariableNames, 'UniformOutput', false) ;
 genbyfuel_thermal.Properties.VariableNames = cat(1, replacestring{:}) ;
+extracteurostat = {'gas' 'coal' 'oil' 'unknown' 'waste' 'biomass' 'peat'} ;
 
+replacestring = cellfun(@(x) elecfuel(strcmp(elecfuel(:,1),x),2), normalisedpredictthermal.Properties.VariableNames, 'UniformOutput', false) ;
+normalisedpredictthermal.Properties.VariableNames = cat(1, replacestring{:}) ;
+
+%%%% Check for limitation
+incap.DHCHP = struct2table(installedcap.DHCHP.totalload) ;
+incap.CHP_Ind = struct2table(installedcap.IndCHP.totalload) ;
+incap.Sep = struct2table(installedcap.Sep.totalload) ;
+    incap.Sep.biomass = 0 ;
+    incap.Sep.other = 0 ;
+sepfuel = incap.Sep.Properties.VariableNames ;
+
+captotal  = array2table(incap.Sep(end,sepfuel).Variables + incap.CHP_Ind(end,sepfuel).Variables + incap.DHCHP(end,sepfuel).Variables,'VariableNames',sepfuel) ;
+captotal.waste = 0 ;
+eurostatcap = genbyfuel_thermal(end,strrep(extracteurostat,'other', 'unknown')) ;
+
+% excessalloc = captotal.Variables - eurostatcap.Variables ;
+% 
+% init = normalisedpredictthermal(end,extracteurostat).Variables / 100 ;
+% init(isnan(init)) = 0 ;
+% newlimit = solver_rod(thermalpower, init, captotal(:,strrep(extracteurostat,'unknown', 'other'))) ;
+
+% proddiff = installedcap(1,extractAustria).Variables - genbyfuel_thermal(:,extracteurostat).Variables ;
+% toreallocate = abs(sum(proddiff(proddiff<0))) ;
+% genbyfuel_thermal(:,extracteurostat).Variables = newlimit(:,extractFinland).Variables ;
 
 tables = {genbyfuel_thermal, genbyfuel_wind, genbyfuel_hydro, genbyfuel_nuclear} ;
 
-TTSync.emissionskit = synchronize(tables{:,:},'union','nearest');
-TTSync.TSO = table2timetable(struct2table(Powerout),'RowTimes',d) ;
+TTSync = synchronize(tables{:,:},'union','nearest');
+
+% replacestring = cellfun(@(x) elecfuel(strcmp(elecfuel(:,1),x),2), TTSync.emissionskit.Properties.VariableNames, 'UniformOutput', false) ;
+% TTSync.emissionskit.Properties.VariableNames = cat(1, replacestring{:}) ;

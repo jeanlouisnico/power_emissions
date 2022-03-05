@@ -20,7 +20,7 @@ url = ['https://dashboard.elering.ee/api/system/with-plan?start=' datestart '&en
 systemdata = webread(url) ;
 
 t = uint64(systemdata.data.real(end).timestamp*1000) ;
-d = datetime(t,'ConvertFrom','epochtime','TicksPerSecond',1e3,'Format','dd-MMM-yyyy HH:mm:ss.SSS') + hours(timezone) ;
+d = datetime(t,'ConvertFrom','epochtime','TicksPerSecond',1e3,'Format','dd-MMM-yyyy HH:mm:ss.SSS','TimeZone','UTC') ;
 
 Powerout.production = systemdata.data.real(end).production ;
 Powerout.consumption = systemdata.data.real(end).consumption ;
@@ -30,8 +30,8 @@ Powerout.solar =  systemdata.data.real(end).solar_energy_production ;
 if isempty(Powerout.solar)
     alldates = [systemdata.data.plan.timestamp] ;
     t = uint64(alldates*1000) ;
-    alldates = datetime(t,'ConvertFrom','epochtime','TicksPerSecond',1e3,'Format','dd-MMM-yyyy HH:mm:ss.SSS') + hours(timezone) ;
-    datecompare = datetime(now, "ConvertFrom", "datenum") ;
+    alldates = datetime(t,'ConvertFrom','epochtime','TicksPerSecond',1e3,'Format','dd-MMM-yyyy HH:mm:ss.SSS','TimeZone','UTC')  ;
+    datecompare = datetime('now') ;
     Powerout.solar = systemdata.data.plan(find((alldates.Hour == d.Hour)==1)).solar_energy_forecast_operator ;
 end
 

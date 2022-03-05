@@ -1,24 +1,27 @@
 function power = extractFrance
 
-currenttime = javaObject("java.util.Date") ;
-timezone = -currenttime.getTimezoneOffset()/60 ;
-timeextract = datetime(datetime(datestr(now)) - hours(timezone)) - hours(2) ;
+% currenttime = javaObject("java.util.Date") ;
+% timezone = -currenttime.getTimezoneOffset()/60 ;
+
+currenttime = datetime('now', 'TimeZone','local') ;
+timeextract = datetime(currenttime,'TimeZone','UTC') - hours(2);
+% timeextract = datetime(datetime(datestr(now)) - hours(timezone)) - hours(2) ;
 
 startingdate = [sprintf('%02d',timeextract.Year) '-' ...
                 sprintf('%02d',timeextract.Month) '-' ...
                 sprintf('%02d',timeextract.Day) 'T' ...
                 sprintf('%02d',timeextract.Hour) '%3A' ...
                 sprintf('%02d',timeextract.Minute) '%3A' ...
-                sprintf('%02d',timeextract.Second) 'Z'] ;
+                sprintf('%02d',round(timeextract.Second,0)) 'Z'] ;
             
-timeextract = datetime(datetime(datestr(now)) - hours(timezone)) ;
+timeextract = datetime(currenttime,'TimeZone','UTC');
 
 endingdate = [sprintf('%02d',timeextract.Year) '-' ...
                 sprintf('%02d',timeextract.Month) '-' ...
                 sprintf('%02d',timeextract.Day) 'T' ...
                 sprintf('%02d',timeextract.Hour) '%3A' ...
                 sprintf('%02d',timeextract.Minute) '%3A' ...
-                sprintf('%02d',timeextract.Second) 'Z'] ;
+                sprintf('%02d',round(timeextract.Second,0)) 'Z'] ;
 
 url = ['https://opendata.reseaux-energies.fr/api/records/1.0/search/?dataset=eco2mix-national-tr&q=date_heure%3A%5B' ...
         startingdate '+TO+' ...
@@ -48,26 +51,26 @@ while n == 0
 end
 if isa(powerdata, 'struct')
     powerdata = struct2table(powerdata) ;
-    fueldata = {'hydraulique_step_turbinage' 'hydropumped'
-                'hydraulique_lacs' 'hydrodam'
-                'eolien' 'wind'
+    fueldata = {'hydraulique_step_turbinage' 'hydro_pumped'
+                'hydraulique_lacs' 'hydro_reservoir'
+                'eolien' 'windon'
                 'hydraulique' 'hydro'
                 'solaire' 'solar'
                 'fioul_autres' 'oil'
                 'nucleaire' 'nuclear'
                 'gaz_tac'  'gas'
                 'fioul'    'oil'
-                'pompage' 'hydropumped'
+                'pompage' 'hydro_pumped'
                 'gaz' 'gas'
                 'gaz_cogen' 'gas_chp'
                 'fioul_cogen' 'oil_chp'
                 'bioenergies_biomasse' 'biomass'
                 'bioenergies_dechets'  'waste'
                 'gaz_autres' 'gas'
-                'hydraulique_fil_eau_eclusee' 'hydro'
-                'bioenergies_biogaz' 'biogas'
+                'hydraulique_fil_eau_eclusee' 'hydro_runof'
+                'bioenergies_biogaz' 'other_biogas'
                 'bioenergies' 'biomass'
-                'gaz_ccg'  'gas'
+                'gaz_ccg'  'gas_chp'
                 'charbon' 'coal'
                 'fioul_tac' 'oil'
                 'consommation' 'consumption'
@@ -88,6 +91,8 @@ if isa(powerdata, 'struct')
             continue;
         end
     end
+    powetemp = struct2table(power) ;
+    power = table2timetable(powetemp,'RowTimes',datetime(currenttime,'TimeZone','UTC')) ;
 else
     power = 0 ;
 end

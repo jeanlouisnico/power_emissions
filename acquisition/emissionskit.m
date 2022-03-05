@@ -128,15 +128,6 @@ for iEFSource = 1:length(EFSourcelist)
     end
 end
 
-%%%
-% Re-allocate the energy byfuel for statistical purposes.
-Power.RU.TSO.byfuel.nuclear = Power.RU.TSO.bytech.nuclear ;
-Power.RU.TSO.byfuel.hydro   = Power.RU.TSO.bytech.hydro ;
-Power.RU.TSO.byfuel.solar   = Power.RU.TSO.bytech.solar ;
-Power.RU.TSO.byfuel.oil     = .023 * Power.RU.TSO.bytech.thermal + 2/3 * Power.RU.TSO.bytech.oil ;
-Power.RU.TSO.byfuel.coal    = .4406 * Power.RU.TSO.bytech.thermal ;
-Power.RU.TSO.byfuel.gas     = .5364 * Power.RU.TSO.bytech.thermal  + 1/3 * Power.RU.TSO.bytech.oil ;
-
 %% Emissions Norway
 %%% Emissions from EcoInvent
 % Norway is extracted from ENTSOE
@@ -152,16 +143,6 @@ for iEFSource = 1:length(EFSourcelist)
     end
 end
 
-%%%
-% Re-allocate the energy byfuel for statistical purposes.
-try 
-    Power.NO.ENTSOE.byfuel.wind = Power.NO.ENTSOE.bytech.wind_onshore ;
-    Power.NO.ENTSOE.byfuel.gas = Power.NO.ENTSOE.bytech.fossil_gas ;
-    Power.NO.ENTSOE.byfuel.hydro = Power.NO.ENTSOE.bytech.hydro_run_of_river_and_poundage +  Power.NO.ENTSOE.bytech.hydro_water_reservoir;
-    Power.NO.ENTSOE.byfuel.biomass = Power.NO.ENTSOE.bytech.other_renewable ;
-catch
-    
-end
 %% Emissions Sweden
 %%% Emissions from EcoInvent
 for iEFSource = 1:length(EFSourcelist)

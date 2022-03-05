@@ -1,48 +1,47 @@
-function [IndCHP, DHCHP, Sep, Windpower, fuelratio] = extract2stat
+function [IndCHP, DHCHP, Sep, capacity, fuelratio] = extract2stat
 %%% File set up
 % The Energy Authority of Finland maintains a registry of all active powerplant
 % in Finland and provide their rated output capacity as well as the type of
 % fuel they are using. We are using this registry to make statistics out of
 % it and categorise the powerplant capacity by fuel type.
 %%% Define the time
-currenttime = javaObject("java.util.Date") ; 
-timezone = -currenttime.getTimezoneOffset()/60 ;
 
-timeextract = datetime(datetime(datestr(now)) - hours(timezone)) ;
+timelocal = datetime('now','TimeZone','local') ;
+timeextract = datetime(timelocal,'TimeZone','UTC') ;
 
-t1 = rekisterypostgre(false) ;
 
-% filename = 'Energiaviraston voimalaitosrekisteri.xlsx' ;
-% %%%
-% % Determine where demo folder is.
-% folder = fileparts(which(filename)) ;
-% fullFileName = fullfile(folder, filename);
-% [~, sheetNames] = xlsfinfo(fullFileName) ;
-% 
-% numSheets = length(sheetNames) ;
-% n = 0 ;
-% i = 0 ;
-% while n == 0
-%     i = i + 1 ;
-%     if i > numSheets
-%         errordlg('Missing file name in English');
-%         return ;
-%     elseif strcmp(sheetNames{i}, 'English')
-%         warning('OFF', 'MATLAB:table:ModifiedAndSavedVarnames')
-%         t1 = readtable(fullFileName, 'Sheet', i) ;
-%         n = 1 ;
-%         warning('ON', 'MATLAB:table:ModifiedAndSavedVarnames')
-%     end
-% end
+p = mfilename('fullpath') ;
+[filepath,~,~] = fileparts(p) ;
+fparts = split(filepath, filesep) ;
+fparts = join(fparts(1:end-1), filesep) ;
+
+inputfile = [fparts{1} filesep 'input' filesep 'bycountry' filesep 'FI' filesep 'Energiaviraston voimalaitosrekisteri.xlsx'] ;
+
+if isfile(inputfile)
+    FileInfo = dir(inputfile) ;
+    datecompare = datetime("now") ;
+    datefile    = datetime(FileInfo.datenum, "ConvertFrom", "datenum") ;
+
+    % Check monthly if the data have changed
+    if ~(datecompare.Year == datefile.Year && datecompare.Month==datefile.Month)
+        t1 = rekisterypostgre(true) ;
+    else
+        t1 = rekisterypostgre(false) ;
+    end
+else
+    % If the file does not exist, create it, store it in the sql DB and
+    % return the table
+    t1 = rekisterypostgre(true) ;
+end
 
 r = strcmp(t1.type, 'Hydro power') ;
-t1.MainFuel(r) = {'Water'} ;
+t1.mainfuel(r) = {'Water'} ;
 
 r = strcmp(t1.type, 'Wind power') ;
-t1.MainFuel(r) = {'Wind'} ;
+t1.mainfuel(r) = {'Wind'} ;
 
 r = strcmp(t1.type, 'Solar') ;
-t1.MainFuel(r) = {'Solar'} ;
+t1.mainfuel(r) = {'Solar'} ;
 
 %%% Import the fuel usage statistics
 % data are from https://energia.fi/uutishuone/materiaalipankki/sahkon_kuukausitilasto.html
@@ -57,15 +56,15 @@ Fueluse.sep = readtable('sep.csv') ;
 predefcat = {'peat'             'Peat'
              'biomass'          'Industrial wood residues'
              'gas'              'Natural gas'
-             'others'           'Other by-products and wastes used as fuel'
+             'other'           'Other by-products and wastes used as fuel'
              'biomass'          'Forest fuelwood'
              'biomass'          'Black liquor and concentrated liquors'
              'coal'             'Hard coal and anthracite'
              'biomass'          'By-products from wood processing industry'
              'oil'              'Heavy distillates'
-             'others'           'Exothermic heat from industry'
+             'other'           'Exothermic heat from industry'
              'oil'              'Light distillates'
-             'others'           'Biogas'
+             'other'           'Biogas'
              'oil'              'Medium heavy distillates'
              'oil'              'Heavy distillates'
              'coal'             'Blast furnace gas'} ;
@@ -74,20 +73,27 @@ predefcat = {'peat'             'Peat'
 nametech = 'Industry CHP' ;
 IndCHP = extractper(nametech, t1, predefcat) ;
 IndCHP.totalload = orderfields(IndCHP.totalload) ;
-
+capacity.IndCHP = IndCHP ;
 %%% Extract data for District Heating CHP
 nametech = 'District heating CHP' ;
 DHCHP = extractper(nametech, t1, predefcat) ;
 DHCHP.totalload = orderfields(DHCHP.totalload) ;
-
+capacity.DHCHP = DHCHP ;
 %%% Extract data for Separate electricity production
 nametech = 'Separate electricity production' ;
 Sep = extractper(nametech, t1, predefcat) ;
-
+capacity.Sep = Sep ;
 %%% Extract data for Wind power
 nametech = 'Wind power' ;
-Windpower = extractwind(nametech, t1) ;
+capacity.wind = extractwind(nametech, t1) ;
 
+nametech = 'Hydro power' ;
+capacity.hydro = extracthydro(nametech, t1) ;
+
+nametech = 'Solar' ;
+capacity.solar = extractsolar(nametech, t1) ;
+
+%% The energiateolisuus method
 tech = {'chp' 'sep'} ;
 for itech = 1:length(tech)
     techn = tech{itech} ;
@@ -151,20 +157,48 @@ end
         perccat.ratioload = table2struct(array2table(struct2array(Summary) / sum(struct2array(Summary)) * 100, "VariableNames", fieldnames(Summary))) ;
     end
 %%% Wind power plant    
-    function perccat = extractwind(nametech, t1)
+    function winnd = extractwind(nametech, t1)
         r1           = t1.mainfuel(strcmp(t1.type, nametech)) ;
         FuelUsed    = unique(r1) ;
         for ifuel = 1:length(FuelUsed)
             fuelname = FuelUsed{ifuel} ;
             WP = t1.maximum_total_mw(strcmp(t1.mainfuel, fuelname)) ;
             Wtot = sum(WP) ;
-            Wt1 = sum(WP(WP<=1)) ;
-            Wt1_3 = sum(WP(WP>1 & WP <= 3)) ;
-            Wt3 = sum(WP(WP>3)) ;
-            
-            perccat.Wt1 = Wt1/Wtot * 100 ;
-            perccat.Wt1_3 = Wt1_3/Wtot  * 100 ;
-            perccat.Wt3 = Wt3/Wtot  * 100 ;
+            winnd.totalload.Wt1 = sum(WP(WP<=1)) ;
+            winnd.totalload.Wt1_3 = sum(WP(WP>1 & WP <= 3)) ;
+            winnd.totalload.Wt3 = sum(WP(WP>3)) ;
+
+            winnd.ratioload.Wt1 = winnd.totalload.Wt1/Wtot * 100 ;
+            winnd.ratioload.Wt1_3 = winnd.totalload.Wt1_3/Wtot  * 100 ;
+            winnd.ratioload.Wt3 = winnd.totalload.Wt3/Wtot  * 100 ;
+        end
+    end
+%%% Hydro power plant    
+    function hydro = extracthydro(nametech, t1)
+        r1           = t1.mainfuel(strcmp(t1.type, nametech)) ;
+        FuelUsed    = unique(r1) ;
+        for ifuel = 1:length(FuelUsed)
+            fuelname = FuelUsed{ifuel} ;
+            WP = t1.maximum_total_mw(strcmp(t1.mainfuel, fuelname)) ;
+            Wtot = sum(WP) ;
+            hydro.totalload.SHP = sum(WP(WP<=10)) ;
+            hydro.totalload.LHP = sum(WP(WP>10)) ;
+
+            hydro.ratioload.SHP = hydro.totalload.SHP/Wtot * 100 ;
+            hydro.ratioload.LHP = hydro.totalload.LHP/Wtot  * 100 ;
+        end
+    end
+%%% Solar power plant    
+    function solar = extractsolar(nametech, t1)
+        r1           = t1.mainfuel(strcmp(t1.type, nametech)) ;
+        FuelUsed    = unique(r1) ;
+        for ifuel = 1:length(FuelUsed)
+            fuelname = FuelUsed{ifuel} ;
+            WP = t1.maximum_total_mw(strcmp(t1.mainfuel, fuelname)) ;
+            Wtot = sum(WP) ;
+            solar.totalload = sum(WP(WP>0)) ;
+
+            solar.ratioload = solar.totalload/Wtot * 100 ;
         end
     end
 end

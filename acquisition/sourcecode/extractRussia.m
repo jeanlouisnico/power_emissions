@@ -18,18 +18,27 @@ Powerindex = {'production', ...
 currenttime = javaObject("java.util.Date") ; 
 timezone = -currenttime.getTimezoneOffset()/60 ;
 
-timeextract = datetime(datetime(datestr(now)), 'Format','yyyy.MM.dd') ;
+timeextract = datetime('now', 'Format','yyyy.MM.dd', 'TimeZone','Europe/Moscow') ;
 
 url = ['http://br.so-ups.ru/webapi/api/CommonInfo/PowerGeneration?priceZone[]=1&startDate=' ...
         char(timeextract) '&endDate=' ...
         char(timeextract)] ;
 data = webread(url);
 
-Power = data.m_Item2(timeextract.Hour + 1) ;
+Power.bytech = data.m_Item2(timeextract.Hour + 1) ;
 
-Powerout.nuclear = Power.P_AES ;
-Powerout.solar = Power.P_REN ;
-Powerout.oil = Power.P_BS ;
-Powerout.thermal = Power.P_TES ;
-Powerout.hydro = Power.P_GES ;
+bytech.nuclear = Power.bytech.P_AES ;
+bytech.solar = Power.bytech.P_REN ;
+bytech.oil = Power.bytech.P_BS ;
+bytech.thermal = Power.bytech.P_TES ;
+bytech.hydro = Power.bytech.P_GES ;
 
+byfuel.nuclear = bytech.nuclear ;
+byfuel.hydro   = bytech.hydro ;
+byfuel.solar   = bytech.solar ;
+byfuel.oil     = .023 * bytech.thermal + 2/3 * bytech.oil ;
+byfuel.coal    = .4406 * bytech.thermal ;
+byfuel.gas     = .5364 * bytech.thermal  + 1/3 * bytech.oil ;
+
+Powerout.TSO = table2timetable(struct2table(bytech),'RowTimes',datetime(timeextract,'Format','dd/MM/uuuu HH:mm:ss')) ;
+Powerout.emissionskit = table2timetable(struct2table(byfuel),'RowTimes',datetime(timeextract,'Format','dd/MM/uuuu HH:mm:ss')) ;

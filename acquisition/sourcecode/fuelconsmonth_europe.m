@@ -95,7 +95,7 @@ end
         for ileg = 1:length(toplot)
             legfull(ileg) = source.elecfuel(strcmp(toplot{ileg}, source.elecfuel(:,1)), 2) ;
         end
-        
+
         xlim([datetime(2016,12,1) datetime(now, 'ConvertFrom', "datenum")])
         ls = xlim ;
         xticks([ls(1):calmonths(1):ls(2)])
