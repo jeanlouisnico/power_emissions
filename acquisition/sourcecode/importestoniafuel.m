@@ -30,15 +30,15 @@ for ifuel = 1:13
 
     response = webwrite('https://andmed.stat.ee/api/v1/en/stat/KE22',s, options) ;
 
-    data = reshape(response.value, [12], [540/12]) ;
+    data = reshape(response.value, 12, length(response.value)/12) ;
     dataextracttemp = data(:,1:3:end) ;                    
     dataextracttemp = dataextracttemp' ;
     dataextracttemp =  array2table(dataextracttemp, "VariableNames", cellstr(datestr(datetime(1,1:12,1),'mmmm'))) ;
     fuelname = response.dimension.K_tuseLiik.category.label.(['x' num2str(ifuel)]) ;
     TypeOfFuel = {fuelname} ;
-    TypeOfFuel = repmat(TypeOfFuel, 15, 1) ;
+    TypeOfFuel = repmat(TypeOfFuel, height(dataextracttemp), 1) ;
     Indicator = {'Consumption of fuels in quantity'} ;
-    Indicator = repmat(Indicator, 15, 1) ;
+    Indicator = repmat(Indicator, height(dataextracttemp), 1) ;
     Year = struct2cell(response.dimension.Aasta.category.label) ;
     Year = str2double(Year) ;
     

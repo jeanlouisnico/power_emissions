@@ -4,9 +4,6 @@ function [Powerout, PoweroutLoad] = ENTSOE_meth(country)
 % main interface 
 %<https://transparency.entsoe.eu/content/static_content/Static%20content/web%20api/Guide.html>
 
-
-
-
 bid =  {'B01'	'Biomass'                             
         'B02'	'Fossil Brown coal/Lignite'
         'B03'	'Fossil Coal-derived gas'
@@ -37,60 +34,14 @@ bid =  {'B01'	'Biomass'
 documentTypeGen  = 'A75' ; % Actual generation per type
 documentTypeLoad = 'A65' ; % System total load
 processType  = 'A16' ; % Realised
-switch country
-    case 'Norway'
-        idomain = ENTSOEdomain('NO_NO4') ;
-%         idomain      = '10YNO-4--------9' ;
-        [Powerout, PoweroutLoad] = getdata(documentTypeGen, documentTypeLoad, processType, idomain, bid) ;
-    case 'France'
-        idomain = ENTSOEdomain('FR') ;
-%         idomain      = '10YFR-RTE------C' ;
-        [Powerout, PoweroutLoad] = getdata(documentTypeGen, documentTypeLoad, processType, idomain, bid) ;
-    case 'Estonia'
-        idomain = ENTSOEdomain('EE') ;
-%         idomain      = '10Y1001A1001A39I' ;
-        [Powerout, PoweroutLoad] = getdata(documentTypeGen, documentTypeLoad, processType, idomain, bid) ;
-    case 'Finland'
-        idomain = ENTSOEdomain('FI') ;
-%         idomain      = '10YFI-1--------U' ;
-        [Powerout, PoweroutLoad] = getdata(documentTypeGen, documentTypeLoad, processType, idomain, bid) ;
-    case 'Germany'
-        idomain      = '10Y1001A1001A83F' ;
-        [Powerout, PoweroutLoad] = getdata(documentTypeGen, documentTypeLoad, processType, idomain, bid) ;
-    case 'Bulgaria'
-        idomain = ENTSOEdomain('BG') ;
-        [Powerout, PoweroutLoad] = getdata(documentTypeGen, documentTypeLoad, processType, idomain, bid) ;
-    case 'Sweden'
-%         SE1
-        idomain      = '10Y1001A1001A44P' ;
-        [Powerout1, PoweroutLoad1] = getdata(documentTypeGen, documentTypeLoad, processType, idomain, bid) ;
-%         SE3
-        idomain      = '10Y1001A1001A46L' ;
-        [Powerout2, PoweroutLoad2] = getdata(documentTypeGen, documentTypeLoad, processType, idomain, bid) ;
-        
-        if ~isa(Powerout2, 'struct') && ~isa(Powerout1, 'struct')
-            Powerout = 0;
-        else
-            if ~isa(Powerout1, 'struct')
-                Powerout = Powerout2 ;
-            elseif ~isa(Powerout2, 'struct')
-                Powerout = Powerout1 ;
-            else
-                Powerout = Powerout1 ;
-                listfield = fieldnames(Powerout2) ;
-                for ifield = 1:length(listfield)
-                    if isfield(Powerout, listfield{ifield})
-                        Powerout.(listfield{ifield}) = Powerout.(listfield{ifield}) + Powerout2.(listfield{ifield}) ;
-                    else
-                        Powerout.(listfield{ifield}) = Powerout2.(listfield{ifield}) ;
-                    end
-                end
-            end
-        end
-        PoweroutLoad = PoweroutLoad1 + PoweroutLoad2 ;
-    case 'Russia'
-        idomain      = '10Y1001A1001A49F' ;
-        [Powerout, PoweroutLoad] = getdata(documentTypeGen, documentTypeLoad, processType, idomain, bid) ;
+
+code2digit = countrycode(country) ;
+idomain = ENTSOEdomain(code2digit) ;
+for kdoma = 1:size(idomain,1)
+    zonecode = idomain{kdoma,1} ;
+    zone = idomain{kdoma,2} ;
+    zonecode = makevalidstring(zonecode,'capitalise',false) ;
+    [Powerout.(zonecode), PoweroutLoad.(zonecode)] = getdata(documentTypeGen, documentTypeLoad, processType, zone, bid) ;
 end
 
 % Nested function
@@ -146,6 +97,6 @@ end
         end
     end
     function Load = parseLoadENTSOE(Power)
-        Load = str2double(Power.GL_MarketDocument.TimeSeries.Period.Point.quantity.Text) ;
+        Load = str2double(Power.GL_MarketDocument.TimeSeries.Period.Point{end}.quantity.Text) ;
     end
 end

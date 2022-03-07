@@ -49,7 +49,7 @@ for iEFSource = 1:length(EFSourcelist)
         Emissions.FI.ENTSOE.(EFSource).intensityprod    = Emissions.FI.ENTSOE.(EFSource).total / sum(struct2array(Power.FI.ENTSOE.bytech)) ;
     else
         Emissions.FI.ENTSOE.(EFSource).total = 0 ;
-        Emissions.FI.ENTSOE.(EFSource).intensityprod    = 0 ;
+        Emissions.FI.ENTSOE.(EFSource).intensityprod    = extractdata('mean', 'FI', EmissionsCategory, Emissionsdatabase.EcoInvent) ;
     end
 end
 
@@ -76,45 +76,52 @@ Emissions.FI.TSO.TSO.intensityprod = EmissionsFingrid_Total / Power.FI.TSO.Total
 %% Emissions Russia
 % Emissions from Russia are extracted
 EFSourcelist = {'EcoInvent' 'IPCC'} ;
-for iEFSource = 1:length(EFSourcelist)
-    EFSource = EFSourcelist{iEFSource} ;
-    Hydro             = Power.RU.TSO.bytech.hydro   * extractdata('hydro_runof', 'RU', EmissionsCategory, Emissionsdatabase.(EFSource)) ;
-    Solar             = Power.RU.TSO.bytech.solar   * extractdata('solar', 'RU', EmissionsCategory, Emissionsdatabase.(EFSource));
-    %%%
-    % The thermal production of electricity in Western Russia, close to the
-    % Finnish border, it somewhat different from the rest of the country.. More
-    % information available in the link below
-    %%%
-    % <https://www.tgc1.ru/production/complex/karelia-branch/petrozavodskaya-chpp/>
-    %%%
-    % <https://www.tgc1.ru/production/complex/kolsky-branch/apatitskaya-chpp/>
-    %%%
-    % <https://www.tgc1.ru/production/complex/kolsky-branch/murmanskaya-chpp/>
-    %%%
-    % Overall, the thermal power is made of 53% of gas CHP, 44% of coal CHP,
-    % and 2.5% of CHP oil.
-    switch EFSource
-        case 'IPCC'
-            thermal           = Power.RU.TSO.bytech.thermal * extractdata('TES', 'RU', EmissionsCategory, Emissionsdatabase.(EFSource))  ; 
-            oil               = Power.RU.TSO.bytech.oil     * extractdata('TES', 'RU', EmissionsCategory, Emissionsdatabase.(EFSource))  ; 
-        case 'EcoInvent'
-            %%%
-            % The BS technology that produce electricity are coming from pulp and paper
-            % factories in Karelia and uses 2/3 of oil and 1/3 of gas, and burn
-            % corrosive waste.
-            thermal           = Power.RU.TSO.bytech.thermal * (.5364 * extractdata('gas_chp', 'RU', EmissionsCategory, Emissionsdatabase.(EFSource)) + ...
-                                                           .4406 * extractdata('coal_chp', 'RU', EmissionsCategory, Emissionsdatabase.(EFSource)) + ...
-                                                           .0230 * extractdata('oil_chp', 'RU', EmissionsCategory, Emissionsdatabase.(EFSource))) ;
-            oil               = Power.RU.TSO.bytech.oil     * (2/3 * extractdata('oil_chp', 'RU', EmissionsCategory, Emissionsdatabase.(EFSource)) + ...
-                                                           1/3 * extractdata('gas_chp', 'RU', EmissionsCategory, Emissionsdatabase.(EFSource))) ;                                           
+if isa(Power.RU.TSO.bytech, "double")
+    for iEFSource = 1:length(EFSourcelist)
+        EFSource = EFSourcelist{iEFSource} ;
+        Emissions.RU.TSO.(EFSource).intensityprod = extractdata('mean', 'RU', EmissionsCategory, Emissionsdatabase.EcoInvent) ;
     end
-    
-    Nuclear           = Power.RU.TSO.bytech.nuclear * extractdata('nuclear_PWR', 'RU', EmissionsCategory, Emissionsdatabase.(EFSource)) ;
-    
-    
-    %%%
-    % Calculate the emission intensity for RU
-    Emissions.RU.TSO.(EFSource).intensityprod = (Hydro + Solar + thermal + Nuclear + oil) / sum(struct2array(Power.RU.TSO.bytech)) ;
+else
+    for iEFSource = 1:length(EFSourcelist)
+        EFSource = EFSourcelist{iEFSource} ;
+        Hydro             = Power.RU.TSO.bytech.hydro   * extractdata('hydro_runof', 'RU', EmissionsCategory, Emissionsdatabase.(EFSource)) ;
+        Solar             = Power.RU.TSO.bytech.solar   * extractdata('solar', 'RU', EmissionsCategory, Emissionsdatabase.(EFSource));
+        %%%
+        % The thermal production of electricity in Western Russia, close to the
+        % Finnish border, it somewhat different from the rest of the country.. More
+        % information available in the link below
+        %%%
+        % <https://www.tgc1.ru/production/complex/karelia-branch/petrozavodskaya-chpp/>
+        %%%
+        % <https://www.tgc1.ru/production/complex/kolsky-branch/apatitskaya-chpp/>
+        %%%
+        % <https://www.tgc1.ru/production/complex/kolsky-branch/murmanskaya-chpp/>
+        %%%
+        % Overall, the thermal power is made of 53% of gas CHP, 44% of coal CHP,
+        % and 2.5% of CHP oil.
+        switch EFSource
+            case 'IPCC'
+                thermal           = Power.RU.TSO.bytech.thermal * extractdata('TES', 'RU', EmissionsCategory, Emissionsdatabase.(EFSource))  ; 
+                oil               = Power.RU.TSO.bytech.oil     * extractdata('TES', 'RU', EmissionsCategory, Emissionsdatabase.(EFSource))  ; 
+            case 'EcoInvent'
+                %%%
+                % The BS technology that produce electricity are coming from pulp and paper
+                % factories in Karelia and uses 2/3 of oil and 1/3 of gas, and burn
+                % corrosive waste.
+                thermal           = Power.RU.TSO.bytech.thermal * (.5364 * extractdata('gas_chp', 'RU', EmissionsCategory, Emissionsdatabase.(EFSource)) + ...
+                                                               .4406 * extractdata('coal_chp', 'RU', EmissionsCategory, Emissionsdatabase.(EFSource)) + ...
+                                                               .0230 * extractdata('oil_chp', 'RU', EmissionsCategory, Emissionsdatabase.(EFSource))) ;
+                oil               = Power.RU.TSO.bytech.oil     * (2/3 * extractdata('oil_chp', 'RU', EmissionsCategory, Emissionsdatabase.(EFSource)) + ...
+                                                               1/3 * extractdata('gas_chp', 'RU', EmissionsCategory, Emissionsdatabase.(EFSource))) ;                                           
+        end
+        
+        Nuclear           = Power.RU.TSO.bytech.nuclear * extractdata('nuclear_PWR', 'RU', EmissionsCategory, Emissionsdatabase.(EFSource)) ;
+        
+        
+        %%%
+        % Calculate the emission intensity for RU
+        Emissions.RU.TSO.(EFSource).intensityprod = (Hydro + Solar + thermal + Nuclear + oil) / sum(struct2array(Power.RU.TSO.bytech)) ;
+    end
 end
 for iEFSource = 1:length(EFSourcelist)
     EFSource = EFSourcelist{iEFSource} ;
@@ -139,7 +146,7 @@ for iEFSource = 1:length(EFSourcelist)
         Emissions.NO.ENTSOE.(EFSource).intensityprod    = Emissions.NO.ENTSOE.(EFSource).total / sum(struct2array(Power.NO.ENTSOE.bytech)) ;
     else
         Emissions.NO.ENTSOE.(EFSource).total = 0 ;
-        Emissions.NO.ENTSOE.(EFSource).intensityprod    = 0 ;
+        Emissions.NO.ENTSOE.(EFSource).intensityprod    = extractdata('mean', 'NO', EmissionsCategory, Emissionsdatabase.EcoInvent) ;
     end
 end
 
@@ -207,7 +214,7 @@ for iEFSource = 1:length(EFSourcelist)
         Emissions.SE.ENTSOE.(EFSource).intensityprod    = Emissions.SE.ENTSOE.(EFSource).total / sum(struct2array(Power.SE.ENTSOE.bytech)) ;
     else
         Emissions.SE.ENTSOE.(EFSource).total = 0 ;
-        Emissions.SE.ENTSOE.(EFSource).intensityprod    = 0 ;
+        Emissions.SE.ENTSOE.(EFSource).intensityprod    = extractdata('mean', 'SE', EmissionsCategory, Emissionsdatabase.EcoInvent) ;
     end
 end
 
@@ -256,7 +263,7 @@ for iEFSource = 1:length(EFSourcelist)
         Emissions.EE.ENTSOE.(EFSource).intensityprod    = Emissions.EE.ENTSOE.(EFSource).total / sum(struct2array(Power.EE.ENTSOE.bytech)) ;
     else
         Emissions.EE.ENTSOE.(EFSource).total = 0 ;
-        Emissions.EE.ENTSOE.(EFSource).intensityprod    = 0 ;
+        Emissions.EE.ENTSOE.(EFSource).intensityprod    = extractdata('mean', 'EE', EmissionsCategory, Emissionsdatabase.EcoInvent) ;
     end
 end
 

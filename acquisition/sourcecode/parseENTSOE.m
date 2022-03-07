@@ -6,7 +6,7 @@ function Powerout = parseENTSOE(dtype, ptype, idomain)
 %% Set up time
 currenttime = javaObject("java.util.Date") ; 
 timezone    = -currenttime.getTimezoneOffset()/60 ;
-
+timeUTC= datetime('now','TimeZone','UTC') ;
 
 %% data parser
 documentType = dtype ; % Actual generation per type
@@ -27,13 +27,13 @@ Loopnbr = 0 ;
 n = 0 ;
     while n == 0
         Loopnbr = Loopnbr + 1 ;
-        hour1 = Loopnbr ;
+        hour1 = Loopnbr + 6 ;
         hour2 = Loopnbr - 1 ;
         %%% 
         % ENTSOE retrieves data hourly. Therefore, the data are taken for the
         % previous hour to the current hour.
-        periodStart = char(dateshift(datetime(datetime(datestr(now)) - hours(timezone) - hours(hour1), 'Format','yyyyMMddHHmm'), 'start', 'hour')) ;
-        periodEnd   = char(dateshift(datetime(datetime(datestr(now)) - hours(timezone) - hours(hour2), 'Format','yyyyMMddHHmm'), 'start', 'hour')) ;
+        periodStart = char(dateshift(datetime(timeUTC - hours(hour1), 'Format','yyyyMMddHHmm'), 'start', 'hour')) ;
+        periodEnd   = char(dateshift(datetime(timeUTC - hours(hour2), 'Format','yyyyMMddHHmm'), 'start', 'hour')) ;
 
        try
             data = retrievedata(documentType, processType, In_Domain, periodStart, periodEnd, domainzone) ;
@@ -41,8 +41,8 @@ n = 0 ;
                 Powerout = 0 ;
             else
                 Powerout  = xml2struct2(data) ;
+                n = 1 ;
             end
-            n = 1 ;
        catch
            %%%
            % If it fails, most likely there is no production --> try the

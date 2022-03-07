@@ -14,4 +14,11 @@ area = cellfun(@(x) x, {val(~idx).areas}, 'UniformOutput', false) ;
 ENTSOElist = [countrylist' , countrydomain', area'] ;
 ENTSOElist = cell2table(ENTSOElist, 'VariableNames', {'countrycode' 'domain' 'area'}) ;
 
-domain = ENTSOElist.domain(ismember(ENTSOElist.countrycode, countrycode)) ;
+countrydomain = cellfun(@(x) strsplit(x,{'_','-'}), countrylist', 'UniformOutput', false) ;
+
+for idomain = 1:length(countrydomain)
+    countrylist2(idomain) = countrydomain{idomain,1}(1) ;
+end
+
+domain(:,1) = ENTSOElist.countrycode(contains(countrylist2, countrycode))   ;
+domain(:,2) = ENTSOElist.domain(contains(countrylist2, countrycode)) ;
