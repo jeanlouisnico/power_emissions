@@ -81,6 +81,12 @@ end
                 end
             end
         end
+        if isa(bidvar.Period.Point,'struct')
+            Timeout =  datetime(bidvar.Period.timeInterval.end.Text,'InputFormat','uuuu-MM-dd''T''HH:mm''Z','TimeZone','UTC') ;
+        elseif isa(bidvar.Period.Point,'cell')
+            Timeout =  datetime(bidvar.Period.timeInterval.end.Text,'InputFormat','uuuu-MM-dd''T''HH:mm''Z','TimeZone','UTC') ;
+        end
+        Powerout = table2timetable(struct2table(Powerout),'RowTimes',Timeout) ;
     end
     function [Powerout, PoweroutLoad] = getdata(documentTypeGen, documentTypeLoad, processType, idomain, bid)
         try
@@ -98,5 +104,7 @@ end
     end
     function Load = parseLoadENTSOE(Power)
         Load = str2double(Power.GL_MarketDocument.TimeSeries.Period.Point{end}.quantity.Text) ;
+        Timeout =  datetime(Power.GL_MarketDocument.TimeSeries.Period.timeInterval.end.Text,'InputFormat','uuuu-MM-dd''T''HH:mm''Z','TimeZone','UTC') ;
+        Load = array2timetable(Load,'RowTimes',Timeout) ;
     end
 end

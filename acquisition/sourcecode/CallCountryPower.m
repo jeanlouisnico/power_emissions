@@ -73,6 +73,11 @@ switch country
         [ENTSOE, PoweroutLoad] = ENTSOE_meth(country) ;
         %%%%% TO GET THROUGH THE ENTSOE API %%%%%%%%
         TSO    = BE ;
+    case 'Romania' 
+        %%%%% TO GET THROUGH THE ENTSOE API %%%%%%%%
+        [ENTSOE, PoweroutLoad] = ENTSOE_meth(country) ;
+        %%%%% TO GET THROUGH THE ENTSOE API %%%%%%%%
+        TSO    = RO ;
     otherwise
         
 end

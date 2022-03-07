@@ -1,7 +1,7 @@
 function TTSync = RO
 currenttime = javaObject("java.util.Date") ;
 timezone    = -currenttime.getTimezoneOffset()/60 ;
-d1 = datetime(now, 'ConvertFrom', 'datenum','TimeZone',['+0' num2str(timezone) ':00']);
+d1 = datetime('now', 'TimeZone','Europe/Sofia') ;
 
 timestartepoch  = d1 - hours(1) ;
 timeendepoch    = d1 ;
@@ -43,7 +43,7 @@ end
 
 tabledata = cellfun(@(x) str2double(x),databis2(:,2:end-1)) ;
 
-tabledata = array2timetable(tabledata, "VariableNames",header, "RowTimes",cellfun(@(x) datetime(x, 'InputFormat', 'dd-MM-uuuu HH:mm:ss'), databis2(:,1))) ;
+tabledata = array2timetable(tabledata, "VariableNames",header, "RowTimes",cellfun(@(x) datetime(x, 'InputFormat', 'dd-MM-uuuu HH:mm:ss', 'TimeZone','Europe/Sofia'), databis2(:,1))) ;
 
 elecfuel = retrieveEF ;
 
