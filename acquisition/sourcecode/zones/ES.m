@@ -97,7 +97,9 @@ spaindata = { 'dem'	'demand'
 extractdata = {'dem' 'eol' 'nuc' 'gf' 'car' 'cc' 'hid' 'sol' 'solFot' 'solTer' 'termRenov' 'cogenResto'} ;
 
 TTSync.TSO = spainTT(end, extractdata) ;
-TTSync.TSO.Time_1.TimeZone = 'Europe/Madrid' ;
+
+TTSync.TSO.Properties.DimensionNames{1} = 'Time' ;
+TTSync.TSO.Time.TimeZone = 'Europe/Madrid' ;
 replacestring = cellfun(@(x) spaindata(strcmp(spaindata(:,1),x),2), TTSync.TSO.Properties.VariableNames, 'UniformOutput', false) ;
 TTSync.TSO.Properties.VariableNames = cat(1, replacestring{:}) ;
 
@@ -124,7 +126,7 @@ predictedfuel = fuelmixEU_lpredict(alldata.(alphadigit)) ;
 normalisedpredicthydro = array2timetable(bsxfun(@rdivide, predictedfuel(:,hydro).Variables, sum(predictedfuel(:,hydro).Variables,2, 'omitnan')) * 100, "RowTimes", predictedfuel.Time, 'VariableNames', hydro) ;
 
 genbyfuel_hydro = TTSync.TSO.hydro(end) .* normalisedpredicthydro(end,:).Variables/100 ;
-genbyfuel_hydro = array2timetable(genbyfuel_hydro, "RowTimes", TTSync.TSO.Time_1(end), "VariableNames", hydro) ;
+genbyfuel_hydro = array2timetable(genbyfuel_hydro, "RowTimes", TTSync.TSO.Time(end), "VariableNames", hydro) ;
 
 replacestring = cellfun(@(x) elecfuel(strcmp(elecfuel(:,1),x),2), genbyfuel_hydro.Properties.VariableNames, 'UniformOutput', false) ;
 genbyfuel_hydro.Properties.VariableNames = cat(1, replacestring{:}) ;
@@ -133,3 +135,6 @@ TTSync.emissionskit = TTSync.TSO ;
 
 TTSync.emissionskit = removevars(TTSync.emissionskit, 'hydro') ;
 TTSync.emissionskit = synchronize(TTSync.emissionskit, genbyfuel_hydro) ;
+
+TTSync.TSO = convertTT_Time(TTSync.TSO,'UTC') ;
+TTSync.emissionskit = convertTT_Time(TTSync.emissionskit,'UTC') ;

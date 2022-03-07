@@ -20,13 +20,9 @@ bid =  {'B01'	'biomass'
         'B19'	'windon'
         'B20'	'other'
         'Sum'   'sum'} ;
-currenttime = javaObject("java.util.Date") ; 
-timeoffset = minutes(-currenttime.getTimezoneOffset) ;
-
-TZout = getTZ_DT(timeoffset) ;
 
 % This is the time fromt the computer where the script is being run
-currenttime = datetime(now,'ConvertFrom','datenum', 'TimeZone',TZout{1}) ; 
+currenttime = datetime('now', 'TimeZone','local') ; 
 
 % Convert to the time of the TSO 
 timeAustria = datetime(currenttime, 'TimeZone', 'Europe/Vienna') ;
@@ -135,7 +131,7 @@ extracteurostat = {'gas' 'coal' 'oil' 'unknown' 'waste' 'biomass'} ;
 init = normalisedpredictthermal(end,:).Variables / 100 ;
 newlimit = solver_rod(thermalpower, init, installedcap(:,extractAustria)) ;
 
-% proddiff = installedcap(1,extractAustria).Variables - genbyfuel_thermal(:,extracteurostat).Variables ;
+% proddiff = installedcap(1,extractAustria).Vari§ables - genbyfuel_thermal(:,extracteurostat).Variables ;
 % toreallocate = abs(sum(proddiff(proddiff<0))) ;
 genbyfuel_thermal(:,extracteurostat).Variables = newlimit(:,extractAustria).Variables ;
 

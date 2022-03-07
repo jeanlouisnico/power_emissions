@@ -1,11 +1,8 @@
 function TTSync = LV(country)
 
-currenttime = javaObject("java.util.Date") ; 
-timezone = -currenttime.getTimezoneOffset()/60 ;
-
 options = weboptions('Timeout',15) ;
 alphadigit = countrycode(country) ;
-d = datetime(now, 'ConvertFrom', 'datenum','TimeZone',['+0' num2str(timezone) ':00']) ;
+d = datetime('now','TimeZone','UTC') ;
 dLV = datetime(d, 'TimeZone', 'Europe/Vilnius') ;
 
 timeextract = char(datetime(dLV, 'Format', 'yyyy-MM-dd'));
@@ -20,23 +17,60 @@ if isa(dataLV, 'struct')
         t = dataLV.data(1).data(end).x ;
         dUTC = datetime(t,'ConvertFrom','epochtime','TicksPerSecond',1e3,'Format','dd-MMM-yyyy HH:mm:ss.SSS', 'TimeZone', 'UTC') ;
 
-        datetimecountry = datetime(dUTC, 'TimeZone', 'Europe/Vilnius') ;
+        if isempty(dataLV.data(1).data(end).y)
+            Powerout.thermal =  0 ;
+        else
+            Powerout.thermal = dataLV.data(1).data(end).y ;
+        end
         
-        Powerout.thermal = dataLV.data(1).data(end).y ;
-        Powerout.unknown = dataLV.data(2).data(end).y ;
-        Powerout.wind = dataLV.data(3).data(end).y ;
-        Powerout.hydro = dataLV.data(4).data(end).y ;
-        Powerout.nuclear = dataLV.data(5).data(end).y ;
-        Powerout.productionLV = dataLV.data(6).data(end).y ;
-        Powerout.consumptionLV = dataLV.data(7).data(end).y ;
-        Powerout.import = dataLV.data(8).data(end).y ;
+        if isempty(dataLV.data(2).data(end).y)
+            Powerout.unknown =  0 ;
+        else
+            Powerout.unknown = dataLV.data(2).data(end).y ;
+        end
+        
+        if isempty(dataLV.data(3).data(end).y)
+            Powerout.wind =  0 ;
+        else
+            Powerout.wind = dataLV.data(3).data(end).y ;
+        end
+        
+        if isempty(dataLV.data(4).data(end).y)
+            Powerout.hydro =  0 ;
+        else
+            Powerout.hydro = dataLV.data(4).data(end).y ;
+        end
 
-        Poweroutcell = struct2cell(Powerout) ;
-        emptycell = cellfun(@(x) isempty(x), Poweroutcell) ;
-        Poweroutcell(emptycell) = {0} ;
-        Powerout = cell2table(Poweroutcell', 'VariableNames', fieldnames(Powerout)) ;
+        if isempty(dataLV.data(5).data(end).y)
+            Powerout.nuclear =  0 ;
+        else
+            Powerout.nuclear = dataLV.data(5).data(end).y ;
+        end
 
-        Powerout = table2timetable(Powerout, "RowTimes",  dUTC  ) ;
+        if isempty(dataLV.data(6).data(end).y)
+            Powerout.productionLV =  0 ;
+        else
+            Powerout.productionLV = dataLV.data(6).data(end).y ;
+        end
+
+        if isempty(dataLV.data(7).data(end).y)
+            Powerout.consumptionLV =  0 ;
+        else
+            Powerout.consumptionLV = dataLV.data(7).data(end).y ;
+        end
+
+        if isempty(dataLV.data(8).data(end).y)
+            Powerout.import =  0 ;
+        else
+            Powerout.import = dataLV.data(8).data(end).y ;
+        end
+        TTSync.TSO = table2timetable(struct2table(Powerout,'AsArray',true),'RowTimes',dUTC) ;
+%         Poweroutcell = struct2cell(Powerout) ;
+%         emptycell = cellfun(@(x) isempty(x), Poweroutcell) ;
+%         Poweroutcell(emptycell) = {0} ;
+%         Powerout = cell2table(Poweroutcell', 'VariableNames', fieldnames(Powerout)) ;
+% 
+%         Powerout = table2timetable(Powerout, "RowTimes",  dUTC  ) ;
         
     catch
         Powerout = timetable ;
@@ -62,17 +96,17 @@ normalisedpredictwind = array2timetable(bsxfun(@rdivide, predictedfuel(:,wind).V
 % normalisedpredictsolar = array2timetable(bsxfun(@rdivide, predictedfuel(:,solar).Variables, sum(predictedfuel(:,solar).Variables,2, 'omitnan')) * 100, "RowTimes", predictedfuel.Time, 'VariableNames', solar) ;
 normalisedpredicnuclear = array2timetable(bsxfun(@rdivide, predictedfuel(:,nuclear).Variables, sum(predictedfuel(:,nuclear).Variables,2, 'omitnan')) * 100, "RowTimes", predictedfuel.Time, 'VariableNames', nuclear) ;
 
-d = Powerout.Time(end) ;
-genbyfuel_hydro = Powerout.hydro(end) .* normalisedpredicthydro(end,:).Variables/100 ;
+d = TTSync.TSO.Time(end) ;
+genbyfuel_hydro = TTSync.TSO.hydro(end) .* normalisedpredicthydro(end,:).Variables/100 ;
 genbyfuel_hydro = array2timetable(genbyfuel_hydro, "RowTimes", d, "VariableNames", hydro) ;
 
-genbyfuel_wind = Powerout.wind(end) .* normalisedpredictwind(end,:).Variables/100 ;
+genbyfuel_wind = TTSync.TSO.wind(end) .* normalisedpredictwind(end,:).Variables/100 ;
 genbyfuel_wind = array2timetable(genbyfuel_wind, "RowTimes", d, "VariableNames", wind) ;
 
-genbyfuel_nuclear = Powerout.nuclear(end) .* normalisedpredicnuclear(end,:).Variables/100 ;
+genbyfuel_nuclear = TTSync.TSO.nuclear(end) .* normalisedpredicnuclear(end,:).Variables/100 ;
 genbyfuel_nuclear = array2timetable(genbyfuel_nuclear, "RowTimes", d, "VariableNames", nuclear) ;
 
-thermalpower = Powerout.thermal(end) + Powerout.unknown(end) ;
+thermalpower = TTSync.TSO.thermal(end) + TTSync.TSO.unknown(end) ;
 
 genbyfuel_thermal = thermalpower .* normalisedpredictthermal(end,:).Variables/100 ;
 genbyfuel_thermal = array2timetable(genbyfuel_thermal, "RowTimes", d, "VariableNames", thermal) ;
@@ -85,4 +119,4 @@ replacestring = cellfun(@(x) elecfuel(strcmp(elecfuel(:,1),x),2), TTSync.emissio
 %% output
 
 TTSync.emissionskit.Properties.VariableNames = cat(1, replacestring{:}) ;
-TTSync.TSO = Powerout ;
+% TTSync.TSO = Powerout ;

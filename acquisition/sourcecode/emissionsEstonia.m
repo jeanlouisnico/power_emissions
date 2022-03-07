@@ -23,7 +23,7 @@ for itech = 1:width(energy.byfuel)
         case 'solar'
             technamein = 'solar' ;
         otherwise
-            emi = 500 ;
+            emi = extractdata('mean', 'EE', EmissionsCategory, Emissionsdatabase) ;
     end
     if ~isempty(technamein)
         emi = extractdata(technamein, 'EE', EmissionsCategory, Emissionsdatabase) ;

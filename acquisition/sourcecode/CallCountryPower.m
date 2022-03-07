@@ -18,7 +18,7 @@ switch country
     case 'Russia'
         [ENTSOE, PoweroutLoad] = ENTSOE_meth(country) ;
         %%%%% TO GET THROUGH THE br.so-ups.ru API %%%%%%%%
-        TSO.TSO = extractRussia ;
+        TSO = extractRussia ;
         %%%%% TO GET THROUGH THE br.so-ups.ru API %%%%%%%%
     %%% Estonia
     % For Estonia, data can be extracted from ENTSOE
@@ -26,7 +26,7 @@ switch country
         %%%%% TO GET THROUGH THE ENTSOE API %%%%%%%%
         [ENTSOE, PoweroutLoad] = ENTSOE_meth(country) ;
         %%%%% TO GET THROUGH THE elering API %%%%%%%%
-        TSO.bytech    = extractEstonia ;
+        TSO    = extractEstonia ;
     %%% Norway
     % For Norway, data can be extracted from ENTSOE
     case 'Norway' 
@@ -83,6 +83,26 @@ switch country
         [ENTSOE, PoweroutLoad] = ENTSOE_meth(country) ;
         %%%%% TO GET THROUGH THE ENTSOE API %%%%%%%%
         TSO    = PT ;
+    case 'Hungary' 
+        %%%%% TO GET THROUGH THE ENTSOE API %%%%%%%%
+        [ENTSOE, PoweroutLoad] = ENTSOE_meth(country) ;
+        %%%%% TO GET THROUGH THE ENTSOE API %%%%%%%%
+        TSO    = HU ;
+    case 'Latvia'
+        %%%%% TO GET THROUGH THE ENTSOE API %%%%%%%%
+        [ENTSOE, PoweroutLoad] = ENTSOE_meth(country) ;
+        %%%%% TO GET THROUGH THE ENTSOE API %%%%%%%%
+        TSO    = LV ;
+    case 'Austria'
+        %%%%% TO GET THROUGH THE ENTSOE API %%%%%%%%
+        [ENTSOE, PoweroutLoad] = ENTSOE_meth(country) ;
+        %%%%% TO GET THROUGH THE ENTSOE API %%%%%%%%
+        TSO    = AT ;
+    case 'Poland'
+        %%%%% TO GET THROUGH THE ENTSOE API %%%%%%%%
+        [ENTSOE, PoweroutLoad] = ENTSOE_meth(country) ;
+        %%%%% TO GET THROUGH THE ENTSOE API %%%%%%%%
+        TSO    = PO ;
     otherwise
         
 end

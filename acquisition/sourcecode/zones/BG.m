@@ -1,4 +1,4 @@
-function power = BG
+function TTSync = BG
 
 request = matlab.net.http.RequestMessage;
 uri = matlab.net.URI('http://www.eso.bg/api/rabota_na_EEC_json.php');
@@ -27,3 +27,7 @@ for itech = 1:length(r.Body.Data)
         power.consumption = r.Body.Data{itech}{2}  ;
     end
 end
+
+
+TTSync.TSO = table2timetable(struct2table(power),'RowTimes',datetime('now','TimeZone','UTC'));
+TTSync.emissionskit = TTSync.TSO ;

@@ -8,9 +8,9 @@ gas     = g * A ;
 oil     = o * A ;
 waste   = w * A ;
 other   = p * A ;
-peat    = m * A ;
+% peat    = m * A ;
 
-f = (bio + coal + oil + gas + waste + other + peat - A == 0) ;
+f = (bio + coal + oil + gas + waste + other - A == 0) ;
 
 assume(bio >= 0) ; 
 assumeAlso(bio<=limit.biomass) ; 
@@ -31,9 +31,9 @@ assumeAlso(w>=0) ;
 assumeAlso(other >= 0) ; 
 assumeAlso(other<=limit.other) ; 
 assumeAlso(p>=0) ;
-assumeAlso(peat >= 0) ; 
-assumeAlso(peat<=limit.peat) ; 
-assumeAlso(m>=0) ;
+% assumeAlso(peat >= 0) ; 
+% assumeAlso(peat<=limit.peat) ; 
+% assumeAlso(m>=0) ;
 
-distri = vpasolve(f, [g,c,o,p,w,b,m], init) ; 
+distri = vpasolve(f, [g,c,o,p,w,b], init) ; 
 newlimit = array2table(struct2array(distri) * A, 'VariableNames',limit.Properties.VariableNames)  ;

@@ -57,3 +57,6 @@ replacestring = cellfun(@(x) elecfuel(strcmp(elecfuel(:,1),x),2), TTSync.emissio
 
 %% output
 TTSync.emissionskit.Properties.VariableNames = cat(1, replacestring{:}) ;
+
+TTSync.TSO = convertTT_Time(TTSync.TSO,'UTC') ;
+TTSync.emissionskit = convertTT_Time(TTSync.emissionskit,'UTC') ;
