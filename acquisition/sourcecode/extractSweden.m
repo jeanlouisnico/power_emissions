@@ -83,3 +83,6 @@ tables = {genbyfuel_thermal, genbyfuel_wind, genbyfuel_hydro, genbyfuel_nuclear}
 
 TTSync.emissionskit = synchronize(tables{:,:},'union','nearest');
 TTSync.TSO = table2timetable(struct2table(Powerout),'RowTimes',d) ;
+
+TTSync.emissionskit = convertTT_Time(TTSync.emissionskit,'UTC') ;
+TTSync.TSO = convertTT_Time(TTSync.TSO,'UTC') ;

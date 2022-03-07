@@ -111,11 +111,5 @@ end
 TTSync.emissionskit = addvars(TTSync.emissionskit, TTSync.TSO.windon, TTSync.TSO.windoff, TTSync.TSO.solar,'NewVariableNames',{'windon','windoff','solar'}) ;
 
 
-
-
-
-
-
-
-
-
+TTSync.emissionskit = convertTT_Time(TTSync.emissionskit,'UTC') ;
+TTSync.TSO = convertTT_Time(TTSync.TSO,'UTC') ;

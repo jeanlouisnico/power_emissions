@@ -14,8 +14,8 @@ end
 t = uint64(systemdata_month.data.timestamp*1000) ;
 d = datetime(t,'ConvertFrom','epochtime','TicksPerSecond',1e3,'Format','dd-MMM-yyyy HH:mm:ss.SSS') ;
 
-datestart = datestr(datetime(datestr(now))  - hours(6), 'yyyy-mm-ddTHH:MM:SS.FFFZ') ;
-dateend = datestr(datetime(datestr(now))  + hours(6), 'yyyy-mm-ddTHH:MM:SS.FFFZ')   ;
+datestart = datestr(datetime('now')  - hours(6), 'yyyy-mm-ddTHH:MM:SS.FFFZ') ;
+dateend = datestr(datetime('now')  + hours(6), 'yyyy-mm-ddTHH:MM:SS.FFFZ')   ;
 url = ['https://dashboard.elering.ee/api/system/with-plan?start=' datestart '&end=' dateend] ;
 systemdata = webread(url) ;
 
@@ -71,7 +71,7 @@ if isa(estoniaprod, 'struct')
     end
 end
 
-
+Powerout.TSO = table2timetable(struct2table(Powerout,'AsArray',true),'RowTimes',datetime('now','TimeZone','UTC')) ;
 
 % power = struct2table(power) ;
 % 

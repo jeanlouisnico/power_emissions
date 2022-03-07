@@ -8,7 +8,7 @@ sqltime  = (datenum(timePT) * (24*60*60) - ((367)*24*60*60))*10^7 ;
 
 data = webread(['https://datahub.ren.pt/api/Electricity/ProductionBreakdown/1266?culture=en-GB&dayToSearchString=' char((compose("%d",round(sqltime)))) '&useGasDate=false']) ;
 
-timearray = data.xAxis.categories ;
+% timearray = data.xAxis.categories ;
 
 power.(makevalidstring(data.series{2}.name)) = data.series{2}.data ;
 power.(makevalidstring(data.series{1}.name))     = data.series{1}.data - power.consumption ;
@@ -24,7 +24,7 @@ power.(makevalidstring(data.series{11}.name))     = data.series{11}.data ;
  
 timeaxis = data.xAxis.categories(1:length(power.coal )) ;
 
-datein = cellfun(@(x) datetime(x,'InputFormat', 'HH:mm'), timeaxis) ;
+datein = cellfun(@(x) datetime(x,'InputFormat', 'HH:mm', 'TimeZone', 'Europe/Lisbon'), timeaxis) ;
 
 powerdata = struct2table(power) ;
 
@@ -70,3 +70,6 @@ genbyfuel_thermal.Properties.VariableNames = cat(1, replacestring{:}) ;
 
 TTSync.emissionskit = synchronize(TTSync.TSO, genbyfuel_thermal) ;
 TTSync.emissionskit = removevars(TTSync.emissionskit, 'thermal') ;
+
+TTSync.TSO = convertTT_Time(TTSync.TSO,'UTC') ;
+TTSync.emissionskit = convertTT_Time(TTSync.emissionskit,'UTC') ;

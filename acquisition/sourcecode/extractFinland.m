@@ -38,7 +38,8 @@ Emissionsdatabase = load_emissions ;
 [IndCHP, DHCHP, Sep, capacity, fuelratio] = extract2stat ;
 
 
-Power.emissionskit = FI_emissionkit(TSO, capacity,timeextract) ;            
+Power.emissionskit = FI_emissionkit(TSO, capacity,timeextract) ;   
+Power.emissionskit = convertTT_Time(Power.emissionskit,'UTC') ;
 %% Fuel Split
 % Categories are extracted from the fuel classification of statistic
 % Finland (above extract2stat function). The
@@ -115,5 +116,5 @@ byfuel.other     = Sep_Fuel.other    + CHP_Ind_Fuel.other   + CHP_DH_Fuel.other 
 Power.bytech = table2timetable(struct2table(TSO),'RowTimes',datetime(timeextract,'Format','dd/MM/uuuu HH:mm:ss')) ;
 Power.byfuel = table2timetable(struct2table(byfuel),'RowTimes',datetime(timeextract,'Format','dd/MM/uuuu HH:mm:ss')) ;
 
-
-
+Power.bytech = convertTT_Time(Power.bytech,'UTC') ;
+Power.byfuel = convertTT_Time(Power.byfuel,'UTC') ;

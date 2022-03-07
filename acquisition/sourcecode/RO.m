@@ -90,3 +90,6 @@ replacestring = cellfun(@(x) elecfuel(strcmp(elecfuel(:,1),x),2), TTSync.emissio
 
 TTSync.emissionskit.Properties.VariableNames = cat(1, replacestring{:}) ;
 TTSync.TSO = tabledata(end,{'consumption' 'production' 'coal' 'gas' 'water' 'nuclear' 'wind' 'solar' 'biomass'}) ;
+
+TTSync.emissionskit = convertTT_Time(TTSync.emissionskit,'UTC') ;
+TTSync.TSO = convertTT_Time(TTSync.TSO,'UTC') ;

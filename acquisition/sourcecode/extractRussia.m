@@ -42,9 +42,30 @@ try
     
     Powerout.TSO = table2timetable(struct2table(bytech),'RowTimes',datetime(timeextract,'Format','dd/MM/uuuu HH:mm:ss')) ;
     Powerout.emissionskit = table2timetable(struct2table(byfuel),'RowTimes',datetime(timeextract,'Format','dd/MM/uuuu HH:mm:ss')) ;
+
+    Powerout.emissionskit = convertTT_Time(Powerout.emissionskit,'UTC') ;
+    Powerout.TSO = convertTT_Time(Powerout.TSO,'UTC') ;
+
 catch
-    Powerout.TSO = 0 ;
-    Powerout.emissionskit = 0 ;
+    bytech.nuclear = 0 ;
+    bytech.solar = 0 ;
+    bytech.oil = 0 ;
+    bytech.thermal = 0 ;
+    bytech.hydro = 0 ;
+    
+    byfuel.nuclear = 0 ;
+    byfuel.hydro   = 0 ;
+    byfuel.solar   = 0 ;
+    byfuel.oil     = 0 ;
+    byfuel.coal    = 0 ;
+    byfuel.gas     = .0 ;
+
+    Powerout.TSO = table2timetable(struct2table(bytech),'RowTimes',datetime(timeextract,'Format','dd/MM/uuuu HH:mm:ss')) ;
+    Powerout.emissionskit = table2timetable(struct2table(byfuel),'RowTimes',datetime(timeextract,'Format','dd/MM/uuuu HH:mm:ss')) ;
+
+    Powerout.emissionskit = convertTT_Time(Powerout.emissionskit,'UTC') ;
+    Powerout.TSO = convertTT_Time(Powerout.TSO,'UTC') ;
+
     return ;
 end
 
