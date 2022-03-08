@@ -1,4 +1,4 @@
-
+function CZ
 
 % 
 % 
@@ -37,3 +37,5 @@
 websave('CZ.csv','https://www.ceps.cz/download-data/?format=csv') ;
 
 test = readtable('CZ.csv') ;
+
+x  =1 ;

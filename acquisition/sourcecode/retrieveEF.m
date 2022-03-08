@@ -12,7 +12,7 @@ function elecfuel = retrieveEF
                 'RA310'	'windon'
                 'RA320'	'windoff'
                 'RA410'	'solar_thermal'
-                'RA420'	'solar_PV'
+                'RA420'	'solar_pv'
                 'RA500_5160'	'other_biogas'
                 'N9000'	'nuclear_BWR'
                 'X9900'	'waste' } ;
