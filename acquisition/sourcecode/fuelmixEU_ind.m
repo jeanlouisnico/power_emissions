@@ -1,4 +1,4 @@
-function data4 = loadEUnrgcap(varargin)
+function data4 = fuelmixEU_ind(varargin)
 
  defaultcountry    = {'all'} ;
 
@@ -14,7 +14,7 @@ function data4 = loadEUnrgcap(varargin)
    
 results = p.Results ; 
 
-data3 = jsondecode(fileread('installedcapEU.json'));
+data3 = jsondecode(fileread('json_result_merged.json'));
 
 
 if strcmp(results.country,'all')

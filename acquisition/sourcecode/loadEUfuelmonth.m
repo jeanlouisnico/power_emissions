@@ -1,27 +1,8 @@
-function data4 = loadEUnrgcap(varargin)
+function data3 = loadEUfuelmonth
 
- defaultcountry    = {'all'} ;
+data3 = jsondecode(fileread('json_result_merged.json'));
+allgeo = fieldnames(data3) ;
 
-   p = inputParser;
-%    validScalarPosNum = @(x) isnumeric(x) && isscalar(x) && (x > 0) && (mod(x,1)==0);
-%    
-%    validVector = @(x) all(isnumeric(x)) && all(isvector(x)) ;
-%    addRequired(p,'width',validScalarPosNum);
-%    addOptional(p,'height',defaultHeight,validScalarPosNum);
-   addParameter(p,'country',defaultcountry,@iscell);
-
-   parse(p, varargin{:});
-   
-results = p.Results ; 
-
-data3 = jsondecode(fileread('installedcapEU.json'));
-
-
-if strcmp(results.country,'all')
-    allgeo = fieldnames(data3) ;
-else
-    allgeo = results.country ;
-end
 for igeo = 1:length(allgeo)
     geo = allgeo{igeo} ;   
     
@@ -44,5 +25,5 @@ for igeo = 1:length(allgeo)
                 varnames = [varnames allfields(ifield)];
         end
     end
-    data4.(geo) = array2timetable(struct2array(powerout), 'RowTimes', Timearray, 'VariableNames',varnames) ;
+    data3.(geo) = array2timetable(struct2array(powerout), 'RowTimes', Timearray, 'VariableNames',varnames) ;
 end

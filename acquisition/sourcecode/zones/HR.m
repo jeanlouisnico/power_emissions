@@ -16,8 +16,11 @@ power.other = power.production - power.wind ;
 
 elecfuel = retrieveEF ;
 
-[alldata, ~] = fuelmixEU('Croatia', false, 'absolute') ;
 alphadigit = countrycode('Croatia') ;
+alldata = fuelmixEU_ind('country',{alphadigit})  ;
+installedcap = loadEUnrgcap('country',{alphadigit}) ;
+
+
 nuclear = {'N9000'} ;
 thermal = {'CF_R' 'C0000' 'CF_NR' 'G3000' 'O4000XBIO' 'X9900'} ;
 hydro = {'RA110' 'RA120' 'RA130'} ;
