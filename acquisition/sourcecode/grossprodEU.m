@@ -16,7 +16,7 @@ if isfile(inputfile)
     if ~(datecompare.Year == datefile.Year && datecompare.Month==datefile.Month)
         data2 = extractdata(fparts) ;
     else
-        data2 = loadEUnrgcap ;
+        data2 = loadEUnrgprod ;
     end
 else
     data2 = extractdata(fparts) ;

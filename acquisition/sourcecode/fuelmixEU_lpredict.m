@@ -65,9 +65,9 @@ timeextract = datetime(datetime(datestr(now)) - hours(timezone)) ;
     end
     
 x = fuelin ;
-    [y, ~] = lpredict(x.Variables, 14, predictedstep, 'post') ; % the rank 14 has been found to give the most accruate results
+    [y, ~] = lpredict(x.Variables, 'np', 14, 'npred', predictedstep, 'pos','post','limitL',0) ; % the rank 14 has been found to give the most accruate results
     xtemp = [x.Variables;y] ;
-    
+    xtemp(isnan(xtemp)) = 0 ;
     switch results.resolution
         case 'month'
             timearray = [datetime(fuelin.Time(1).Year,fuelin.Time(1).Month,1):...

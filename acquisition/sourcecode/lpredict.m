@@ -1,4 +1,4 @@
-function [y a]=lpredict(x, np, npred, pos)
+function [y a]=lpredict(x, varargin)
 % LPREDICT estimates the values of a data set before/after the observed set.
 %
 % LPREDICT uses linear prediction to extrapolate data, typically a
@@ -64,12 +64,40 @@ function [y a]=lpredict(x, np, npred, pos)
 if nargin<3
     error('Not enough input arguments');
 end
-if np<2
-    error('np must be >=2');
-end
 if nargin<4
     pos='post';
 end
+
+defaultpos    = 'post' ;
+defaultnp     = 2 ; 
+defaultnpred  = 1 ;
+defaultlimitL  = -Inf ;
+defaultlimitH  = Inf ;
+
+p = inputParser;
+%    validScalarPosNum = @(x) isnumeric(x) && isscalar(x) && (x > 0) && (mod(x,1)==0);
+   
+%    validVector = @(x) all(isnumeric(x)) && all(isvector(x)) ;
+%    addRequired(p,'width',validScalarPosNum);
+%    addOptional(p,'height',defaultHeight,validScalarPosNum);
+addParameter(p,'pos',defaultpos,@ischar);
+addParameter(p,'np',defaultnp,@isnumeric);
+addParameter(p,'npred',defaultnpred,@isnumeric);
+addParameter(p,'limitL',defaultlimitL,@isnumeric);
+addParameter(p,'limitH',defaultlimitH,@isnumeric);
+
+parse(p, varargin{:});
+   
+results = p.Results ; 
+
+pos = results.pos ;
+np = results.np ; 
+npred = results.npred ;
+
+if np<2
+    error('np must be >=2');
+end
+
 %---------------------------------------------
 %------------------MATRIX--------------------
 % Deal with matrix input.
@@ -79,8 +107,10 @@ if cols>1
     y=zeros(npred, cols);
     a=zeros(cols, np+1);
     for k=1:size(x,2)
-        [y(:,k) a(k,:)]=lpredict(x(:,k), np, npred, pos);
+        [y(:,k) a(k,:)]=lpredict(x(:,k), 'np',np, 'npred',npred,'pos', pos);
     end
+    y(y>results.limitH) = results.limitH;
+    y(y<results.limitL) = results.limitL;
     return
 end
 %---------------------------------------------
@@ -93,13 +123,13 @@ end
 % function
 try
     a=lpc(x,np);
-catch
+catch me
     % LPC missing?
-    m=lasterror();
-    if strcmp(m.identifier, 'MATLAB:UndefinedFunction')
+%     m=lasterror();
+    if strcmp(me.identifier, 'MATLAB:UndefinedFunction')
         error('Requires the LPC function from the Signal Processing Toolbox');
     else
-        rethrow(lasterror);
+        rethrow(me);
     end
 end
 % Negate coefficients, and get rid of a(1)

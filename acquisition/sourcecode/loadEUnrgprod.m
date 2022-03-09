@@ -1,10 +1,10 @@
-function data4 = loadEUnrgcap(varargin)
+function data4 = loadEUnrgprod(varargin)
 
  defaultcountry    = {'all'} ;
 
    p = inputParser;
 %    validScalarPosNum = @(x) isnumeric(x) && isscalar(x) && (x > 0) && (mod(x,1)==0);
-   
+%    
 %    validVector = @(x) all(isnumeric(x)) && all(isvector(x)) ;
 %    addRequired(p,'width',validScalarPosNum);
 %    addOptional(p,'height',defaultHeight,validScalarPosNum);
@@ -14,7 +14,7 @@ function data4 = loadEUnrgcap(varargin)
    
 results = p.Results ; 
 
-data3 = jsondecode(fileread('installedcapEU.json'));
+data3 = jsondecode(fileread('grossprodEU.json'));
 
 
 if strcmp(results.country,'all')
