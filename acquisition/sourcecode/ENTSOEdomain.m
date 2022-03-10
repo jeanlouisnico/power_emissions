@@ -19,6 +19,9 @@ countrydomain = cellfun(@(x) strsplit(x,{'_','-'}), countrylist', 'UniformOutput
 for idomain = 1:length(countrydomain)
     countrylist2(idomain) = countrydomain{idomain,1}(1) ;
 end
-
-domain(:,1) = ENTSOElist.countrycode(contains(countrylist2, countrycode))   ;
-domain(:,2) = ENTSOElist.domain(contains(countrylist2, countrycode)) ;
+switch countrycode.alpha2
+    case 'EL'
+        countrycode.alpha2 = 'GR' ;
+end
+domain(:,1) = ENTSOElist.countrycode(contains(countrylist2, countrycode.alpha2))   ;
+domain(:,2) = ENTSOElist.domain(contains(countrylist2, countrycode.alpha2)) ;

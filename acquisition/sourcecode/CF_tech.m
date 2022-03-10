@@ -5,8 +5,8 @@ alphadigit = countrycode(countryin) ;
 nrgyear         = loadEUnrgprod('country',{alphadigit}) ;
 installedcap    = loadEUnrgcap('country',{alphadigit}) ;
 
-predictedcap      = fuelmixEU_lpredict(installedcap.(alphadigit),'resolution','year') ;
-predictednrgyear  = fuelmixEU_lpredict(nrgyear.(alphadigit),'resolution','year') ;
+predictedcap      = fuelmixEU_lpredict(installedcap.(alphadigit.alpha2),'resolution','year') ;
+predictednrgyear  = fuelmixEU_lpredict(nrgyear.(alphadigit.alpha2),'resolution','year') ;
 
 biogaslist = {'R5210P' 'R5220P' 'R5290' 'R5300'} ;
 CF.W6100  = (predictednrgyear(end,'W6100').Variables*1000/predictedcap(end,'W6100').Variables)/8760 ; % waste industry

@@ -72,6 +72,8 @@ switch country
         TSO    = PO ;
     case 'Lithuania'
         TSO    = LV('Lithuania') ;
+    case 'Greece'
+        TSO    = GR ;
     otherwise
         TSO = 0 ;
 end

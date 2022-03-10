@@ -23,7 +23,7 @@ else
     allgeo = results.country ;
 end
 for igeo = 1:length(allgeo)
-    geo = allgeo{igeo} ;   
+    geo = allgeo{igeo}.alpha2 ;   
     
     Timearray = cat(1, data3.(geo)(:).Time) ;
     Timearray = datetime(Timearray,'InputFormat','dd-MMM-uuuu') ;

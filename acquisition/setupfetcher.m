@@ -15,6 +15,9 @@ if ~isfile([filepath filesep 'setup' filesep 'ini.json'])
     %%% Get the data for Fingrid
     str = input('Fingrid security token: ','s') ;
     setup.Fingrid.securityToken = str ;
+    %%% Get the data for UK and bmreports
+    str = input('bmreports security token: ','s') ;
+    setup.bmreports.securityToken = str ;
     %%% Set up the database
         % This requires to have postgresql installed on the computer or on
         % a remote machine
@@ -72,7 +75,7 @@ else
         if strcmp(str, 'Y') || strcmp(str, '')
             n2 = 0 ;
             while n2 == 0
-                str = input('Which variable would you like to reset? (ENTSOE, DB, Fingrid, python): ','s') ;
+                str = input('Which variable would you like to reset? (ENTSOE, DB, Fingrid, python, bmreports): ','s') ;
                 switch str
                     case 'ENTSOE'
                         str = input('ENTSOE security token: ','s') ;
@@ -123,6 +126,10 @@ else
                     case 'Fingrid'
                         str = input('Fingrid security token: ','s') ;
                         setup.Fingrid.securityToken = str ;
+                        n2 = 1 ;
+                    case 'bmreports'
+                        str = input('bmreports security token: ','s') ;
+                        setup.bmreports.securityToken = str ;
                         n2 = 1 ;
                     case 'python'
                         str = input('python envs: ','s') ;
@@ -184,10 +191,10 @@ end
         setupin = jsondecode(fileread([filepath filesep 'setup' filesep 'ini.json']));
         checkfields = fieldnames(setupin) ;
         
-        field2check = {'ENTSOE' 'Fingrid' 'DB'} ;
+        field2check = {'ENTSOE' 'Fingrid' 'DB' 'bmreports'} ;
         for ifield = 1:length(field2check)
                 switch field2check{ifield}
-                    case {'ENTSOE', 'Fingrid'}
+                    case {'ENTSOE' 'Fingrid' 'bmreports'}
                         if isempty(setupin.(field2check{ifield}).securityToken)
                             warning(['Will not be able to get data from ' field2check{ifield} '. The model might not work properly'])
                         end
