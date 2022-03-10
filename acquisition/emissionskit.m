@@ -6,15 +6,17 @@ function emissionskit(src, eventdata)
 % country. Country can be added or removed by editing the cell array.
 Country = {'Russia', 'Sweden', 'Estonia', 'Norway', 'Finland', 'France'} ;
 
+Country = country2fetch ;
+
 country_code = countrycode(Country) ;
 
 
 for icountry = 1:length(Country)
     [ENTSOE, TSO, PoweroutLoad] = CallCountryPower(Country{icountry}) ;
-    Power.(country_code{icountry}).ENTSOE.bytech = ENTSOE ;
-    Power.(country_code{icountry}).ENTSOE.byfuel = ENTSOEbyfuel(ENTSOE) ;
-    Power.(country_code{icountry}).ENTSOE.TotalConsumption = PoweroutLoad ;
-    Power.(country_code{icountry}).TSO = TSO ;
+    Power.(country_code.alpha2{icountry}).ENTSOE.bytech = ENTSOE ;
+    Power.(country_code.alpha2{icountry}).ENTSOE.byfuel = ENTSOEbyfuel(ENTSOE.(country_code.alpha2{icountry})) ;
+    Power.(country_code.alpha2{icountry}).ENTSOE.TotalConsumption = PoweroutLoad.(country_code.alpha2{icountry}) ;
+    Power.(country_code.alpha2{icountry}).TSO = TSO ;
 end
 
 %% Load Emissions data

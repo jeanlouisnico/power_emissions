@@ -96,7 +96,7 @@ thermal = {'CF_R' 'C0000' 'CF_NR' 'G3000' 'O4000XBIO' 'X9900'} ;
 % wind  = {'RA310' 'RA320'} ; 
 % solar = {'RA410' 'RA420'} ; 
 
-predictedfuel = fuelmixEU_lpredict(alldata.(alphadigit)) ;
+predictedfuel = fuelmixEU_lpredict(alldata.(alphadigit.alpha2)) ;
 
 normalisedpredictthermal = array2timetable(bsxfun(@rdivide, predictedfuel(:,thermal).Variables, sum(predictedfuel(:,thermal).Variables,2, 'omitnan')) * 100, "RowTimes", predictedfuel.Time, 'VariableNames', thermal) ;
 % normalisedpredicthydro = array2timetable(bsxfun(@rdivide, predictedfuel(:,hydro).Variables, sum(predictedfuel(:,hydro).Variables,2, 'omitnan')) * 100, "RowTimes", predictedfuel.Time, 'VariableNames', hydro) ;

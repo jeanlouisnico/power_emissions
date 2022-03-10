@@ -121,7 +121,7 @@ alphadigit = countrycode('Spain') ;
 % nuclear = {'N9000'} ;
 hydro = {'RA110' 'RA120' 'RA130'} ;
 % thermal = {'CF_R' 'C0000' 'CF_NR' 'G3000' 'O4000XBIO' 'X9900'} ;
-predictedfuel = fuelmixEU_lpredict(alldata.(alphadigit)) ;
+predictedfuel = fuelmixEU_lpredict(alldata.(alphadigit.alpha2)) ;
 
 normalisedpredicthydro = array2timetable(bsxfun(@rdivide, predictedfuel(:,hydro).Variables, sum(predictedfuel(:,hydro).Variables,2, 'omitnan')) * 100, "RowTimes", predictedfuel.Time, 'VariableNames', hydro) ;
 

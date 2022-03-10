@@ -72,8 +72,8 @@ end
 
 p = mfilename('fullpath') ;
 [filepath,~,~] = fileparts(p) ;
-fparts = split(filepath, filesep) ;
-fparts = join(fparts(1:end-2), filesep) ;
+fparts1 = split(filepath, filesep) ;
+fparts = join(fparts1(1:end-1), filesep) ;
 setup = jsondecode(fileread([fparts{1} filesep 'setup' filesep 'ini.json']));
 
 securitytoken = setup.Fingrid.securityToken ;

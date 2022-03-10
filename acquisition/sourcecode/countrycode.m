@@ -235,7 +235,7 @@ countries = {'Afghanistan'	'The Islamic Republic of Afghanistan'	'UN member stat
 'Uganda'	'The Republic of Uganda'	'UN member state'	'UG'	'UGA' 'Kampala'
 'Ukraine'	'Ukraine'	'UN member state'	'UA'	'UKR' 'Kyiv'
 'United Arab Emirates (the)'	'The United Arab Emirates'	'UN member state'	'AE'	'ARE' 'Abu Dhabi'
-'United Kingdom of Great Britain and Northern Ireland (the)'	'The United Kingdom of Great Britain and Northern Ireland'	'UN member state'	'GB'	'GBR' 'London'
+'United Kingdom of Great Britain and Northern Irelan (the)'	'The United Kingdom of Great Britain and Northern Ireland'	'UN member state'	'GB'	'GBR' 'London'
 'United States Minor Outlying Islands (the) '	'Baker Island, Howland Island, Jarvis Island, Johnston Atoll, Kingman Reef, Midway Atoll, Navassa Island, Palmyra Atoll, and Wake Island'	'United States'	'UM'	'UMI' ''
 'United States of America (the)'	'The United States of America'	'UN member state'	'US'	'USA' 'Washington, D.C.'
 'Uruguay'	'The Oriental Republic of Uruguay'	'UN member state'	'UY'	'URY' 'Montevideo'
@@ -259,9 +259,10 @@ if isa(countryname,'string') || isa(countryname,'char')
     out.alpha3 = countries.("alpha-3code"){contains(countries.countryname, countryname)} ;
     out.capital = countries.('capital'){contains(countries.countryname, countryname)} ;
 elseif isa(countryname,'cell')
-    out.alpha2 = cellfun(@(x) countries.("alpha-2code")(contains(countries.countryname,x)),countryname,'UniformOutput',false);
-    out.alpha3 = cellfun(@(x) countries.("alpha-3code")(contains(countries.countryname,x)),countryname,'UniformOutput',false);
-    out.capital = cellfun(@(x) countries.("capital")(contains(countries.countryname,x)),countryname,'UniformOutput',false);
-    out = [out{:}]' ;
+    alpha2 = cellfun(@(x) countries.("alpha-2code")(contains(countries.countryname,x)),countryname,'UniformOutput',false);
+    alpha3 = cellfun(@(x) countries.("alpha-3code")(contains(countries.countryname,x)),countryname,'UniformOutput',false);
+    capital = cellfun(@(x) countries.("capital")(contains(countries.countryname,x)),countryname,'UniformOutput',false);
+    merge = [alpha2 alpha3 capital] ;
+    out = cell2table(merge,'VariableNames',{'alpha2' 'alpha3' 'capital'});
 end
 

@@ -11,9 +11,9 @@ for icountry = 1:length(country)
             %%% Special cases like greece
             switch country
                 case 'GR'
-                    geo2plot = 'EL' ;
+                    geo2plot.alpha2 = 'EL' ;
                 otherwise
-                    geo2plot = country ;
+                    geo2plot.alpha2 = country ;
             end
         end
     elseif isa(country,'cell')
@@ -23,9 +23,9 @@ for icountry = 1:length(country)
             %%% Special cases like greece
             switch country{icountry}
                 case 'GR'
-                    geo2plot = 'EL' ;
+                    geo2plot.alpha2 = 'EL' ;
                 otherwise
-                    geo2plot = country{icountry} ;
+                    geo2plot.alpha2 = country{icountry} ;
             end
         end
     end
@@ -41,20 +41,20 @@ for icountry = 1:length(country)
 
     toplot = {'CF_R' 'CF_NR' 'C0000' 'G3000' 'O4000XBIO' 'P1100'	'RA110' 'RA120' 'RA130' 'RA200' 'RA310'	 'RA320' 'RA410' 'RA420' 'RA500_5160' 'N9000' 'X9900'} ;
     if plotbin
-        plotfuelmix(data2, geo2plot, toplot, source, geo2plot, 'year')
+        plotfuelmix(data2, geo2plot.alpha2, toplot, source, country, 'year')
     end
 
-    dataall.(geo2plot)      = data2.(geo2plot)(:,toplot) ;
+    dataall.(geo2plot.alpha2)      = data2.(geo2plot.alpha2)(:,toplot) ;
     
     % Convert the Peat data into energy, considering an energy content of
     % 10.1 GJ/t of peat [statistic finland] and a plant efficiency of 70%
-    dataall.(geo2plot).P1100 = dataall.(geo2plot).P1100 * 1000 * 10.1 * .00027777778 * .7 ; 
+    dataall.(geo2plot.alpha2).P1100 = dataall.(geo2plot.alpha2).P1100 * 1000 * 10.1 * .00027777778 * .7 ; 
     
-    dataallperc.(geo2plot)  = array2timetable(bsxfun(@rdivide, dataall.(geo2plot)(:,toplot).Variables, sum(dataall.(geo2plot)(:,toplot).Variables,2, 'omitnan')) * 100, "RowTimes", dataall.(geo2plot).Time, 'VariableNames', toplot) ;
+    dataallperc.(geo2plot.alpha2)  = array2timetable(bsxfun(@rdivide, dataall.(geo2plot.alpha2)(:,toplot).Variables, sum(dataall.(geo2plot.alpha2)(:,toplot).Variables,2, 'omitnan')) * 100, "RowTimes", dataall.(geo2plot.alpha2).Time, 'VariableNames', toplot) ;
 
     %%% Fuel by season, summer or winter
     % Get all years from the dataset
-    allyears = unique(dataall.(geo2plot).Time.Year) ;
+    allyears = unique(dataall.(geo2plot.alpha2).Time.Year) ;
 
     for iyears = 1:length(allyears)
         datawinter1 = zeros(3, length(toplot)) ;
@@ -67,17 +67,17 @@ for icountry = 1:length(country)
 
         summer = timerange(datetime(curr_year,4,1) , datetime(curr_year,9,30)) ;
 
-        datawinter1 = dataall.(geo2plot)(winter1,toplot).Variables ;
+        datawinter1 = dataall.(geo2plot.alpha2)(winter1,toplot).Variables ;
         if isempty(datawinter1)
             datawinter1 = zeros(1,length(toplot)) ;
         end
 
-        datawinter2 = dataall.(geo2plot)(winter2,toplot).Variables ;
+        datawinter2 = dataall.(geo2plot.alpha2)(winter2,toplot).Variables ;
         if isempty(datawinter2)
             datawinter2 = zeros(1,length(toplot)) ;
         end
 
-        datasummer = dataall.(geo2plot)(summer,toplot).Variables ;
+        datasummer = dataall.(geo2plot.alpha2)(summer,toplot).Variables ;
         if isempty(datasummer)
             datasummer = zeros(1,length(toplot)) ;
         end
@@ -90,11 +90,11 @@ for icountry = 1:length(country)
             ener_mix = [ener_mix ; sum(datasummer,'omitnan')] ;
         end
     end
-    seasonal_enermix.(geo2plot)     = array2timetable(ener_mix, "RowTimes", datetime(allyears(1),1,1):calmonths(6):datetime(allyears(end),12,1), 'VariableNames', toplot) ;
-    seasonal_enermixperc.(geo2plot) = array2timetable(bsxfun(@rdivide, seasonal_enermix.(geo2plot)(:,toplot).Variables, sum(seasonal_enermix.(geo2plot)(:,toplot).Variables,2, 'omitnan')) * 100, "RowTimes", datetime(allyears(1),1,1):calmonths(6):datetime(allyears(end),12,1), 'VariableNames', toplot) ;
+    seasonal_enermix.(geo2plot.alpha2)     = array2timetable(ener_mix, "RowTimes", datetime(allyears(1),1,1):calmonths(6):datetime(allyears(end),12,1), 'VariableNames', toplot) ;
+    seasonal_enermixperc.(geo2plot.alpha2) = array2timetable(bsxfun(@rdivide, seasonal_enermix.(geo2plot.alpha2)(:,toplot).Variables, sum(seasonal_enermix.(geo2plot.alpha2)(:,toplot).Variables,2, 'omitnan')) * 100, "RowTimes", datetime(allyears(1),1,1):calmonths(6):datetime(allyears(end),12,1), 'VariableNames', toplot) ;
 
     if plotbin
-        plotfuelmix(seasonal_enermix, geo2plot, toplot, source, geo2plot, 'season')
+        plotfuelmix(seasonal_enermix, geo2plot.alpha2, toplot, source, country, 'season')
     end
 end
 %% Output the correct formatted data
