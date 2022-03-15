@@ -19,6 +19,9 @@ countrydomain = cellfun(@(x) strsplit(x,{'_','-'}), countrylist', 'UniformOutput
 for idomain = 1:length(countrydomain)
     countrylist2(idomain) = countrydomain{idomain,1}(1) ;
 end
+if iscell(countrycode.alpha2)
+    countrycode.alpha2 = countrycode.alpha2{1} ;
+end
 switch countrycode.alpha2
     case 'EL'
         countrycode.alpha2 = 'GR' ;

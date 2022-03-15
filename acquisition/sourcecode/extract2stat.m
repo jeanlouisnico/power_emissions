@@ -117,7 +117,8 @@ for itech = 1:length(tech)
     
     x = table2timetable(Fueluse.(techn), "RowTimes",datetime(Fueluse.(techn).Year,Fueluse.(techn).Month,1)) ;
     x = removevars(x, {'Year','Month','Day','Hour','Week'}) ;
-    [y, ~] = lpredict(x.Variables, 14, predictedstep, 'post') ; % the rank 14 has been found to give the most accruate results
+    % lpredict(x.Variables, 'np', 14, 'npred', predictedstep, 'pos','post','limitL',0) ;
+    [y, ~] = lpredict(x.Variables, 'np', 14, 'npred', predictedstep, 'pos','post','limitL',0) ; % the rank 14 has been found to give the most accruate results
     xtemp = [x.Variables;y] ;
     xtemp = array2timetable(xtemp, "RowTimes",...
                 [datetime(Fueluse.(techn).Year(1),Fueluse.(techn).Month(1),1):...

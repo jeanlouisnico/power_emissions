@@ -1,6 +1,5 @@
 function elsepost_array = elspotENTSOE(countrycode, varargin)
 
-
 defaulttax     = 0 ;     
 
 p = inputParser;
@@ -24,7 +23,6 @@ setup = jsondecode(fileread([fparts{1} filesep 'setup' filesep 'ini.json']));
 
 securityToken = setup.ENTSOE.securityToken ;
 
-
 domain = ENTSOEdomain(countrycode) ;
 
 if isempty(domain)
@@ -32,19 +30,15 @@ if isempty(domain)
     return;
 end
 
-currenttime = javaObject("java.util.Date") ; 
-timezone    = -currenttime.getTimezoneOffset()/60 ;
-
-
-
+curtime = datetime('now','TimeZone','UTC') ;
 
 processType  = 'A01' ; % day ahead
 documentType = 'A44' ;
-idomain      = domain{1} ;
-out_Domain   = domain{1} ;
+idomain      = domain{2} ;
+out_Domain   = domain{2} ;
 
-periodStart = dateshift(datetime(datetime(datestr(now)) - hours(timezone) - hours(11), 'Format','yyyyMMddHHmm'), 'start', 'hour') ;
-periodEnd   = dateshift(datetime(datetime(datestr(now)) - hours(timezone) + hours(36), 'Format','yyyyMMddHHmm'), 'start', 'hour') ;
+periodStart = dateshift(datetime(curtime - hours(11), 'Format','yyyyMMddHHmm'), 'start', 'hour') ;
+periodEnd   = dateshift(datetime(curtime + hours(36), 'Format','yyyyMMddHHmm'), 'start', 'hour') ;
 
 url = ['https://transparency.entsoe.eu/api?securityToken=' securityToken ...
            '&documentType=' documentType ...

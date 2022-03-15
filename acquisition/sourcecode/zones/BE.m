@@ -7,8 +7,12 @@ timeBE = datetime(dtLCL, 'TimeZone', 'Europe/Brussels') ;
 datein = datestr(timeBE, 'yyyy-mm-dd') ;
 
 data = webread(['https://griddata.elia.be/eliabecontrols.prod/interface/generations/generatedcipupowerbyfueltypebyquarterhour/' datein]) ;
-
-solar = webread(['https://griddata.elia.be/eliabecontrols.prod/interface/solareforecasting/chartdataforzone?dateFrom=' datein '&dateTo=' datein '&sourceID=1']);
+try
+    solar = webread(['https://griddata.elia.be/eliabecontrols.prod/interface/solareforecasting/chartdataforzone?dateFrom=' datein '&dateTo=' datein '&sourceID=1']);
+catch
+    solar(1).startsOn = datetime(timeBE,"Format",'uuuu-MM-dd''T''HH:mm:ss''Z', 'TimeZone', 'UTC') ;
+    solar(1).realTime = 0 ;
+end
 windoffdata  = webread(['https://griddata.elia.be/eliabecontrols.prod/interface/windforecasting/forecastdata?beginDate=' datein '&endDate=' datein '&region=1&isEliaConnected=&isOffshore=True']) ;
 windondata   = webread(['https://griddata.elia.be/eliabecontrols.prod/interface/windforecasting/forecastdata?beginDate=' datein '&endDate=' datein '&region=1&isEliaConnected=&isOffshore=False']) ;
 alltime = datetime(cat(1, data(:).timeUtc) , 'Format', 'uuuu-MM-dd''T''HH:mm:ss''Z', 'TimeZone', 'UTC') ;

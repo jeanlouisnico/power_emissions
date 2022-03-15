@@ -22,7 +22,7 @@ alphadigit = countrycode(country) ;
 alldata = fuelmixEU_ind('country',{alphadigit})  ;
 
 installedcap    = loadEUnrgcap('country',{alphadigit}) ;
-predictedcap    = fuelmixEU_lpredict(installedcap.(alphadigit),'resolution','year') ;
+predictedcap    = fuelmixEU_lpredict(installedcap.(alphadigit.alpha2),'resolution','year') ;
 
 minval = CF_tech(country) ;
 
@@ -34,7 +34,7 @@ thermal = {'CF_R' 'C0000' 'CF_NR' 'G3000' 'O4000XBIO' 'X9900' 'RA500_5160'} ;
 
 other = {'CF_R' 'C0000' 'CF_NR' 'G3000' 'O4000XBIO' 'X9900' 'RA110' 'RA120' 'RA130' 'RA410' 'RA420' 'RA500_5160'} ;
 
-predictedfuel = fuelmixEU_lpredict(alldata.(alphadigit)) ;
+predictedfuel = fuelmixEU_lpredict(alldata.(alphadigit.alpha2)) ;
 
 normalisedpredictthermal    = array2timetable(bsxfun(@rdivide, predictedfuel(:,thermal).Variables, sum(predictedfuel(:,thermal).Variables,2, 'omitnan')) * 100, "RowTimes", predictedfuel.Time, 'VariableNames', thermal) ;
 normalisedpredicthydro      = array2timetable(bsxfun(@rdivide, predictedfuel(:,hydro).Variables, sum(predictedfuel(:,hydro).Variables,2, 'omitnan')) * 100, "RowTimes", predictedfuel.Time, 'VariableNames', hydro) ;

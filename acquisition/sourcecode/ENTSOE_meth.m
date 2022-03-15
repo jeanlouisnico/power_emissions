@@ -37,13 +37,21 @@ processType  = 'A16' ; % Realised
 
 code2digit = countrycode(country) ;
 idomain = ENTSOEdomain(code2digit) ;
-for kdoma = 1:size(idomain,1)
-    zonecode = idomain{kdoma,1} ;
-    zone = idomain{kdoma,2} ;
-    zonecode = makevalidstring(zonecode,'capitalise',false) ;
-    [Powerout.(zonecode), PoweroutLoad.(zonecode)] = getdata(documentTypeGen, documentTypeLoad, processType, zone, bid) ;
+if isempty(idomain)
+    Powerout.(code2digit.alpha2) = timetable(datetime('now','TimeZone','UTC'),0,'VariableNames',{'biomass'}) ;
+    PoweroutLoad.(code2digit.alpha2) = timetable(datetime('now','TimeZone','UTC'),0,'VariableNames',{'load'}) ;
+else
+    for kdoma = 1:size(idomain,1)
+        zonecode = idomain{kdoma,1} ;
+        switch zonecode
+            case 'GR'
+                zonecode = 'EL' ;
+        end
+        zone = idomain{kdoma,2} ;
+        zonecode = makevalidstring(zonecode,'capitalise',false) ;
+        [Powerout.(zonecode), PoweroutLoad.(zonecode)] = getdata(documentTypeGen, documentTypeLoad, processType, zone, bid) ;
+    end
 end
-
 % Nested function
     function Powerout = parsetech(documentType, processType, idomain)
         Powerout = parseENTSOE(documentType, processType, idomain) ;

@@ -4,21 +4,21 @@ function emissionskit(src, eventdata)
 %% Exchange of Power
 % For the other countries, it is necessary to loop through each connected
 % country. Country can be added or removed by editing the cell array.
-Country = {'Russia', 'Sweden', 'Estonia', 'Norway', 'Finland', 'France'} ;
+% Country = {'Russia', 'Sweden', 'Estonia', 'Norway', 'Finland', 'France'} ;
 
 Country = country2fetch ;
 
 country_code = countrycode(Country) ;
-
-
-for icountry = 1:length(Country)
+Power = struct ;
+tic;
+parfor icountry = 1:length(Country)
     [ENTSOE, TSO, PoweroutLoad] = CallCountryPower(Country{icountry}) ;
-    Power.(country_code.alpha2{icountry}).ENTSOE.bytech = ENTSOE ;
-    Power.(country_code.alpha2{icountry}).ENTSOE.byfuel = ENTSOEbyfuel(ENTSOE.(country_code.alpha2{icountry})) ;
-    Power.(country_code.alpha2{icountry}).ENTSOE.TotalConsumption = PoweroutLoad.(country_code.alpha2{icountry}) ;
-    Power.(country_code.alpha2{icountry}).TSO = TSO ;
+    Power(icountry).ENTSOE.bytech = ENTSOE ;
+    Power(icountry).ENTSOE.byfuel = ENTSOEbyfuel(ENTSOE) ;
+    Power(icountry).ENTSOE.TotalConsumption = PoweroutLoad ;
+    Power(icountry).TSO = TSO ;
 end
-
+toc
 %% Load Emissions data
 % Emissions from EcoInvent are gathered and stored in a .csv file
 % associated to this file Emissions_Summary.csv. The data are gathered from
@@ -28,31 +28,37 @@ end
 EmissionsCategory = 'GlobalWarming' ;
 Emissionsdatabase = load_emissions ;
 
-%% Emissions Finland
+%% Emissions ENTSOE
 % Re-allocate the emissions per type of technology
+EFSourcelist = {'EcoInvent' 'ET' 'IPCC'} ;
+for iEFSource = 1:length(EFSourcelist)
+    EFSource = EFSourcelist{iEFSource} ;
+    for icountry = 1:length(Country)
+        cc = country_code.alpha2{icountry} ;
+        sublst = fieldnames(Power(icountry).ENTSOE.bytech) ;
+        for isublst = 1:length(sublst)
+            EmissionTotal                             = ENTSOEEmissions(Power(icountry).ENTSOE.bytech.(sublst{isublst}) , Emissionsdatabase.(EFSource), cc, EmissionsCategory) ;
+            if isa(EmissionTotal, 'struct')
+                Emissions.(sublst{isublst}).ENTSOE.(EFSource).total = sum(struct2array(EmissionTotal)) ;
+                Emissions.(sublst{isublst}).ENTSOE.(EFSource).intensityprod    = Emissions.(sublst{isublst}).ENTSOE.(EFSource).total / sum(Power(icountry).ENTSOE.bytech.(sublst{isublst}).Variables) ;
+            else
+                Emissions.(sublst{isublst}).ENTSOE.(EFSource).total = 0 ;
+                Emissions.(sublst{isublst}).ENTSOE.(EFSource).intensityprod    = extractdata('mean', cc, EmissionsCategory, Emissionsdatabase.EcoInvent) ;
+            end
+        end
+    end
+end
+
 
 %% Calculate Emissions
 % Emissions are then calculated by multipliying the emission factor (/MWh)
 % to the power produced by the same technology.
-EFSourcelist = {'EcoInvent' 'ET' 'IPCC'} ;
+
 for iEFSource = 1:length(EFSourcelist)
     EFSource = EFSourcelist{iEFSource} ;
     [Emissions.FI.TSO.(EFSource).byfuel] = FingridEmissions(CHP_DH_Fuel, Emissionsdatabase, EFSource, CHP_Ind_Fuel, Sep_Fuel, Windpower, WindCat, EmissionsCategory,Power) ;
     Emissions.FI.TSO.(EFSource).total = sum(struct2array(Emissions.FI.TSO.(EFSource).byfuel)) ;
     Emissions.FI.TSO.(EFSource).intensityprod = Emissions.FI.TSO.(EFSource).total / Power.FI.TSO.TotalProduction ;
-end
-
-% Finland is extracted from ENTSOE
-for iEFSource = 1:length(EFSourcelist)
-    EFSource = EFSourcelist{iEFSource} ;
-    EmissionTotal                             = ENTSOEEmissions(Power.FI.ENTSOE.bytech , Emissionsdatabase.(EFSource), 'FI', EmissionsCategory) ;
-    if isa(EmissionTotal, 'struct')
-        Emissions.FI.ENTSOE.(EFSource).total = sum(struct2array(EmissionTotal)) ;
-        Emissions.FI.ENTSOE.(EFSource).intensityprod    = Emissions.FI.ENTSOE.(EFSource).total / sum(struct2array(Power.FI.ENTSOE.bytech)) ;
-    else
-        Emissions.FI.ENTSOE.(EFSource).total = 0 ;
-        Emissions.FI.ENTSOE.(EFSource).intensityprod    = extractdata('mean', 'FI', EmissionsCategory, Emissionsdatabase.EcoInvent) ;
-    end
 end
 
 %%% Final Emissions Fingrid
@@ -422,78 +428,7 @@ end
         end
             
     end
-%% Function emission extract ENTSOE
-    function emission = ENTSOEEmissions(Power, Emissions, country, EmissionsCategory)
-        %%%
-        % For a given country, emissions are calculated from the ENTSOE
-        % database. Equivalence table between the ENTSOE database and the
-        % emission database is given in the switch form below.
-        if isa(Power, 'struct')
-            AllTech = fieldnames(Power) ;
-            emission = struct ; 
-            for itech = 1:length(AllTech)
-                techname = AllTech{itech} ;
-                if Power.(techname) == 0 
-                    emission.(techname) = 0;
-                else
-                    switch country
-                        case ''
-                        otherwise
-                            try
-                                switch techname
-                                    case {'fossil_brown_coal_lignite','fossil_coal_derived_gas', 'fossil_hard_coal'}
-                                        technamein = 'coal_chp' ;
-                                    case {'fossil_gas'}
-                                        technamein = 'gas' ;
-                                    case {'fossil_peat'}
-                                        technamein = 'peat' ;
-                                    case {'fossil_oil_shale', 'fossil_oil'}
-                                        technamein = 'oil_chp' ;
-                                    case 'hydro_pumped_storage'
-                                        technamein = 'hydro_pumped' ;
-                                    case 'hydro_run_of_river_and_poundage'
-                                        technamein = 'hydro_runof' ;
-                                    case 'hydro_water_reservoir'
-                                        technamein = 'hydro_reservoir' ;
-                                    case 'other_renewable'
-                                        technamein = 'biomass' ;
-                                    case 'wind_offshore'
-                                        technamein = 'windoff' ;
-                                    case 'wind_onshore'
-                                        technamein = 'windon' ;
-                                    case 'nuclear'
-                                        technamein = 'nuclear_PWR' ;
-                                    case 'other'
-                                        technamein = 'other_biogas' ;
-                                    otherwise
-                                        technamein = techname   ; 
-                                end
-                                emi = extractdata(technamein, country, EmissionsCategory, Emissions) ;
-                            catch
-                                emi = 500 ;
-                            end
-                            %%%
-                            % A default factor of 500 kgCO2/MWh is used in case
-                            % of error (but there should not be for this
-                            % specific dataset of technology.
-                            if isempty(emi)
-                                emi = 100 ;
-                            end
-                            if isfield(techname, emission)
-                                emission.(techname) = emission.(techname) + Power.(techname) * emi ;
-                            else
-                                emission.(techname) = Power.(techname) * emi ;
-                            end
-                    end
-                end
-            end
-        else
-            emission = 0 ;
-        end
-        %%%
-        % Total emissions from all the technologies from ENTSOE [kg]
-%         EmissionTotal = sum(struct2array(emission)) ;
-    end
+
 %% function 
 
 
