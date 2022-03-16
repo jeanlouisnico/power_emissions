@@ -15,6 +15,16 @@ catch
 end
 windoffdata  = webread(['https://griddata.elia.be/eliabecontrols.prod/interface/windforecasting/forecastdata?beginDate=' datein '&endDate=' datein '&region=1&isEliaConnected=&isOffshore=True']) ;
 windondata   = webread(['https://griddata.elia.be/eliabecontrols.prod/interface/windforecasting/forecastdata?beginDate=' datein '&endDate=' datein '&region=1&isEliaConnected=&isOffshore=False']) ;
+
+if isempty(windoffdata)
+    windoffdata(1).startsOn = datetime(datetime(data(end).timeUtc,'Format', 'uuuu-MM-dd''T''HH:mm:ss''Z', 'TimeZone', 'UTC'),'Format','uuuu-MM-dd''T''HH:mm:ss''+00:00') ;
+    windoffdata(1).realtime = 0 ;
+end
+if isempty(windondata)
+    windondata(1).startsOn = datetime(datetime(data(end).timeUtc,'Format', 'uuuu-MM-dd''T''HH:mm:ss''Z', 'TimeZone', 'UTC'),'Format','uuuu-MM-dd''T''HH:mm:ss''+00:00') ;
+    windondata(1).realtime = 0 ;
+end
+
 alltime = datetime(cat(1, data(:).timeUtc) , 'Format', 'uuuu-MM-dd''T''HH:mm:ss''Z', 'TimeZone', 'UTC') ;
 
 alltimeBE = datetime(alltime, 'TimeZone', 'Europe/Brussels') ;
@@ -49,27 +59,34 @@ powerout = synchronize(powerout,windonTT) ;
 powerout = synchronize(powerout,windoffTT) ;
 
 powerout = removevars(powerout, "solar") ;
-powerout = removevars(powerout, "wind") ;
-
+if (powerout.windon(end) == 0 || isnan(powerout.windon(end))) && powerout.wind(end) > 0
+    powerout = removevars(powerout, "windon") ;
+    powerout = removevars(powerout, "windoff") ;
+else
+    powerout = removevars(powerout, "wind") ;
+end
 powerout = renamevars(powerout,"solardata", "solar") ;
+
+% Extract valid table
+powerout = powerout(~isnan(powerout.nuclear),:) ;
 
 TTSync.TSO = powerout(end,:) ;
 %% Extract emissions
 elecfuel = retrieveEF ;
 
-[alldata, ~] = fuelmixEU('Belgium', false, 'absolute') ;
-alphadigit = countrycode('Belgium') ;
+[alldata, ~]    = fuelmixEU('Belgium', false, 'absolute') ;
+alphadigit      = countrycode('Belgium') ;
 
 thermal = {'CF_R' 'C0000' 'CF_NR' 'G3000' 'O4000XBIO' 'X9900'} ;
 hydro = {'RA110' 'RA120' 'RA130'} ;
-% wind  = {'RA310' 'RA320'} ; 
+wind  = {'RA310' 'RA320'} ; 
 % solar = {'RA410' 'RA420'} ; 
 
 predictedfuel = fuelmixEU_lpredict(alldata.(alphadigit.alpha2)) ;
 
 normalisedpredictthermal = array2timetable(bsxfun(@rdivide, predictedfuel(:,thermal).Variables, sum(predictedfuel(:,thermal).Variables,2, 'omitnan')) * 100, "RowTimes", predictedfuel.Time, 'VariableNames', thermal) ;
 normalisedpredicthydro = array2timetable(bsxfun(@rdivide, predictedfuel(:,hydro).Variables, sum(predictedfuel(:,hydro).Variables,2, 'omitnan')) * 100, "RowTimes", predictedfuel.Time, 'VariableNames', hydro) ;
-% normalisedpredictwind = array2timetable(bsxfun(@rdivide, predictedfuel(:,wind).Variables, sum(predictedfuel(:,wind).Variables,2, 'omitnan')) * 100, "RowTimes", predictedfuel.Time, 'VariableNames', wind) ;
+normalisedpredictwind = array2timetable(bsxfun(@rdivide, predictedfuel(:,wind).Variables, sum(predictedfuel(:,wind).Variables,2, 'omitnan')) * 100, "RowTimes", predictedfuel.Time, 'VariableNames', wind) ;
 % normalisedpredictsolar = array2timetable(bsxfun(@rdivide, predictedfuel(:,solar).Variables, sum(predictedfuel(:,solar).Variables,2, 'omitnan')) * 100, "RowTimes", predictedfuel.Time, 'VariableNames', solar) ;
 % normalisedpredicnuclear = array2timetable(bsxfun(@rdivide, predictedfuel(:,nuclear).Variables, sum(predictedfuel(:,nuclear).Variables,2, 'omitnan')) * 100, "RowTimes", predictedfuel.Time, 'VariableNames', nuclear) ;
 
@@ -83,16 +100,21 @@ genbyfuel_thermal = array2timetable(genbyfuel_thermal, "RowTimes", d, "VariableN
 genbyfuel_hydro = TTSync.TSO.water(end) .* normalisedpredicthydro(end,:).Variables/100 ;
 genbyfuel_hydro = array2timetable(genbyfuel_hydro, "RowTimes", d, "VariableNames", hydro) ;
 
-% genbyfuel_wind = TTSync.TSO.wind(end) .* normalisedpredictwind(end,:).Variables/100 ;
-% genbyfuel_wind = array2timetable(genbyfuel_wind, "RowTimes", d, "VariableNames", wind) ;
-
+if any(strcmp('wind',TTSync.TSO.Properties.VariableNames))
+    genbyfuel_wind = TTSync.TSO.wind(end) .* normalisedpredictwind(end,:).Variables/100 ;
+    genbyfuel_wind = array2timetable(genbyfuel_wind, "RowTimes", d, "VariableNames", wind) ;
+end
 % genbyfuel_solar = TTSync.TSO.solar(end) .* normalisedpredictsolar(end,:).Variables/100  ;
 % genbyfuel_solar = array2timetable(genbyfuel_solar, "RowTimes", d, "VariableNames", solar) ;
 % 
 % genbyfuel_nuclear = Powerout.nuclear(end) .* normalisedpredicnuclear(end,:).Variables/100 ;
 % genbyfuel_nuclear = array2timetable(genbyfuel_nuclear, "RowTimes", d, "VariableNames", nuclear) ;
 
-tables = {genbyfuel_thermal, genbyfuel_hydro} ;
+if any(strcmp('wind',TTSync.TSO.Properties.VariableNames))
+    tables = {genbyfuel_thermal, genbyfuel_hydro, genbyfuel_wind} ;
+else
+    tables = {genbyfuel_thermal, genbyfuel_hydro} ;
+end
 TTSync.emissionskit = synchronize(tables{:,:},'union','nearest');
 
 replacestring = cellfun(@(x) elecfuel(strcmp(elecfuel(:,1),x),2), TTSync.emissionskit.Properties.VariableNames, 'UniformOutput', false) ;
@@ -112,7 +134,11 @@ try
 catch
 end
 
-TTSync.emissionskit = addvars(TTSync.emissionskit, TTSync.TSO.windon, TTSync.TSO.windoff, TTSync.TSO.solar,'NewVariableNames',{'windon','windoff','solar'}) ;
+if any(strcmp('wind',TTSync.TSO.Properties.VariableNames))
+    TTSync.emissionskit = addvars(TTSync.emissionskit, TTSync.TSO.solar,'NewVariableNames',{'solar'}) ;
+else
+    TTSync.emissionskit = addvars(TTSync.emissionskit, TTSync.TSO.windon, TTSync.TSO.windoff, TTSync.TSO.solar,'NewVariableNames',{'windon','windoff','solar'}) ;
+end
 
 
 TTSync.emissionskit = convertTT_Time(TTSync.emissionskit,'UTC') ;

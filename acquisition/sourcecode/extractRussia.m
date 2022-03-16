@@ -15,9 +15,6 @@ Powerindex = {'production', ...
 %     'P_BS': 'unknown',
 %     'P_REN': 'solar'
           
-currenttime = javaObject("java.util.Date") ; 
-timezone = -currenttime.getTimezoneOffset()/60 ;
-
 timeextract = datetime('now', 'Format','yyyy.MM.dd', 'TimeZone','Europe/Moscow') ;
 
 url = ['http://br.so-ups.ru/webapi/api/CommonInfo/PowerGeneration?priceZone[]=1&startDate=' ...

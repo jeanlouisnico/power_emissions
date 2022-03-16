@@ -43,7 +43,7 @@ while n == 0
     else
         loopstart = loopstart - 1 ;
         if loopstart <= 0
-            warning('did not find data') ;
+            warning('did not find data') 
             powerdata = 0 ;
             n = 1 ;
         end

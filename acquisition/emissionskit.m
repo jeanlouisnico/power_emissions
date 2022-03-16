@@ -49,7 +49,29 @@ for iEFSource = 1:length(EFSourcelist)
     end
 end
 
+%% Emissions EK
 
+for icountry = 1:length(Country)
+    cc = country_code.alpha2{icountry} ;
+    if ~isa(Power(icountry).TSO,'double')
+        sublst = fieldnames(Power(icountry).TSO) ;
+        for isublst = 1:length(sublst)
+            
+            em = unloaddata(Power(icountry).TSO, sublst{isublst}, EmissionsCategory, Emissionsdatabase, cc) ;
+            if isa(em,'double')
+                continue;
+            end
+            if isa(em, 'struct')
+                switch sublst{isublst}
+                    case {'emissionskit' 'TSO'}
+                        Emissions.(cc).emissionskit = em.(cc).(sublst{isublst}) ;    
+                    otherwise
+                        Emissions.(sublst{isublst}) = em.(cc) ;
+                end
+            end
+        end
+    end
+end
 %% Calculate Emissions
 % Emissions are then calculated by multipliying the emission factor (/MWh)
 % to the power produced by the same technology.
@@ -335,7 +357,7 @@ for ipower = 1:length(FIsource)
 end
 %% Save all values in XML files
 
-currenttime = datetime(now, "ConvertFrom", "datenum") ;
+currenttime = datetime('now','TimeZone','UTC') ;
 
 %% Send the data to the server
 
