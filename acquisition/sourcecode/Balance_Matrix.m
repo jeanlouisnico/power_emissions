@@ -47,7 +47,7 @@ allexch = cell2table(allexch) ;
 for icountry = 1:2
 
     country = cellfun(@(x) strsplit(x,'_') , allexch.allexch(:,icountry)  , 'UniformOutput' , false) ;
-    country2{length(country),2} = '' ;
+    country2 = repmat({''}, length(country), 3) ;
     for icell = 1:length(country)
         loopcol = size(country{icell},2) ;
         for iloop = 1:loopcol

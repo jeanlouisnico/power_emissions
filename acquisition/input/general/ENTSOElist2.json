@@ -45,11 +45,6 @@
     "query": "10YCA-BULGARIA-R"
   },
   {
-    "countrycode": "CZ-DE-SKK",
-	"areas": "BZ/BZA",
-    "query": "10YDOM-CZ-DE-SKK"
-  },
-  {
     "countrycode": "HR",
 	"areas": "BZ/CA/MBA",
     "query": "10YHR-HEP------M"
@@ -118,21 +113,6 @@
     "countrycode": "FR",
 	"areas": "BZ/CA/MBA",
     "query": "10YFR-RTE------C"
-  },
-  {
-    "countrycode": "GB-ElecLink",
-	"areas": "BZN",
-    "query": "11Y0-0000-0265-K"
-  },
-  {
-    "countrycode": "GB-IFA",
-	"areas": "BZN",
-    "query": "10Y1001C--00098F"
-  },
-  {
-    "countrycode": "GB-IFA2",
-	"areas": "BZ",
-    "query": "17Y0000009369493"
   },
   {
     "countrycode": "DE",
@@ -388,6 +368,11 @@
     "countrycode": "SE_SE4",
 	"areas": "BZ/MBA",
     "query": "10Y1001A1001A47J"
+  },
+  {
+    "countrycode": "RS",
+	"areas": "BZ/CA/MBA",
+    "query": "10YCS-SERBIATSOV"
   },
   {
     "countrycode": "CS",

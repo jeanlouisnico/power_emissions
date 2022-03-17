@@ -13,9 +13,16 @@ catch
     solar(1).startsOn = datetime(timeBE,"Format",'uuuu-MM-dd''T''HH:mm:ss''Z', 'TimeZone', 'UTC') ;
     solar(1).realTime = 0 ;
 end
-windoffdata  = webread(['https://griddata.elia.be/eliabecontrols.prod/interface/windforecasting/forecastdata?beginDate=' datein '&endDate=' datein '&region=1&isEliaConnected=&isOffshore=True']) ;
-windondata   = webread(['https://griddata.elia.be/eliabecontrols.prod/interface/windforecasting/forecastdata?beginDate=' datein '&endDate=' datein '&region=1&isEliaConnected=&isOffshore=False']) ;
-
+try
+    windoffdata  = webread(['https://griddata.elia.be/eliabecontrols.prod/interface/windforecasting/forecastdata?beginDate=' datein '&endDate=' datein '&region=1&isEliaConnected=&isOffshore=True']) ;
+catch
+    windoffdata = [] ;
+end
+try
+    windondata   = webread(['https://griddata.elia.be/eliabecontrols.prod/interface/windforecasting/forecastdata?beginDate=' datein '&endDate=' datein '&region=1&isEliaConnected=&isOffshore=False']) ;
+catch
+    windondata = [] ;
+end
 if isempty(windoffdata)
     windoffdata(1).startsOn = datetime(datetime(data(end).timeUtc,'Format', 'uuuu-MM-dd''T''HH:mm:ss''Z', 'TimeZone', 'UTC'),'Format','uuuu-MM-dd''T''HH:mm:ss''+00:00') ;
     windoffdata(1).realtime = 0 ;

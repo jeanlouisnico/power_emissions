@@ -1,6 +1,6 @@
 function emissionskit(src, eventdata)
 % This is the main routine for running the emission code from MatLab
-
+ dbstop if error
 %% Exchange of Power
 % For the other countries, it is necessary to loop through each connected
 % country. Country can be added or removed by editing the cell array.
@@ -12,7 +12,8 @@ country_code = countrycode(Country) ;
 Power = struct ;
 tic;
 parfor icountry = 1:length(Country)
-    [ENTSOE, TSO, PoweroutLoad] = CallCountryPower(Country{icountry}) ;
+    [ENTSOE, TSO, PoweroutLoad, ENTSOEexch] = CallCountryPower(Country{icountry}) ;
+    Power(icountry).ENTSOE.exchange = ENTSOEexch ;
     Power(icountry).ENTSOE.bytech = ENTSOE ;
     Power(icountry).ENTSOE.byfuel = ENTSOEbyfuel(ENTSOE) ;
     Power(icountry).ENTSOE.TotalConsumption = PoweroutLoad ;
