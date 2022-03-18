@@ -1,4 +1,4 @@
-function [ENTSOE, TSO, PoweroutLoad, ENTSOEexch] = CallCountryPower(country)
+function [ENTSOE, TSO, PoweroutLoad] = CallCountryPower(country)
 % Switch through the selected countries to know where the fetch the data
 % from.
 %%%%% TO GET THROUGH THE ENTSOE API %%%%%%%%
@@ -6,7 +6,7 @@ function [ENTSOE, TSO, PoweroutLoad, ENTSOEexch] = CallCountryPower(country)
 
 ENTSOE       = ENTSOE_exch('country',country,'documentType','Generation') ;
 PoweroutLoad = ENTSOE_exch('country',country,'documentType','Load')       ;
-ENTSOEexch   = ENTSOE_exch('country',country,'documentType','Exchange')       ;
+
 
 switch country
     %%% France

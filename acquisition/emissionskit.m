@@ -1,6 +1,12 @@
 function emissionskit(src, eventdata)
 % This is the main routine for running the emission code from MatLab
  dbstop if error
+%% Locate the file
+p = mfilename('fullpath') ;
+[filepath,~,~] = fileparts(p) ;
+fparts = split(filepath, filesep) ;
+fparts = join(fparts(1:end-1), filesep) ;
+ 
 %% Exchange of Power
 % For the other countries, it is necessary to loop through each connected
 % country. Country can be added or removed by editing the cell array.
@@ -10,16 +16,53 @@ Country = country2fetch ;
 
 country_code = countrycode(Country) ;
 Power = struct ;
+
+
+if isfile('Xchange.json')
+    FileInfo = dir('Xchange.json') ;
+    datecompare = datetime('now') ;
+    datefile    = datetime(FileInfo.datenum, "ConvertFrom", "datenum") ;
+
+    % Check daily if the data have changed
+    if minutes(datecompare-datefile) >= 20
+        tic;
+        counter = 0 ;
+        for icountry = 1:length(Country)
+            [Power(icountry).ENTSOE.exchange]   = ENTSOE_exch('country',Country{icountry},'documentType','Exchange')       ;
+        end
+        for icountry = 1:length(Country)
+            ccode = fieldnames(Power(icountry).ENTSOE.exchange) ;
+            p_out.(ccode{1}) = timetable2table(Power(icountry).ENTSOE.exchange.(ccode{1})) ;
+        end
+        Xchange = p_out ;
+        dlmwrite([fparts{1} filesep 'Xchange.json'],jsonencode(p_out,'PrettyPrint',true),'delimiter','');
+        toc
+    else
+        Xchange = jsondecode(fileread([fparts{1} filesep 'Xchange.json']));  
+    end
+else
+    for icountry = 1:length(Country)
+        [Power(icountry).ENTSOE.exchange, counter]   = ENTSOE_exch('country',Country{icountry},'documentType','Exchange', 'counter', counter)       ;
+    end
+    for icountry = 1:length(Country)
+        ccode = fieldnames(Power(icountry).ENTSOE.exchange) ;
+        p_out.(ccode{1}) = timetable2table(Power(icountry).ENTSOE.exchange.(ccode{1})) ;
+    end
+    Xchange = p_out ;
+    dlmwrite([fparts{1} filesep 'Xchange.json'],jsonencode(p_out,'PrettyPrint',true),'delimiter','');
+end
+
+
 tic;
 parfor icountry = 1:length(Country)
-    [ENTSOE, TSO, PoweroutLoad, ENTSOEexch] = CallCountryPower(Country{icountry}) ;
-    Power(icountry).ENTSOE.exchange = ENTSOEexch ;
+    [ENTSOE, TSO, PoweroutLoad] = CallCountryPower(Country{icountry}) ;
     Power(icountry).ENTSOE.bytech = ENTSOE ;
     Power(icountry).ENTSOE.byfuel = ENTSOEbyfuel(ENTSOE) ;
     Power(icountry).ENTSOE.TotalConsumption = PoweroutLoad ;
     Power(icountry).TSO = TSO ;
 end
 toc
+
 %% Load Emissions data
 % Emissions from EcoInvent are gathered and stored in a .csv file
 % associated to this file Emissions_Summary.csv. The data are gathered from

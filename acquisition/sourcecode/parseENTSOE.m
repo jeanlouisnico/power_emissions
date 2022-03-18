@@ -1,5 +1,5 @@
 
-function Powerout = parseENTSOE(param)
+function [Powerout, counter] = parseENTSOE(param, counter)
 %% More information
 % <https://transparency.entsoe.eu/content/static_content/Static%20content/web%20api/Guide.html#_areas>
 
@@ -56,6 +56,7 @@ n = 0 ;
             else
                 Powerout  = xml2struct2(data) ;
                 n = 1 ;
+                counter = counter + 1;
             end
        catch ME
            ME

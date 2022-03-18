@@ -1,4 +1,4 @@
-function [Powerout] = ENTSOE_exch(varargin)
+function [Powerout, counter] = ENTSOE_exch(varargin)
 %% 
 % ENTSOE classifcation is well documented and can be gathered from their
 % main interface 
@@ -9,10 +9,11 @@ defaulttype        = 'Generation' ;
 defaultprocessType = 'A16' ;
 defaultin_Domain   = '10YFR-RTE------C' ;
 defaultout_Domain  = '10YBE----------2' ;
+defaultcounter     = 0 ;
 
 p = inputParser;
 
-validScalarPosNum = @(x) isnumeric(x) && isscalar(x) && (x > 0) && (mod(x,1)==0);
+validScalarPosNum = @(x) isnumeric(x) && isscalar(x) && (x >= 0) && (mod(x,1)==0);
 validVector = @(x) all(isnumeric(x)) && all(isvector(x)) ;
 validstring = @(x) isstring(x) || ischar(x) ;
 
@@ -21,11 +22,13 @@ addParameter(p,'documentType',defaulttype, validstring);
 addParameter(p,'processType',defaultprocessType, validstring);
 addParameter(p,'in_Domain',defaultin_Domain, validstring);
 addParameter(p,'out_Domain',defaultout_Domain, validstring);
+addParameter(p,'counter',defaultcounter, validScalarPosNum);
 
 parse(p, varargin{:});
 
 results = p.Results ; 
 
+counter = results.counter ;
 
 bid =  {'B01'	'Biomass'                             
         'B02'	'Fossil Brown coal/Lignite'
@@ -68,16 +71,16 @@ switch results.documentType
         param.documentType = 'A75' ;
         param.processType  = 'A16' ;
         param.in_Domain    = results.in_Domain ;
-        Powerout = parsergeneration(param, code2digit, bid) ;
+        [Powerout, counter] = parsergeneration(param, code2digit, bid, counter) ;
     case 'Load'
         param.documentType          = 'A65' ;
         param.processType           = 'A16' ;
         param.outBiddingZone_Domain = results.in_Domain ;
-        Powerout = parsergeneration(param, code2digit, bid) ;
+        [Powerout, counter] = parsergeneration(param, code2digit, bid, counter) ;
     case 'Exchange'
         param.documentType = 'A11' ;
         param.in_Domain    = results.in_Domain ;
-        Powerout           = parserexchange(param, code2digit, bid) ;
+        [Powerout, counter]           = parserexchange(param, code2digit, bid, counter) ;
     otherwise
         warning('Not yet setup')
         return;
@@ -86,12 +89,12 @@ end
 
 
 % Nested function
-    function Powerout=parsergeneration(param, code2digit, bid)
+    function [Powerout, counter] = parsergeneration(param, code2digit, bid, counter)
         zonecode = makevalidstring(code2digit.alpha2,'capitalise',false) ;
-        [Powerout.(zonecode)] = getdata(param, bid) ;
+        [Powerout.(zonecode), counter] = getdata(param, bid, counter) ;
     end
     
-    function Powerout = parserexchange(param, code2digit, bid)
+    function [Powerout, counter] = parserexchange(param, code2digit, bid, counter)
         zonecodeini = makevalidstring(code2digit.alpha2,'capitalise',false) ;
         if strcmp(code2digit.alpha2,'EL')
             code2digit.alpha2 = 'GR' ;
@@ -123,10 +126,10 @@ end
                     param.out_Domain   = zone ;
         
                     zonecode = makevalidstring(zonecode,'capitalise',false) ;
-                    powerimport = getdata(param, bid) ; 
+                    [powerimport, counter] = getdata(param, bid, counter) ; 
                     param.out_Domain = param.in_Domain ;
                     param.in_Domain  = zone ;
-                    powerexport = getdata(param, bid) ;
+                    [powerexport, counter] = getdata(param, bid, counter) ;
                     if ~isa(powerimport,'double')
                         TT = synchronize(powerimport,powerexport,'commonrange') ;    
                         balance.(zonecode) = TT(:,'powerarray_powerimport').Variables  - TT(:,'powerarray_powerexport').Variables ;
@@ -142,19 +145,27 @@ end
         catch
             TT.powertime = datetime('now','TimeZone','UTC') ;
         end
+        zonecodeini
+        balance = checkempty(balance) ;
         Powerout.(zonecodeini) = table2timetable(struct2table(balance),'RowTimes',TT.powertime) ;
     end
-    
-    function Powerout = parsetech(param)
-        Powerout = parseENTSOE(param) ;
-    end
+
 %% 
 % The variable names are taken from ENTSOE variable name and made
 % compatible with MatLab valid name (replacing space, underscore,
 % backslash)
-    function [Powerout] = getdata(param, bid)
+    function balance = checkempty(balance)
+        allF = fieldnames(balance) ;
+        for iF = 1:length(allF)
+            if isempty(balance.(allF{iF}))
+                balance.(allF{iF}) = 0 ;
+            end
+        end
+    end
+
+    function [Powerout, counter] = getdata(param, bid, counter)
         try
-            PowerGen = parsetech(param) ;
+            [PowerGen, counter] = parseENTSOE(param, counter) ;
             switch param.documentType
                 case 'A75'
                     Powerout = parseENTSOEdata(PowerGen, bid) ;
