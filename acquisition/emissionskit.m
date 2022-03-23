@@ -55,13 +55,14 @@ end
 
 tic;
 parfor icountry = 1:length(Country)
-    [ENTSOE, TSO, PoweroutLoad] = CallCountryPower(Country{icountry}) ;
+    [ENTSOE, TSO, PoweroutLoad, xCHANGE] = CallCountryPower(Country{icountry}) ;
     Power(icountry).ENTSOE.bytech = ENTSOE ;
     Power(icountry).ENTSOE.byfuel = ENTSOEbyfuel(ENTSOE) ;
     Power(icountry).ENTSOE.TotalConsumption = PoweroutLoad ;
     Power(icountry).TSO = TSO ;
+    Power(icountry).xCHANGE = xCHANGE ;
 end
-toc
+EntsoeTSO = toc
 
 %% Load Emissions data
 % Emissions from EcoInvent are gathered and stored in a .csv file
@@ -71,7 +72,7 @@ toc
 % the 18 categories
 EmissionsCategory = 'GlobalWarming' ;
 Emissionsdatabase = load_emissions ;
-
+tic;
 %% Emissions ENTSOE
 % Re-allocate the emissions per type of technology
 EFSourcelist = {'EcoInvent' 'ET' 'IPCC'} ;
@@ -92,9 +93,9 @@ for iEFSource = 1:length(EFSourcelist)
         end
     end
 end
-
+xhchangeEntsoe = toc 
 %% Emissions EK
-
+tic
 for icountry = 1:length(Country)
     cc = country_code.alpha2{icountry} ;
     if ~isa(Power(icountry).TSO,'double')
@@ -116,6 +117,8 @@ for icountry = 1:length(Country)
         end
     end
 end
+emissionroutine = toc
+%% DELETE WHAT IS BELOW
 %% Calculate Emissions
 % Emissions are then calculated by multipliying the emission factor (/MWh)
 % to the power produced by the same technology.

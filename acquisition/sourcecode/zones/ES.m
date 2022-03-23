@@ -1,10 +1,4 @@
 function TTSync = ES
-
-% timeextract = datetime(datetime(datestr(now)) - hours(timezone), 'Format','yyyy-MM-dd') ;
-% 
-% url = ['https://www.svk.se/ControlRoom/GetProductionHistory/?productionDate=' char(timeextract) '&countryCode=SE'] ;
-% data = webread(url);
-
 % https://apidatos.ree.es/es/datos/generacion/estructura-generacion?start_date=2014-01-01T00:00&end_date=2018-12-31T23:59&time_trunc=year&geo_trunc=electric_system&geo_limit=ccaa&geo_ids=7
 % start_date  = '2018-12-31T00:00' ;
 % end_date    = '2018-12-31T23:59' ;

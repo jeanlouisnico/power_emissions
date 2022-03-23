@@ -1,5 +1,5 @@
 function TTSync = UK
-
+%%% Explanation for the API can be found here https://www.elexon.co.uk/documents/training-guidance/bsc-guidance-notes/bmrs-api-and-data-push-user-guide-2/
 
 fuel = {'biomass' 'biomass'
         'hydro_pumped_storage' 'hydro_pumped'

@@ -32,8 +32,6 @@ TSO.SystemState  = fetchFingrid('SystemState')  ; % MWh/h
 %% The emissionkit method
 
 %%%%% TO GET THROUGH THE FINGRID API %%%%%%%%
-EmissionsCategory = 'GlobalWarming' ;
-Emissionsdatabase = load_emissions ;
 
 [IndCHP, DHCHP, Sep, capacity, fuelratio] = extract2stat ;
 

@@ -24,7 +24,11 @@ power.(makevalidstring(data.series{11}.name))     = data.series{11}.data ;
  
 timeaxis = data.xAxis.categories(1:length(power.coal )) ;
 
-datein = cellfun(@(x) datetime(x,'InputFormat', 'HH:mm', 'TimeZone', 'Europe/Lisbon'), timeaxis) ;
+decompose_time = cellfun(@(x) strsplit(x,':'),timeaxis,'UniformOutput',false) ;
+timearray = cellfun(@(x) datetime(timePT.Year,timePT.Month, timePT.Day, str2double(x(1)), str2double(x(2)), 0), decompose_time, 'UniformOutput',false) ;
+datein = [timearray{:}]';
+% 
+% datein = cellfun(@(x) datetime(x,'InputFormat', 'HH:mm', 'TimeZone', 'Europe/Lisbon'), timeaxis) ;
 
 powerdata = struct2table(power) ;
 

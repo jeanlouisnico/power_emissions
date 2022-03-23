@@ -1,7 +1,37 @@
-function power = extractFrance
+function [power, PXchange] = extractFrance
 
 % currenttime = javaObject("java.util.Date") ;
 % timezone = -currenttime.getTimezoneOffset()/60 ;
+fueldata = {'hydraulique_step_turbinage' 'hydro_pumped'
+                'hydraulique_lacs' 'hydro_reservoir'
+                'eolien' 'windon'
+                'hydraulique' 'hydro'
+                'solaire' 'solar'
+                'fioul_autres' 'oil'
+                'nucleaire' 'nuclear'
+                'gaz_tac'  'gas'
+                'fioul'    'oil'
+                'pompage' 'hydro_pumped'
+                'gaz' 'gas'
+                'gaz_cogen' 'gas_chp'
+                'fioul_cogen' 'oil_chp'
+                'bioenergies_biomasse' 'biomass'
+                'bioenergies_dechets'  'waste'
+                'gaz_autres' 'gas'
+                'hydraulique_fil_eau_eclusee' 'hydro_runof'
+                'bioenergies_biogaz' 'other_biogas'
+                'bioenergies' 'biomass'
+                'gaz_ccg'  'gas_chp'
+                'charbon' 'coal'
+                'fioul_tac' 'oil'
+                'consommation' 'consumption'
+                'ech_comm_angleterre' 'GB'
+                'ech_comm_italie' 'IT'
+                'ech_comm_suisse' 'CH'
+                'ech_comm_allemagne_belgique' 'DE'
+                'ech_comm_espagne' 'ES'
+                } ;
+
 
 currenttime = datetime('now', 'TimeZone','local') ;
 timeextract = datetime(currenttime,'TimeZone','UTC') - hours(2);
@@ -35,54 +65,40 @@ catch
 end
 n = 0 ;
 loopstart = size(data.records, 1) ;
-
+powerdata = [] ;
+powerXchange = [] ;
 while n == 0
-    if isfield(data.records(loopstart).fields, 'nucleaire')
+    if isfield(data.records(loopstart).fields, 'nucleaire')  && isempty(powerdata)
         powerdata = data.records(loopstart).fields ;
-        n = 1 ;
+        if ~isempty(powerXchange)
+            n = 1 ;
+        else
+            loopstart = loopstart - 1 ;    
+        end
+    elseif isfield(data.records(loopstart).fields, 'ech_comm_espagne') && isempty(powerXchange)
+        powerXchange = data.records(loopstart).fields ;
+        if ~isempty(powerdata)
+            n = 1 ;
+        else
+            loopstart = loopstart - 1 ;
+        end
     else
         loopstart = loopstart - 1 ;
         if loopstart <= 0
             warning('did not find data') 
-            powerdata = 0 ;
+            if isempty(powerdata)
+                powerdata = 0 ;
+            end
+            if isempty(powerXchange)
+                powerXchange = 0 ;
+            end
             n = 1 ;
         end
     end
 end
 if isa(powerdata, 'struct')
     powerdata = struct2table(powerdata) ;
-    fueldata = {'hydraulique_step_turbinage' 'hydro_pumped'
-                'hydraulique_lacs' 'hydro_reservoir'
-                'eolien' 'windon'
-                'hydraulique' 'hydro'
-                'solaire' 'solar'
-                'fioul_autres' 'oil'
-                'nucleaire' 'nuclear'
-                'gaz_tac'  'gas'
-                'fioul'    'oil'
-                'pompage' 'hydro_pumped'
-                'gaz' 'gas'
-                'gaz_cogen' 'gas_chp'
-                'fioul_cogen' 'oil_chp'
-                'bioenergies_biomasse' 'biomass'
-                'bioenergies_dechets'  'waste'
-                'gaz_autres' 'gas'
-                'hydraulique_fil_eau_eclusee' 'hydro_runof'
-                'bioenergies_biogaz' 'other_biogas'
-                'bioenergies' 'biomass'
-                'gaz_ccg'  'gas_chp'
-                'charbon' 'coal'
-                'fioul_tac' 'oil'
-                'consommation' 'consumption'
-                'ech_comm_angleterre' 'TradeEngland'
-                'ech_comm_italie' 'TradeItaly'
-                'ech_comm_suisse' 'TradeSwiss'
-                'ech_comm_allemagne_belgique' 'TradeBelgGerm'
-                'ech_comm_espagne' 'TradeSpain'
-                } ;
-    
-    AllVar = unique(fueldata(:,2)) ;        
-            
+    AllVar = unique(fueldata(:,2)) ;          
     for ivar = 1:length(AllVar)
         getdata = AllVar{ivar} ;
         try
@@ -96,3 +112,21 @@ if isa(powerdata, 'struct')
 else
     power = 0 ;
 end
+
+if isa(powerXchange, 'struct')
+    powerXchange = struct2table(powerXchange) ;
+    AllVar = unique(fueldata(:,2)) ;          
+    for ivar = 1:length(AllVar)
+        getdata = AllVar{ivar} ;
+        try
+            PXchange.(getdata) = sum(powerXchange(1,fueldata(contains(fueldata(:,2), getdata),1)').Variables) ;
+        catch
+            continue;
+        end
+    end
+    powetemp = struct2table(PXchange) ;
+    PXchange = table2timetable(powetemp,'RowTimes',datetime(currenttime,'TimeZone','UTC')) ;
+else
+    PXchange = 0 ;
+end
+
