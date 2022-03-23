@@ -20,7 +20,7 @@ catch
     return ;
 end
 
-system([pythonpath 'python ' filepath filesep 'DK_request.py']) ;
+system([pythonpath 'python ' '"' filepath filesep 'DK_request.py"']) ;
 
 setup = jsondecode(fileread('data.json'));
 
