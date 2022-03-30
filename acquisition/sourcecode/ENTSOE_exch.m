@@ -64,79 +64,196 @@ bid =  {'B01'	'Biomass'
 code2digit = countrycode(results.country) ;
 
 domainin = ENTSOEdomain(code2digit) ;
-results.in_Domain = domainin{1,2} ;
+results.in_Domain = domainin{end,2} ;
 
-switch results.documentType
-    case 'Generation'
-        param.documentType = 'A75' ;
-        param.processType  = 'A16' ;
-        param.in_Domain    = results.in_Domain ;
-        [Powerout, counter] = parsergeneration(param, code2digit, bid, counter) ;
-    case 'Load'
-        param.documentType          = 'A65' ;
-        param.processType           = 'A16' ;
-        param.outBiddingZone_Domain = results.in_Domain ;
-        [Powerout, counter] = parsergeneration(param, code2digit, bid, counter) ;
-    case 'Exchange'
-        param.documentType = 'A11' ;
-        param.in_Domain    = results.in_Domain ;
-        [Powerout, counter]           = parserexchange(param, code2digit, bid, counter) ;
+switch code2digit.alpha2
+    case 'NO'
+        alldomains = domainin(:,2) ;
+        for jdom = 1:length(alldomains)
+            results.in_Domain = domainin(jdom,:)  ;
+            if ~strcmp(results.in_Domain{1},'NO')
+                [Powerouttmp.(results.in_Domain{1}), counter] = extractdata(results, code2digit, bid, counter) ;
+            end
+        end
+        % Unload each zone and re-allocate by country
+        out = aggregateENTSOEX(Powerouttmp) ;
+        Powerout.NO = out ;
+    case 'SE'
+        alldomains = domainin(:,2) ;
+        for jdom = 1:length(alldomains)
+            results.in_Domain = domainin(jdom,:)  ;
+            if ~strcmp(results.in_Domain{1},'SE')
+                [Powerouttmp.(results.in_Domain{1}), counter] = extractdata(results, code2digit, bid, counter) ;
+            end
+        end
+        % Unload each zone and re-allocate by country
+        out = aggregateENTSOEX(Powerouttmp) ;
+        Powerout.SE = out ;
+    case 'DE'
+        alldomains = domainin(:,2) ;
+        for jdom = 1:length(alldomains)
+            results.in_Domain = domainin(jdom,:)  ;
+            if strcmp(results.in_Domain{1},'DE_LU')
+                [Powerouttmp.(results.in_Domain{1}), counter] = extractdata(results, code2digit, bid, counter) ;
+            end
+        end
+        % Unload each zone and re-allocate by country
+        out = aggregateENTSOEX(Powerouttmp) ;
+        Powerout.DE = out ;
+    case 'DK'
+        alldomains = domainin(:,2) ;
+        for jdom = 1:length(alldomains)
+            results.in_Domain = domainin(jdom,:)  ;
+            if ~any(ismember(results.in_Domain{1},{'DK', 'DK-energinet'}))
+                [Powerouttmp.(results.in_Domain{1}), counter] = extractdata(results, code2digit, bid, counter) ;
+            end
+        end
+        % Unload each zone and re-allocate by country
+        out = aggregateENTSOEX(Powerouttmp) ;
+        Powerout.DK = out ;
+    case 'IE'
+        alldomains = domainin(:,2) ;
+        for jdom = 1:length(alldomains)
+            results.in_Domain = domainin(jdom,:)  ;
+            if strcmp(results.in_Domain{1},'IE_SEM')
+                [Powerouttmp.(results.in_Domain{1}), counter] = extractdata(results, code2digit, bid, counter) ;
+            end
+        end
+        % Unload each zone and re-allocate by country
+        out = aggregateENTSOEX(Powerouttmp) ;
+        Powerout.IE = out ;
+    case 'IT'
+        alldomains = domainin(:,2) ;
+        for jdom = 1:length(alldomains)
+            results.in_Domain = domainin(jdom,:)  ;
+            if ~strcmp(results.in_Domain{1},'IT')
+                [Powerouttmp.(makevalidstring(results.in_Domain{1},'capitalise',false)), counter] = extractdata(results, code2digit, bid, counter) ;
+            end
+        end
+        % Unload each zone and re-allocate by country
+        out = aggregateENTSOEX(Powerouttmp) ;
+        Powerout.IT = out ;
+    case 'RU'
+        alldomains = domainin(:,2) ;
+        for jdom = 1:length(alldomains)
+            results.in_Domain = domainin(jdom,:)  ;
+            [Powerouttmp.(results.in_Domain{1}), counter] = extractdata(results, code2digit, bid, counter) ;
+        end
+        % Unload each zone and re-allocate by country
+        out = aggregateENTSOEX(Powerouttmp) ;
+        Powerout.RU = out ;
     otherwise
-        warning('Not yet setup')
-        return;
+        results.in_Domain = domainin(1,:)  ;
+        [Powerout.(results.in_Domain{1}), counter] = extractdata(results, code2digit, bid, counter) ;
+        if any(ismember(Powerout.(results.in_Domain{1}).Properties.VariableNames,'initial'))
+            Powerout.(results.in_Domain{1}) = removevars(Powerout.(results.in_Domain{1}),'initial') ;
+        end
 end
 
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Nested function
+    function out = aggregateENTSOEX(Powerouttmp)
+        eachzone = fieldnames(Powerouttmp) ;
+        collectsubzone = {} ;
+        for izone = 1:length(eachzone)
+                collectsubzone = [collectsubzone; Powerouttmp.(eachzone{izone}).Properties.VariableNames'] ;
+        end
+        uniquezone = unique(collectsubzone) ;
+
+        for iunique = 1:length(uniquezone)
+            switch uniquezone{iunique}
+                case {'initial' 'SE'}
+                otherwise
+                    out.(uniquezone{iunique}) = 0;
+                    for izone = 1:length(eachzone)
+                        if any(ismember(Powerouttmp.(eachzone{izone}).Properties.VariableNames,uniquezone{iunique}))
+                            out.(uniquezone{iunique}) = out.(uniquezone{iunique}) + Powerouttmp.(eachzone{izone}).(uniquezone{iunique}) ;
+                        end
+                    end
+            end
+        end
+        out = table2timetable(struct2table(out),'RowTimes',datetime('now','TimeZone','UTC')) ;
+    end
+    function [Powerout, counter] = extractdata(results, code2digit, bid, counter)
+        switch results.documentType
+            case 'Generation'
+                param.documentType = 'A75' ;
+                param.processType  = 'A16' ;
+                param.in_Domain    = results.in_Domain{2} ;
+                [Powerout, counter] = parsergeneration(param, code2digit, bid, counter) ;
+                if isa(Powerout,'double')
+                    Powerout = array2timetable(Powerout,"RowTimes",datetime('now','TimeZone','UTC'),'VariableNames',{'biomass'}) ;
+                end
+            case 'Load'
+                param.documentType          = 'A65' ;
+                param.processType           = 'A16' ;
+                param.outBiddingZone_Domain = results.in_Domain{2} ;
+                [Powerout, counter] = parsergeneration(param, code2digit, bid, counter) ;
+                if isa(Powerout,'double')
+                    Powerout = array2timetable(Powerout,"RowTimes",datetime('now','TimeZone','UTC'),'VariableNames',{'load'}) ;
+                end
+            case 'Exchange'
+                param.documentType = 'A11' ;
+                param.in_Domain    = results.in_Domain ;
+                [Powerout, counter]           = parserexchange(param, code2digit, bid, counter) ;
+            otherwise
+                warning('Not yet setup')
+                return;
+        end
+    end
+
     function [Powerout, counter] = parsergeneration(param, code2digit, bid, counter)
         zonecode = makevalidstring(code2digit.alpha2,'capitalise',false) ;
-        [Powerout.(zonecode), counter] = getdata(param, bid, counter) ;
+        [Powerout, counter] = getdata(param, bid, counter) ;
     end
-    
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
     function [Powerout, counter] = parserexchange(param, code2digit, bid, counter)
         zonecodeini = makevalidstring(code2digit.alpha2,'capitalise',false) ;
         if strcmp(code2digit.alpha2,'EL')
             code2digit.alpha2 = 'GR' ;
         end
-        matbal = Balance_Matrix(code2digit.alpha2) ;
+        matbal = Balance_Matrix('country',param.in_Domain{1}) ;
         allcountry = unique(matbal(:,1)) ;
 
         matbal_zone  = join(matbal,'_') ;
         matbal_zone = strip(matbal_zone,'right','_') ;
-        
-        
+        param2pass = param ;
+        param2pass.in_Domain  = param.in_Domain{2} ;
+        balance.initial = 0 ;
         for ic = 1:length(allcountry)
             tolook.alpha2 = allcountry{ic} ;
             domainout     = ENTSOEdomain(tolook) ;
-            if isempty(domainout)
-                Powerout.(code2digit.alpha2) = timetable(datetime('now','TimeZone','UTC'),0,'VariableNames',{'biomass'}) ;
-            else
-                for kdoma = 1:size(domainout,1)
-                    zonecode = domainout{kdoma,1} ;
-                    if ~ismember(zonecode,matbal_zone)
-                        continue;
+            if ~strcmp(code2digit.alpha2,tolook.alpha2 )
+                if isempty(domainout)
+                    Powerout = timetable(datetime('now','TimeZone','UTC'),0,'VariableNames',{'biomass'}) ;
+                else
+                    for kdoma = 1:size(domainout,1)
+                        zonecode = domainout{kdoma,1} ;
+                        if ~ismember(zonecode,matbal_zone)
+                            continue;
+                        end
+                        switch zonecode
+                            case 'GR'
+                                zonecode = 'EL' ;
+                        end
+                        zone = domainout{kdoma,2} ;
+                        
+                        param2pass.out_Domain   = zone ;
+            
+                        zonecode = makevalidstring(zonecode,'capitalise',false) ;
+                        [powerimport, counter] = getdata(param2pass, bid, counter) ; 
+                        param2pass.out_Domain = param2pass.in_Domain ;
+                        param2pass.in_Domain  = zone ;
+                        [powerexport, counter] = getdata(param2pass, bid, counter) ;
+                        if ~isa(powerimport,'double')
+                            TT = synchronize(powerimport,powerexport,'commonrange') ;    
+                            balance.(zonecode) = TT(:,'powerarray_powerimport').Variables  - TT(:,'powerarray_powerexport').Variables ;
+                        else
+                            balance.(zonecode) = 0 ;
+                        end
+                        param2pass.in_Domain  = param2pass.out_Domain ;
                     end
-                    switch zonecode
-                        case 'GR'
-                            zonecode = 'EL' ;
-                    end
-                    zone = domainout{kdoma,2} ;
-        
-                    param.out_Domain   = zone ;
-        
-                    zonecode = makevalidstring(zonecode,'capitalise',false) ;
-                    [powerimport, counter] = getdata(param, bid, counter) ; 
-                    param.out_Domain = param.in_Domain ;
-                    param.in_Domain  = zone ;
-                    [powerexport, counter] = getdata(param, bid, counter) ;
-                    if ~isa(powerimport,'double')
-                        TT = synchronize(powerimport,powerexport,'commonrange') ;    
-                        balance.(zonecode) = TT(:,'powerarray_powerimport').Variables  - TT(:,'powerarray_powerexport').Variables ;
-                    else
-                        balance.(zonecode) = 0 ;
-                    end
-                    param.in_Domain  = param.out_Domain ;
                 end
             end
         end
@@ -145,9 +262,9 @@ end
         catch
             TT.powertime = datetime('now','TimeZone','UTC') ;
         end
-        zonecodeini
+        zonecodeini;
         balance = checkempty(balance) ;
-        Powerout.(zonecodeini) = table2timetable(struct2table(balance),'RowTimes',TT.powertime) ;
+        Powerout = table2timetable(struct2table(balance),'RowTimes',TT.powertime) ;
     end
 
 %% 
@@ -162,7 +279,7 @@ end
             end
         end
     end
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     function [Powerout, counter] = getdata(param, bid, counter)
         try
             [PowerGen, counter] = parseENTSOE(param, counter) ;

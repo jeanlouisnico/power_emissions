@@ -131,7 +131,8 @@ prodfuel.(power(1,'Area').Variables) = array2table(newlimitL.(power(1,'Area').Va
 prodfuel.(power(2,'Area').Variables) = array2table(newlimitL.(power(2,'Area').Variables).Variables + newlimitH.(power(2,'Area').Variables).Variables,'VariableNames', extractcountry_fuel)  ;
 
 test = TTSync.(power(1,'Area').Variables).TSO ;
-    test = removevars(test,{'ProductionGe100MW','ProductionLt100MW','OffshoreWindPower', 'OnshoreWindPower', 'SolarPower'}) ;
+    test = removevars(test,{'ProductionGe100MW','ProductionLt100MW','OffshoreWindPower', 'OnshoreWindPower', 'SolarPower', 'ExchangeGreatBelt', 'ExchangeGermany', ...
+                            'ExchangeNetherlands', 'ExchangeNorway', 'ExchangeSweden', 'BornholmSE4', 'Area'}) ;
     test = addvars(test,TTSync.(power(1,'Area').Variables).TSO.OffshoreWindPower,'NewVariableNames', 'windoff') ;
     test = addvars(test,TTSync.(power(1,'Area').Variables).TSO.OnshoreWindPower,'NewVariableNames', 'windon') ;
     test = addvars(test,TTSync.(power(1,'Area').Variables).TSO.SolarPower,'NewVariableNames', 'solar') ;
@@ -145,7 +146,8 @@ test = TTSync.(power(1,'Area').Variables).TSO ;
 TTSync.(power(1,'Area').Variables).emissionskit = test ;
 
 test = TTSync.(power(2,'Area').Variables).TSO ;
-    test = removevars(test,{'ProductionGe100MW','ProductionLt100MW','OffshoreWindPower', 'OnshoreWindPower', 'SolarPower'}) ;
+    test = removevars(test,{'ProductionGe100MW','ProductionLt100MW','OffshoreWindPower', 'OnshoreWindPower', 'SolarPower', 'ExchangeGreatBelt', 'ExchangeGermany', ...
+                            'ExchangeNetherlands', 'ExchangeNorway','ExchangeSweden', 'BornholmSE4', 'Area'}) ;
     test = addvars(test,TTSync.(power(2,'Area').Variables).TSO.OffshoreWindPower,'NewVariableNames', 'windoff') ;
     test = addvars(test,TTSync.(power(2,'Area').Variables).TSO.OnshoreWindPower,'NewVariableNames', 'windon') ;
     test = addvars(test,TTSync.(power(2,'Area').Variables).TSO.SolarPower,'NewVariableNames', 'solar') ;
@@ -159,6 +161,7 @@ test = TTSync.(power(2,'Area').Variables).TSO ;
 TTSync.(power(2,'Area').Variables).emissionskit = test ;
 
 
+test = TTSync.(power(1,'Area').Variables).emissionskit.Variables + TTSync.(power(2,'Area').Variables).emissionskit.Variables ;
+TTSync.emissionskit = array2timetable(test, 'VariableNames',TTSync.(power(2,'Area').Variables).emissionskit.Properties.VariableNames, 'RowTimes',TTSync.(power(2,'Area').Variables).emissionskit.Time) ;
 
-
-
+TTSync = rmfield(TTSync,{'DK1', 'DK2'});

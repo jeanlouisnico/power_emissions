@@ -7,9 +7,13 @@ toPT.PT = toPT.PT * -1 ;
 
 %% France
 [~, PXchange] = extractFrance ;
-toFR = PXchange(:,'ES') ;
-toFR.Properties.VariableNames = {'FR'} ;
-toFR.FR = toFR.FR * -1 ;
+if isa(PXchange,'double')
+    toFR.FR = 0 ;
+else
+    toFR = PXchange(:,'ES') ;
+    toFR.Properties.VariableNames = {'FR'} ;
+    toFR.FR = toFR.FR * -1 ;
+end
 
 %% Total import export
 Total_Exchange = ES_interconnection ;

@@ -22,5 +22,5 @@ timearray = cellfun(@(x) datetime(timePT.Year,timePT.Month, timePT.Day, str2doub
 timearray = [timearray{:}]';
 
 XChange = array2timetable(ES,'RowTimes',timearray) ;
-
+XChange = XChange(end,:) ;
 % timearray = data.xAxis.categories ;

@@ -70,7 +70,7 @@
     "query": "10Y1001A1001A63L"
   },
   {
-    "countrycode": "DE-LU",
+    "countrycode": "DE_LU",
 	"areas": "MBA",	
     "query": "10Y1001A1001A82H"
   },
@@ -135,7 +135,7 @@
     "query": "IS"
   },
   {
-    "countrycode": "IE-SEM",
+    "countrycode": "IE_SEM",
 	"areas": "BZ/MBA",
     "query": "10Y1001A1001A59C"
   },

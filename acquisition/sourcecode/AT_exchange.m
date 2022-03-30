@@ -27,3 +27,4 @@ timestr = [data.ResponseData.ValueRows(i).DT ' ' data.ResponseData.ValueRows(i).
 timestr = datetime(timestr, 'Format', 'dd/MM/uuuu HH:mm','TimeZone','Europe/Vienna') ;
 timestr = datetime(timestr,'TimeZone','UTC') ;
 XChange = array2timetable(dataout',"RowTimes",timestr,'VariableNames',headers) ;
+XChange = removevars(XChange,'Su') ;

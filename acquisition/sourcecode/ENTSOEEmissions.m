@@ -1,9 +1,13 @@
 %% Function emission extract ENTSOE
-    function emission = ENTSOEEmissions(Power, Emissions, country, EmissionsCategory)
+    function emission = ENTSOEEmissions(Power, Emissions, country, EmissionsCategory, EFSource)
         %%%
         % For a given country, emissions are calculated from the ENTSOE
         % database. Equivalence table between the ENTSOE database and the
         % emission database is given in the switch form below.
+        switch country
+            case 'EL'
+                country = 'GR' ;
+        end
         if isa(Power, 'timetable')
             AllTech = Power.Properties.VariableNames ;
             emission = struct ; 
@@ -44,7 +48,10 @@
                                     otherwise
                                         technamein = techname   ; 
                                 end
-                                emi = extractdata(technamein, country, EmissionsCategory, Emissions) ;
+                                emi = extractdata(technamein, country, EmissionsCategory, Emissions, EFSource) ;
+                                if isempty(emi)
+                                    x  =1 ;
+                                end
                             catch
                                 emi = 500 ;
                             end

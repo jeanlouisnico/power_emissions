@@ -282,6 +282,12 @@
           "value": 228.86202884669197
         }
       },
+	  "DK": {
+        "hydro discharge": {
+          "source": "2017 average by Tomorrow",
+          "value": 228.86202884669197
+        }
+      },
       "DK-DK2": {
         "hydro discharge": {
           "source": "2017 average by Tomorrow",
@@ -567,6 +573,12 @@
           "value": 439.92440182955363
         }
       },
+	  "LU": {
+        "hydro discharge": {
+          "source": "2017 average by Tomorrow",
+          "value": 439.92440182955363
+        }
+      },
       "MD": {
         "hydro discharge": {
           "source": "2017 average by Tomorrow",
@@ -606,6 +618,12 @@
           "_url": "https://github.com/tmrowco/electricitymap-contrib/issues/3015#issuecomment-888154930",
           "source": "2020 average by Tomorrow. See disclaimer",
           "value": 342
+        }
+      },
+	  "NO": {
+        "hydro discharge": {
+          "source": "2017 average by Tomorrow",
+          "value": 34.68921708986348
         }
       },
       "NO-NO1": {

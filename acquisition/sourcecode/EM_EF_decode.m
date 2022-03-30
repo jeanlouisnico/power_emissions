@@ -10,7 +10,7 @@ val = jsondecode(fileread([fparts{1} filesep 'input' filesep 'general' filesep '
 
 allzones = fieldnames(val.emissionFactors.zoneOverrides) ;
 
-originaltech = {'biomass';'blast_furnace';'coal';'coal_chp';'gas';'gas_chp';'hard_coal';'hydro_pumped';'hydro_reservoir';'hydro_runof';'nuclear_BWR';'nuclear_PWR';'oil';'oil_chp';'other_biogas';'other_waste';'peat';'solar';'unknown';'waste';'windon'} ;
+originaltech = {'biomass';'blast_furnace';'coal';'geothermal';'coal_chp';'gas';'gas_chp';'hard_coal';'hydro_pumped';'hydro_reservoir';'hydro_runof';'nuclear_BWR';'nuclear_PWR';'oil';'oil_chp';'other_biogas';'other_waste';'peat';'solar';'unknown';'waste';'windon';'windoff'} ;
 
 eq_tech = {'batteryCharge' ''
            'batteryDischarge' ''
@@ -37,6 +37,7 @@ eq_tech = {'batteryCharge' ''
            'unknown'        'unknown'
            'unknown'        'other_waste'
            'wind'           'windon' 
+           'wind'           'windoff' 
            } ;
 index = 0 ;
 

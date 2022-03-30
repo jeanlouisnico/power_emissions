@@ -33,6 +33,7 @@ datein = [timearray{:}]';
 powerdata = struct2table(power) ;
 
 TTSync.TSO = table2timetable(powerdata,'RowTimes',datein) ;
+TTSync.TSO = TTSync.TSO(end,:) ;
 
 equivalentname = {'consumption'	 'consumption'
                   'consumption__pumping'	'pumping' 

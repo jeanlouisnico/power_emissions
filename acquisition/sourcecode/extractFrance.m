@@ -2,34 +2,34 @@ function [power, PXchange] = extractFrance
 
 % currenttime = javaObject("java.util.Date") ;
 % timezone = -currenttime.getTimezoneOffset()/60 ;
-fueldata = {'hydraulique_step_turbinage' 'hydro_pumped'
-                'hydraulique_lacs' 'hydro_reservoir'
-                'eolien' 'windon'
-                'hydraulique' 'hydro'
-                'solaire' 'solar'
-                'fioul_autres' 'oil'
-                'nucleaire' 'nuclear'
-                'gaz_tac'  'gas'
-                'fioul'    'oil'
-                'pompage' 'hydro_pumped'
-                'gaz' 'gas'
-                'gaz_cogen' 'gas_chp'
-                'fioul_cogen' 'oil_chp'
-                'bioenergies_biomasse' 'biomass'
-                'bioenergies_dechets'  'waste'
-                'gaz_autres' 'gas'
-                'hydraulique_fil_eau_eclusee' 'hydro_runof'
-                'bioenergies_biogaz' 'other_biogas'
-                'bioenergies' 'biomass'
-                'gaz_ccg'  'gas_chp'
-                'charbon' 'coal'
-                'fioul_tac' 'oil'
-                'consommation' 'consumption'
-                'ech_comm_angleterre' 'GB'
-                'ech_comm_italie' 'IT'
-                'ech_comm_suisse' 'CH'
-                'ech_comm_allemagne_belgique' 'DE'
-                'ech_comm_espagne' 'ES'
+fueldata = {'hydraulique_step_turbinage' 'hydro_pumped' 1 0
+            'hydraulique_lacs' 'hydro_reservoir' 1 0
+            'eolien' 'windon' 1 0
+            'hydraulique' 'hydro' 0 0
+            'solaire' 'solar' 1 0
+            'fioul_autres' 'oil' 1 0
+            'nucleaire' 'nuclear' 1 0
+            'gaz_tac'  'gas' 1 0
+            'fioul'    'oil' 0 0
+            'pompage' 'hydro_pumped' 1 0
+            'gaz' 'gas' 0 0
+            'gaz_cogen' 'gas_chp' 1 0
+            'fioul_cogen' 'oil_chp' 1 0
+            'bioenergies_biomasse' 'biomass' 1 0
+            'bioenergies_dechets'  'waste' 1 0
+            'gaz_autres' 'gas' 1 0
+            'hydraulique_fil_eau_eclusee' 'hydro_runof' 1 0
+            'bioenergies_biogaz' 'other_biogas' 1 0
+            'bioenergies' 'biomass' 0 0
+            'gaz_ccg'  'gas_chp' 1 0
+            'charbon' 'coal' 1 0
+            'fioul_tac' 'oil' 1 0
+            'consommation' 'consumption' 0 0
+            'ech_comm_angleterre' 'GB' 0 1
+            'ech_comm_italie' 'IT' 0 1
+            'ech_comm_suisse' 'CH' 0 1
+            'ech_comm_allemagne_belgique' 'DE' 0  1
+            'ech_comm_espagne' 'ES' 0 1
                 } ;
 
 
@@ -59,8 +59,14 @@ url = ['https://opendata.reseaux-energies.fr/api/records/1.0/search/?dataset=eco
         '%5D&rows=500&sort=-date_heure&facet=nature&facet=date_heure'] ;
 try
     data = webread(url) ;
+    if data.nhits == 0
+        power = 0;
+        PXchange = 0 ;
+        return ;
+    end
 catch
     power = 0 ;
+    PXchange = 0 ;
     return;
 end
 n = 0 ;
@@ -102,7 +108,9 @@ if isa(powerdata, 'struct')
     for ivar = 1:length(AllVar)
         getdata = AllVar{ivar} ;
         try
-            power.(getdata) = sum(powerdata(1,fueldata(contains(fueldata(:,2), getdata),1)').Variables) ;
+            if any(contains(fueldata(:,2), getdata) & ([fueldata{:,3}] == 1)')
+                power.(getdata) = sum(powerdata(1,fueldata(ismember(fueldata(:,2), getdata) & ([fueldata{:,3}] == 1)',1)').Variables) ;
+            end
         catch
             continue;
         end
@@ -119,7 +127,9 @@ if isa(powerXchange, 'struct')
     for ivar = 1:length(AllVar)
         getdata = AllVar{ivar} ;
         try
-            PXchange.(getdata) = sum(powerXchange(1,fueldata(contains(fueldata(:,2), getdata),1)').Variables) ;
+            if any(contains(fueldata(:,2), getdata) & ([fueldata{:,4}] == 1)')
+                PXchange.(getdata) = sum(powerXchange(1,fueldata(contains(fueldata(:,2), getdata)& ([fueldata{:,4}] == 1)',1)').Variables) ;
+            end
         catch
             continue;
         end

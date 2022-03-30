@@ -13,6 +13,7 @@ for iEFSource = 1:length(EFSourcelist)
     EFSource = EFSourcelist{iEFSource} ;
     if isa(Power, "double")
         Emissions.(cc).emissionskit.(EFSource).intensityprod = 0 ;
+        Emissions.(cc).emissionskit.(EFSource).total = 0 ;
         continue ;
     else
         alltech = Power.Properties.VariableNames ;
@@ -26,9 +27,14 @@ for iEFSource = 1:length(EFSourcelist)
         technameinTSO = alltech{itechname} ;
         switch technameinTSO
             case {'biomass';'blast_furnace';'coal';'coal_chp';'diesel_chp';'gas';'gas_chp';'geothermal';'hydro_pumped';'hydro_reservoir';'hydro_runof';'lignite_chp';'nuclear_BWR';'nuclear_PWR';'oil';'oil_chp';'other_biogas';'peat';'solar';'solar_small';'waste';'windoff';'windon'}
-                powerout.(technameinTSO) = Power.(technameinTSO)(end) * extractdata(technameinTSO, cc, EmissionsCategory, Emissionsdatabase.(EFSource));
+                powerout.(technameinTSO) = Power.(technameinTSO)(end) * extractdata(technameinTSO, cc, EmissionsCategory, Emissionsdatabase.newem.emissionFactors.(EFSource),EFSource);
             case 'unknown'
-                powerout.(technameinTSO) = Power.(technameinTSO)(end) * extractdata('mean', cc, EmissionsCategory, Emissionsdatabase.(EFSource));
+                switch EFSource
+                    case 'IPCC' 
+                        powerout.(technameinTSO) = Power.(technameinTSO)(end) * extractdata('unknown', cc, EmissionsCategory, Emissionsdatabase.newem.emissionFactors.(EFSource),EFSource);
+                    case 'EcoInvent'
+                        powerout.(technameinTSO) = Power.(technameinTSO)(end) * extractdata('mean', cc, EmissionsCategory, Emissionsdatabase.newem.emissionFactors.(EFSource),EFSource);
+                end
         end
     end
     
@@ -36,12 +42,11 @@ for iEFSource = 1:length(EFSourcelist)
 
     %%%
     % Calculate the emission intensity for FR
-    totalprod = sum(temptable(1,validfield(ismember(validfield,alltech))).Variables) ;
-    if totalprod == 0
-        % The best would be to retrieve the latest data from the API
-        Emissions.(cc).emissionskit.(EFSource).intensityprod = 0 ;
-        Emissions.(cc).emissionskit.(EFSource).total = 0 ;
-    else
+    totalprod = sum(temptable(1,validfield(ismember(validfield,alltech))).Variables, 'omitnan') ;
+    % The best would be to retrieve the latest data from the API
+    Emissions.(cc).emissionskit.(EFSource).intensityprod = 0 ;
+    Emissions.(cc).emissionskit.(EFSource).total = 0 ;
+    if ~totalprod == 0
         Emissions.(cc).emissionskit.(EFSource).intensityprod = sum(struct2array(powerout)) / totalprod ;
         Emissions.(cc).emissionskit.(EFSource).total = sum(struct2array(powerout)) ;
     end

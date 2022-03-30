@@ -56,4 +56,4 @@ p = mfilename('fullpath') ;
 fparts = split(filepath, filesep) ;
 fparts = join(fparts(1:end-1), filesep) ;
 
-dlmwrite([fparts{1} filesep 'input' filesep 'general' filesep 'co2eq_parameters_uoulu.json'],jsonencode(s),'delimiter','');
+dlmwrite([fparts{1} filesep 'input' filesep 'general' filesep 'co2eq_parameters_uoulu.json'],jsonencode(s,'PrettyPrint',true),'delimiter','');
