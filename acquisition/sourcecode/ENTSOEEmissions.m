@@ -50,7 +50,7 @@
                                 end
                                 emi = extractdata(technamein, country, EmissionsCategory, Emissions, EFSource) ;
                                 if isempty(emi)
-                                    x  =1 ;
+                                    x  = 1 ;
                                 end
                             catch
                                 emi = 500 ;

@@ -60,11 +60,14 @@ elecfuel = retrieveEF ;
 alphadigit = countrycode('Portugal') ;
 
 thermal = {'CF_NR' 'O4000XBIO' 'X9900'} ;
+hydro   = {'RA110' 'RA120' 'RA130'} ;
 predictedfuel = fuelmixEU_lpredict(alldata.(alphadigit.alpha2)) ;
 
 normalisedpredictthermal = array2timetable(bsxfun(@rdivide, predictedfuel(:,thermal).Variables, sum(predictedfuel(:,thermal).Variables,2, 'omitnan')) * 100, "RowTimes", predictedfuel.Time, 'VariableNames', thermal) ;
+normalisedpredicthydro   = array2timetable(bsxfun(@rdivide, predictedfuel(:,hydro).Variables, sum(predictedfuel(:,hydro).Variables,2, 'omitnan')) * 100, "RowTimes", predictedfuel.Time, 'VariableNames', hydro) ;
 
 thermalpower = TTSync.TSO.thermal ;
+hydropower   = TTSync.TSO.hydro ;
 d = TTSync.TSO.Time ;
 
 genbyfuel_thermal = thermalpower .* normalisedpredictthermal(end,:).Variables/100 ;
@@ -73,8 +76,18 @@ genbyfuel_thermal = array2timetable(genbyfuel_thermal, "RowTimes", d, "VariableN
 replacestring = cellfun(@(x) elecfuel(strcmp(elecfuel(:,1),x),2), genbyfuel_thermal.Properties.VariableNames, 'UniformOutput', false) ;
 genbyfuel_thermal.Properties.VariableNames = cat(1, replacestring{:}) ;
 
-TTSync.emissionskit = synchronize(TTSync.TSO, genbyfuel_thermal) ;
+genbyfuel_hydro = hydropower .* normalisedpredicthydro(end,:).Variables/100 ;
+genbyfuel_hydro = array2timetable(genbyfuel_hydro, "RowTimes", d, "VariableNames", hydro) ;
+
+replacestring = cellfun(@(x) elecfuel(strcmp(elecfuel(:,1),x),2), genbyfuel_hydro.Properties.VariableNames, 'UniformOutput', false) ;
+genbyfuel_hydro.Properties.VariableNames = cat(1, replacestring{:}) ;
+
+tables = {genbyfuel_thermal, genbyfuel_hydro} ;
+TTSync.emissionskit = synchronize(tables{:,:},'union','nearest');
+
+TTSync.emissionskit = synchronize(TTSync.TSO, TTSync.emissionskit) ;
 TTSync.emissionskit = removevars(TTSync.emissionskit, 'thermal') ;
+TTSync.emissionskit = removevars(TTSync.emissionskit, 'hydro') ;
 
 TTSync.TSO = convertTT_Time(TTSync.TSO,'UTC') ;
 TTSync.emissionskit = convertTT_Time(TTSync.emissionskit,'UTC') ;

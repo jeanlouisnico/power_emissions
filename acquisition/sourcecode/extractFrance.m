@@ -8,7 +8,7 @@ fueldata = {'hydraulique_step_turbinage' 'hydro_pumped' 1 0
             'hydraulique' 'hydro' 0 0
             'solaire' 'solar' 1 0
             'fioul_autres' 'oil' 1 0
-            'nucleaire' 'nuclear' 1 0
+            'nucleaire' 'nuclear_PWR' 1 0
             'gaz_tac'  'gas' 1 0
             'fioul'    'oil' 0 0
             'pompage' 'hydro_pumped' 1 0

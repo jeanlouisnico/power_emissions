@@ -5851,7 +5851,7 @@ Avedøre Power Station (Unit 1),,,,,DK ,265.0,Mixed fossil fuels,,,1990.0,,55.60
 Avedøre Power Station (Unit 2),,,,,DK ,545.0,Mixed fossil fuels,,,2002.0,,55.60358,12.48127,45V0000000000091,Fossil fuels,Mixed fossil fuels,,Zone: East (DK2),,Energinet DK
 Esbjerg Power Station (Unit 3),,,,,DK ,400.0,Mixed fossil fuels,,,1992.0,,55.45632,8.45523,45V0000000000164,Fossil fuels,Mixed fossil fuels,,Zone: West (DK1),,Energinet DK
 Fyn Power Station (Unit 7),,,,,DK ,410.0,Hard coal,Steam turbine,,1991.0,,55.42938,10.41203,45V000000000013A,Fossil fuels,Hard coal,,Zone: West (DK1),,Energinet DK
-Fyn Power Station (Unit 8),,,,,DK ,35.0,Biomass and biogas,,,2009.0,,55.42938,10.41203,45V000000000013A,Renewable energy,Bioenergy,Biomass and biogas,Zone: West (DK1),,Energinet DK
+Fyn Power Station (Unit 8),,,,,DK ,35.0,Waste,,,2009.0,,55.42938,10.41203,45V000000000013A,Renewable energy,Bioenergy,Waste,Zone: West (DK1),,Energinet DK
 H.C. Ørsted Power Station (Unit 7),,,,,DK ,75.0,Natural gas,,,1985.0,,55.65757,12.55563,,Fossil fuels,Natural gas,,Zone: East (DK2),,Energinet DK
 H.C. Ørsted Power Station (Unit 8),,,,,DK ,25.0,Natural gas,,,2004.0,,55.65757,12.55563,,Fossil fuels,Natural gas,,Zone: East (DK2),,Energinet DK
 Herning Power Station,,,,,DK ,90.0,Biomass and biogas,,,1982.0,,56.12128,9.0064,,Renewable energy,Bioenergy,Biomass and biogas,Zone: West (DK1),,Energinet DK

@@ -82,12 +82,12 @@ installedcapL100 = sum(PP_DK.capacity(PP_DK.capacity<=100)) ;
 installedcapG100 = sum(PP_DK.capacity(PP_DK.capacity>100))  ;
 
 fueleq = {  'Biomass and biogas'	'biomass'
-            'Mixed fossil fuels'	'other'
-            'Hard coal'	'coal'
+            'Mixed fossil fuels'	'coal_chp'
+            'Hard coal'	'coal_chp'
             'Natural gas'	'gas'
-            'Oil'	'oil'
+            'Oil'	'oil_chp'
             'Other or unspecified energy sources'	'other' 
-            'waste' 'waste'} ;
+            'Waste' 'waste'} ;
 
 eneroutL100 = emptyStruct(unique(fueleq(:,2)), ones(1,length(unique(fueleq(:,2)))))    ;
 eneroutG100 = emptyStruct(unique(fueleq(:,2)), ones(1,length(unique(fueleq(:,2)))))    ;
@@ -106,12 +106,11 @@ for iener = 1:length(allenergy)
         eneroutG100.(fueleq{contains(fueleq, energ),2}) = eneroutG100.(fueleq{contains(fueleq, energ),2}) + sum(PP_DK.capacity(PP_DK.capacity>100 & strcmp(PP_DK.energy_source,energ))) ;
     end
 end
-eneroutL100.waste = 0 ;
-eneroutG100.waste = 0;
+
 eneroutL100           = struct2table(eneroutL100,"AsArray",true);
 eneroutG100           = struct2table(eneroutG100,"AsArray",true);
 
-extractcountry_fuel = {'biomass' 'coal' 'other' 'gas' 'oil' 'waste'} ;
+extractcountry_fuel = {'biomass' 'coal_chp' 'other' 'gas' 'oil_chp' 'waste'} ;
 extracteurostat = {'biomass' 'coal' 'unknown' 'gas' 'oil' 'waste'} ;
 
 init        = normalisedpredictthermal(end,extracteurostat).Variables / 100 ;
@@ -137,10 +136,10 @@ test = TTSync.(power(1,'Area').Variables).TSO ;
     test = addvars(test,TTSync.(power(1,'Area').Variables).TSO.OnshoreWindPower,'NewVariableNames', 'windon') ;
     test = addvars(test,TTSync.(power(1,'Area').Variables).TSO.SolarPower,'NewVariableNames', 'solar') ;
     test = addvars(test, prodfuel.(power(1,'Area').Variables).biomass,'NewVariableNames', 'biomass') ;
-    test = addvars(test, prodfuel.(power(1,'Area').Variables).coal,'NewVariableNames', 'coal') ;
+    test = addvars(test, prodfuel.(power(1,'Area').Variables).coal_chp,'NewVariableNames', 'coal_chp') ;
     test = addvars(test, prodfuel.(power(1,'Area').Variables).other,'NewVariableNames', 'other') ;
     test = addvars(test, prodfuel.(power(1,'Area').Variables).gas,'NewVariableNames', 'gas') ;
-    test = addvars(test, prodfuel.(power(1,'Area').Variables).oil,'NewVariableNames', 'oil') ;
+    test = addvars(test, prodfuel.(power(1,'Area').Variables).oil_chp,'NewVariableNames', 'oil_chp') ;
     test = addvars(test, prodfuel.(power(1,'Area').Variables).waste,'NewVariableNames', 'waste') ;
 
 TTSync.(power(1,'Area').Variables).emissionskit = test ;
@@ -152,10 +151,10 @@ test = TTSync.(power(2,'Area').Variables).TSO ;
     test = addvars(test,TTSync.(power(2,'Area').Variables).TSO.OnshoreWindPower,'NewVariableNames', 'windon') ;
     test = addvars(test,TTSync.(power(2,'Area').Variables).TSO.SolarPower,'NewVariableNames', 'solar') ;
     test = addvars(test, prodfuel.(power(2,'Area').Variables).biomass,'NewVariableNames', 'biomass') ;
-    test = addvars(test, prodfuel.(power(2,'Area').Variables).coal,'NewVariableNames', 'coal') ;
+    test = addvars(test, prodfuel.(power(2,'Area').Variables).coal_chp,'NewVariableNames', 'coal_chp') ;
     test = addvars(test, prodfuel.(power(2,'Area').Variables).other,'NewVariableNames', 'other') ;
     test = addvars(test, prodfuel.(power(2,'Area').Variables).gas,'NewVariableNames', 'gas') ;
-    test = addvars(test, prodfuel.(power(2,'Area').Variables).oil,'NewVariableNames', 'oil') ;
+    test = addvars(test, prodfuel.(power(2,'Area').Variables).oil_chp,'NewVariableNames', 'oil_chp') ;
     test = addvars(test, prodfuel.(power(2,'Area').Variables).waste,'NewVariableNames', 'waste') ;
 
 TTSync.(power(2,'Area').Variables).emissionskit = test ;

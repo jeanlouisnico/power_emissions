@@ -1,10 +1,9 @@
-function emission = emissionsEstonia(energy, Emissionsdatabase, EmissionsCategory)
+function [emission,power] = emissionsEstonia(energy, Emissionsdatabase, EmissionsCategory, EFSource)
 
-alltech = energy.byfuel.Properties.VariableNames ;
+alltech = energy.Properties.VariableNames ;
 emission = struct ; 
-for itech = 1:width(energy.byfuel)
+for itech = 1:width(energy)
     techname = alltech{itech} ;
-    technamein = [] ;
     switch techname
         case {'heavy_fuel_oil', 'light_fuel_oil', 'shale_oil', 'oil_shale'}
             technamein = 'oil_chp' ;
@@ -23,23 +22,25 @@ for itech = 1:width(energy.byfuel)
         case 'solar'
             technamein = 'solar' ;
         otherwise
-            emi = extractdata('mean', 'EE', EmissionsCategory, Emissionsdatabase) ;
+            technamein = techname ;
     end
+    try
+        emi = extractdata(technamein, 'EE', EmissionsCategory, Emissionsdatabase,EFSource) ;
+    catch
+        emi = extractdata('mean', 'EE', EmissionsCategory, Emissionsdatabase,EFSource) ;
+    end
+    % extractdata(technameinTSO, cc, EmissionsCategory, Emissionsdatabase.newem.emissionFactors.(EFSource),EFSource);
     if ~isempty(technamein)
-        emi = extractdata(technamein, 'EE', EmissionsCategory, Emissionsdatabase) ;
+        emi = extractdata(technamein, 'EE', EmissionsCategory, Emissionsdatabase,EFSource) ;
     end
     
-    if isfield(techname, emission)
-        emission.(techname) = emission.(techname) + Power.(techname) .* emi ;
+    if isfield(emission,technamein)
+        emission.(technamein) = emission.(technamein) + energy.(techname) .* emi ;
+        power.(technamein)    = power.(technamein) + energy.(techname) ;
     else
-        emission.(techname) = energy.byfuel.(techname) .* emi ;
+        emission.(technamein) = energy.(techname) .* emi ;
+        power.(technamein) = energy.(techname) .* 1 ;
     end    
 end
-
-
-%% Function extract from table
-    function Emissionsextract = extractdata(Tech, Country, EmissionsCategory, Emissions)
-        Emissionsextract = Emissions.(EmissionsCategory)(strcmp(Emissions.Technology,Tech) & strcmp(Emissions.Country,Country)) ;
-    end
 
 end

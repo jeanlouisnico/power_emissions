@@ -67,6 +67,17 @@ captotal  = array2table(incap.Sep(end,sepfuel).Variables + incap.CHP_Ind(end,sep
 captotal.waste = 0 ;
 eurostatcap = genbyfuel_thermal(end,strrep(extracteurostat,'other', 'unknown')) ;
 
+changefuel = {'biomass' 'biomass'
+                'coal' 'coal_chp'
+                'unknown' 'unknown'
+                'gas' 'gas'
+                'oil' 'oil'
+                'waste' 'waste'
+                'peat' 'peat'} ;
+
+replacestring = cellfun(@(x) changefuel(strcmp(changefuel(:,1),x),2), genbyfuel_thermal.Properties.VariableNames, 'UniformOutput', false) ;
+genbyfuel_thermal.Properties.VariableNames = cat(1, replacestring{:}) ;
+
 % excessalloc = captotal.Variables - eurostatcap.Variables ;
 % 
 % init = normalisedpredictthermal(end,extracteurostat).Variables / 100 ;

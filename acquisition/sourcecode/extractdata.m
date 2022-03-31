@@ -20,8 +20,8 @@
                             Emissionsextract = 500 ;
                         end
                     case 'IPCC'
-                        if isfield(Emissions.zoneOverrides.RoW, Tech)
-                            Emissionsextract = Emissions.zoneOverrides.RoW.(Tech).(EmissionsCategory).value ;
+                        if isfield(Emissions.zoneOverrides.(Country), Tech)
+                            Emissionsextract = Emissions.zoneOverrides.(Country).(Tech).(EmissionsCategory).value ;
                         else
                             Emissionsextract = 500 ;
                         end

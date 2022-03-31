@@ -77,6 +77,10 @@ powerout = renamevars(powerout,"solardata", "solar") ;
 % Extract valid table
 powerout = powerout(~isnan(powerout.nuclear),:) ;
 
+data = powerout.Variables ;
+data(isnan(powerout.Variables)) = 0 ;
+powerout.Variables = data ;
+
 TTSync.TSO = powerout(end,:) ;
 %% Extract emissions
 elecfuel = retrieveEF ;
@@ -84,9 +88,12 @@ elecfuel = retrieveEF ;
 [alldata, ~]    = fuelmixEU('Belgium', false, 'absolute') ;
 alphadigit      = countrycode('Belgium') ;
 
-thermal = {'CF_R' 'C0000' 'CF_NR' 'G3000' 'O4000XBIO' 'X9900'} ;
+thermal = {'CF_R' 'CF_NR' 'O4000XBIO' 'X9900'} ;
 hydro = {'RA110' 'RA120' 'RA130'} ;
 wind  = {'RA310' 'RA320'} ; 
+nuclear = {'N9000'} ;
+coal = {'C0000'} ;
+gas = {'G3000'} ;
 % solar = {'RA410' 'RA420'} ; 
 
 predictedfuel = fuelmixEU_lpredict(alldata.(alphadigit.alpha2)) ;
@@ -114,13 +121,19 @@ end
 % genbyfuel_solar = TTSync.TSO.solar(end) .* normalisedpredictsolar(end,:).Variables/100  ;
 % genbyfuel_solar = array2timetable(genbyfuel_solar, "RowTimes", d, "VariableNames", solar) ;
 % 
-% genbyfuel_nuclear = Powerout.nuclear(end) .* normalisedpredicnuclear(end,:).Variables/100 ;
-% genbyfuel_nuclear = array2timetable(genbyfuel_nuclear, "RowTimes", d, "VariableNames", nuclear) ;
+genbyfuel_nuclear = TTSync.TSO.nuclear(end) ;
+genbyfuel_nuclear = array2timetable(genbyfuel_nuclear, "RowTimes", d, "VariableNames", nuclear) ;
+
+genbyfuel_coal = TTSync.TSO.coal(end) ;
+genbyfuel_coal = array2timetable(genbyfuel_coal, "RowTimes", d, "VariableNames", coal) ;
+
+genbyfuel_gas = TTSync.TSO.naturalgas(end) ;
+genbyfuel_gas = array2timetable(genbyfuel_gas, "RowTimes", d, "VariableNames", gas) ;
 
 if any(strcmp('wind',TTSync.TSO.Properties.VariableNames))
-    tables = {genbyfuel_thermal, genbyfuel_hydro, genbyfuel_wind} ;
+    tables = {genbyfuel_thermal, genbyfuel_hydro, genbyfuel_wind, genbyfuel_nuclear, genbyfuel_gas, genbyfuel_coal} ;
 else
-    tables = {genbyfuel_thermal, genbyfuel_hydro} ;
+    tables = {genbyfuel_thermal, genbyfuel_hydro, genbyfuel_nuclear, genbyfuel_gas, genbyfuel_coal} ;
 end
 TTSync.emissionskit = synchronize(tables{:,:},'union','nearest');
 
@@ -129,15 +142,6 @@ TTSync.emissionskit.Properties.VariableNames = cat(1, replacestring{:}) ;
 
 try 
     TTSync.emissionskit.biomass = TTSync.emissionskit.biomass + TTSync.TSO.biomass ;
-catch
-end
-try 
-    TTSync.emissionskit.gas = TTSync.emissionskit.gas + TTSync.TSO.naturalgas ;
-catch
-end
-
-try 
-    TTSync.emissionskit.coal = TTSync.emissionskit.gas + TTSync.TSO.coal ;
 catch
 end
 

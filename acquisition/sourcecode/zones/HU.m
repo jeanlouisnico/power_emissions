@@ -23,10 +23,18 @@ for icode = 1 : length(allfields)
                 '/export?exportType=xlsx&fromTime=' ...
                  num2str(floor(timestart)) '&toTime='...
                  num2str(floor(timeend)) '&periodType=min&period=15'] ;
-    websave('tempHU.xlsx',url_load) ;
-    opt=detectImportOptions('tempHU.xlsx');
-    powerHR.(allfields{icode}) = readtable('tempHU.xlsx', opt) ;
-
+    try
+        websave('tempHU.xlsx',url_load) ;
+        opt=detectImportOptions('tempHU.xlsx');
+    catch
+        opt=detectImportOptions('tempHU.xlsx');
+    end
+    try
+        powerHR.(allfields{icode}) = readtable('tempHU.xlsx', opt) ;
+    catch
+        TTSync = 0 ;
+        return ;
+    end
     dates = datetime(powerHR.(allfields{icode}).Id_pont,'InputFormat','uuuu.MM.dd HH:mm:ss Z', 'TimeZone', 'Europe/Budapest') ;
    
     switch allfields{icode}
@@ -103,28 +111,29 @@ genbyfuel_extract = addvars(genbyfuel_extract, outputtable.solar(3), 'NewVariabl
 genbyfuel_extract = addvars(genbyfuel_extract, outputtable.wind(3), 'NewVariableNames',{'wind'}) ;
 
 TTSync.emissionskit = genbyfuel_extract ;
+
+changefuel = {  'biomass'	'biomass'
+                'coal'	'coal_chp'
+                'unknown'	'unknown'
+                'gas'	'gas'
+                'oil'	'oil'
+                'hydro_reservoir'	'hydro_reservoir'
+                'hydro_runof'	'hydro_runof'
+                'hydro_pumped'	'hydro_pumped'
+                'geothermal'	'geothermal'
+                'other_biogas'	'other_biogas'
+                'nuclear_PWR'	'nuclear_PWR'
+                'waste'	'waste'
+                'solar'	'solar'
+                'wind'	'windon' } ;
+
+replacestring = cellfun(@(x) changefuel(strcmp(changefuel(:,1),x),2), TTSync.emissionskit.Properties.VariableNames, 'UniformOutput', false) ;
+TTSync.emissionskit.Properties.VariableNames = cat(1, replacestring{:}) ;
+
 TTSync.TSO = outputtable(irow,{'generation' 'load' 'solar' 'wind'}) ;
 TTSync.TSO.Properties.VariableNames = {'production' 'consumption' 'solar' 'wind'} ;
 % allgen = addvars(allgen, sum(allgen.Variables, 'omitnan'), 'NewVariableNames','total') ;
 %% estimate the current mix by extrapolating the data
 warning('ON', 'all' )
-    function elecfuel = retrieveEF
-        elecfuel = {'CF_R'	'biomass'
-                    'CF_NR'	'unknown'
-                    'C0000'	'coal'
-                    'G3000'	'gas'
-                    'O4000XBIO'	'oil'
-                    'RA110'	'hydro_reservoir'
-                    'RA120'	'hydro_runof'
-                    'RA130'	'hydro_pumped'
-                    'RA200'	'geothermal'
-                    'RA310'	'windon'
-                    'RA320'	'windoff'
-                    'RA410'	'solar'
-                    'RA420'	'solar'
-                    'RA500_5160'	'other_biogas'
-                    'N9000'	'nuclear_BWR'
-                    'X9900'	'waste' } ;
-    end
 
 end

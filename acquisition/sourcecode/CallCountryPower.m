@@ -98,7 +98,7 @@ switch country
     case 'Greece'
         TSO    = GR ;
         xCHANGE = 0 ;
-    case 'UK'
+    case 'GB'
         TSO    = UK ;
         xCHANGE = UK_Exchange ;
     case 'Montenegro'

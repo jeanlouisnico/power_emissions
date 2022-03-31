@@ -14,11 +14,12 @@ outtable = struct ;
 for iyear = 1:length(timearr)
     currentdate = timearr(iyear) ;
     filename = 'sunspots_annual.txt';
+    opts = weboptions("Timeout",15) ;
     websave(filename,...
             ['https://demanda.ree.es/WSvisionaMovilesPeninsulaRest/resources/demandaGeneracionPeninsula?callback=angular.callbacks._6&curva=DEMANDA&fecha=' ...
             sprintf('%02d',currentdate.Year) '-' ...
             sprintf('%02d',currentdate.Month) '-' ...
-            sprintf('%02d',currentdate.Day)]) ;
+            sprintf('%02d',currentdate.Day)], opts) ;
     data = fileread('sunspots_annual.txt') ;
     data = erase(data,'angular.callbacks._6({"valoresHorariosGeneracion":[');
     data = split(data,'{') ;
@@ -73,11 +74,11 @@ spainTT.Time = datetime(spainTT.Time, 'TimeZone', 'Europe/Madrid') ;
 % disp('--- extraction done ---') ;
 
 spaindata = { 'dem'	'demand'
-                'eol'	'wind'
-                'nuc'	'nuclear'
+                'eol'	'windon'
+                'nuc'	'nuclear_PWR'
                 'gf'	'gas'
                 'car'	'coal'
-                'cc'	'gas_chp'
+                'cc'	'gas_chp' % Here it is written gas_chp but in reality this is a CC machines. in the emissions, the gas CC is taken into consideration, not gas_chp
                 'hid'	'hydro'
                 'aut'	''
                 'inter'	''
@@ -128,7 +129,12 @@ genbyfuel_hydro.Properties.VariableNames = cat(1, replacestring{:}) ;
 TTSync.emissionskit = TTSync.TSO ;
 
 TTSync.emissionskit = removevars(TTSync.emissionskit, 'hydro') ;
+TTSync.emissionskit = removevars(TTSync.emissionskit, 'demand') ;
 TTSync.emissionskit = synchronize(TTSync.emissionskit, genbyfuel_hydro) ;
 
 TTSync.TSO = convertTT_Time(TTSync.TSO,'UTC') ;
 TTSync.emissionskit = convertTT_Time(TTSync.emissionskit,'UTC') ;
+
+data = TTSync.emissionskit.Variables ;
+data(isnan(TTSync.emissionskit.Variables)) = 0 ;
+TTSync.emissionskit.Variables = data ;

@@ -119,4 +119,8 @@ replacestring = cellfun(@(x) elecfuel(strcmp(elecfuel(:,1),x),2), TTSync.emissio
 %% output
 
 TTSync.emissionskit.Properties.VariableNames = cat(1, replacestring{:}) ;
+
+data = TTSync.emissionskit.Variables ;
+data(isnan(TTSync.emissionskit.Variables)) = 0 ;
+TTSync.emissionskit.Variables = data ;
 % TTSync.TSO = Powerout ;

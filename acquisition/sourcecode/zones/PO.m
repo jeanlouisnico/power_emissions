@@ -58,5 +58,21 @@ replacestring = cellfun(@(x) elecfuel(strcmp(elecfuel(:,1),x),2), TTSync.emissio
 %% output
 TTSync.emissionskit.Properties.VariableNames = cat(1, replacestring{:}) ;
 
+changefuel = {  'biomass'	'biomass'
+                'coal'	'coal_chp'
+                'unknown'	'unknown'
+                'gas'	'gas'
+                'oil'	'oil'
+                'nuclear_PWR'	'nuclear_PWR'
+                'waste'	'waste'
+                'solar_thermal'	'solar_thermal'
+                'windon'	'windon'
+                'windoff'	'windoff'
+                'hydro_runof'	'hydro_runof'
+                'hydro_reservoir'	'hydro_reservoir'
+                'hydro_pumped'	'hydro_pumped'} ;
+replacestring = cellfun(@(x) changefuel(strcmp(changefuel(:,1),x),2), TTSync.emissionskit.Properties.VariableNames, 'UniformOutput', false) ;
+TTSync.emissionskit.Properties.VariableNames = cat(1, replacestring{:}) ;
+
 TTSync.TSO = convertTT_Time(TTSync.TSO,'UTC') ;
 TTSync.emissionskit = convertTT_Time(TTSync.emissionskit,'UTC') ;

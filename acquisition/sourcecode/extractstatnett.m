@@ -96,3 +96,7 @@ tables = {genbyfuel_thermal, genbyfuel_wind, genbyfuel_hydro, genbyfuel_nuclear,
 
 TTSync.emissionskit = synchronize(tables{:,:},'union','nearest');
 TTSync.TSO  = power ;
+
+data = TTSync.emissionskit.Variables ;
+data(isnan(TTSync.emissionskit.Variables)) = 0 ;
+TTSync.emissionskit.Variables = data ;
