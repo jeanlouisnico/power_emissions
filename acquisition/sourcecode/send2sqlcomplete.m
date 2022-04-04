@@ -40,18 +40,18 @@ try
                 case 'EcoInvent'
                     dbemi = 'EcoInvent' ;
                 case 'EM'
-                    dbemi = 'electricitymap_Emissions' ;
+                    dbemi = 'IPCC' ;
             end
             s(scount).date_time = datein ;
             s(scount).country   = countries{icountry} ;
-            s(scount).emdb   = emdatabases{iemi} ;
+            s(scount).emdb      = dbemi ;
             try
-                s(scount).emissionintprod   = Emissions.(countries{icountry}).TSO.(dbemi).intensityprod ;
+                s(scount).emissionintprod   = Emissions.(countries{icountry}).emissionskit.(dbemi).intensityprod ;
             catch
                 s(scount).emissionintprod   = 0 ;
             end
             try
-                s(scount).emissionintcons   = Emissions.(countries{icountry}).TSO.(dbemi).intensitycons ;
+                s(scount).emissionintcons   = Emissions.(countries{icountry}).emissionskit.(dbemi).intensitycons ;
             catch
                 s(scount).emissionintcons   = 0 ;
             end

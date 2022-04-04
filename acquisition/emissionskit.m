@@ -61,7 +61,13 @@ parfor icountry = 1:length(Country)
     Power(icountry).ENTSOE.TotalConsumption = PoweroutLoad ;
     Power(icountry).TSO = TSO ;
     Power(icountry).xCHANGE = xCHANGE ;
-    Power(icountry).zone = country_code.alpha2{icountry} ; 
+    switch country_code.alpha2{icountry}
+        case 'EL'
+            ccout = 'GR' ;
+        otherwise
+            ccout = country_code.alpha2{icountry} ;
+    end
+    Power(icountry).zone = ccout ; 
 end
 EntsoeTSO = toc;
 
@@ -88,8 +94,11 @@ for iEFSource = 1:length(EFSourcelist)
         for isublst = 1:length(sublst)
             EmissionTotal = ENTSOEEmissions(Power(icountry).ENTSOE.bytech.(sublst{isublst}) , Emissionsdatabase.newem.emissionFactors.(EFSource), cc, EmissionsCategory, EFSource) ;
             if isa(EmissionTotal, 'struct')
-                Emissions.(sublst{isublst}).ENTSOE.(EFSource).total = sum(struct2array(EmissionTotal)) ;
+                Emissions.(sublst{isublst}).ENTSOE.(EFSource).total            = sum(struct2array(EmissionTotal)) ;
                 Emissions.(sublst{isublst}).ENTSOE.(EFSource).intensityprod    = Emissions.(sublst{isublst}).ENTSOE.(EFSource).total / sum(Power(icountry).ENTSOE.bytech.(sublst{isublst}).Variables) ;
+                if isnan(Emissions.(sublst{isublst}).ENTSOE.(EFSource).intensityprod)
+                   Emissions.(sublst{isublst}).ENTSOE.(EFSource).intensityprod = extractdata('mean', cc, EmissionsCategory, Emissionsdatabase.EcoInvent) ;
+                end
             else
                 Emissions.(sublst{isublst}).ENTSOE.(EFSource).total = 0 ;
                 Emissions.(sublst{isublst}).ENTSOE.(EFSource).intensityprod    = extractdata('mean', cc, EmissionsCategory, Emissionsdatabase.EcoInvent) ;
@@ -97,7 +106,6 @@ for iEFSource = 1:length(EFSourcelist)
         end
     end
 end
-
 
 tic
 for icountry = 1:length(Country)
@@ -160,60 +168,64 @@ for icountry = 1:length(allcount)
 
 end
 %% Emissions balanced
-Source = {'IPCC'
-          'EcoInvent'} ;
-FIsource = {'ENTSOE'
-            'TSO'} ;
-for ipower = 1:length(FIsource)
-    SourceFI = FIsource{ipower} ;
-    for iEFSource = 1:length(Source)
-        EFSource = EFSourcelist{iEFSource} ;
-        if Power.FI.TSO.TradeRU > 0 
-            %%%
-            % Import from RU. Add the emissions to the Finnish energy
-            % mix
-            EmissionTrade.RU = Power.FI.TSO.TradeRU * Emissions.RU.TSO.(EFSource).intensityprod ;
-        else
-            %%%
-            % Export to RU. educe the emissions from the Finnish energy
-            % mix
-            EmissionTrade.RU = Power.FI.TSO.TradeRU * Emissions.FI.(SourceFI).(EFSource).intensityprod ;
-        end
-        if Power.FI.TSO.TradeNO > 0 
-            %%%
-            % Import from NO
-            EmissionTrade.NO = Power.FI.TSO.TradeNO * Emissions.NO.ENTSOE.(EFSource).intensityprod ;
-        else
-            %%%
-            % Export to NO
-            EmissionTrade.NO = Power.FI.TSO.TradeNO * Emissions.FI.(SourceFI).(EFSource).intensityprod ;
-        end
-        if Power.FI.TSO.TradeEE > 0 
-            %%%
-            % Import from EE
-            EmissionTrade.EE = Power.FI.TSO.TradeEE * Emissions.EE.(SourceFI).(EFSource).intensityprod ;
-        else
-            %%%
-            % Export to EE
-            EmissionTrade.EE = Power.FI.TSO.TradeEE * Emissions.FI.(SourceFI).(EFSource).intensityprod ;
-        end
-        if Power.FI.TSO.TradeSE > 0 
-            %%%
-            % Import from SE
-            EmissionTrade.SE = Power.FI.TSO.TradeSE * Emissions.SE.(SourceFI).(EFSource).intensityprod ;
-        else
-            %%%
-            % Export to SE
-            EmissionTrade.SE = Power.FI.TSO.TradeSE * Emissions.FI.(SourceFI).(EFSource).intensityprod ;
-        end
-        Balance = Emissions.FI.(SourceFI).(EFSource).total + sum(struct2array(EmissionTrade)) ;
-        %%%
-        % Recalculate the emission intensity based on the consumption of
-        % electricity in FI and including the traded electricity and their
-        % emission impact.
-        Emissions.FI.(SourceFI).(EFSource).intensitycons = Balance / Power.FI.(SourceFI).TotalConsumption ;
-    end
-end
+
+
+[Emissions, track] = emissions_cons('power', Power, 'emissions', Emissions) ;
+
+% Source = {'IPCC'
+%           'EcoInvent'} ;
+% FIsource = {'ENTSOE'
+%             'TSO'} ;
+% for ipower = 1:length(FIsource)
+%     SourceFI = FIsource{ipower} ;
+%     for iEFSource = 1:length(Source)
+%         EFSource = EFSourcelist{iEFSource} ;
+%         if Power.FI.TSO.TradeRU > 0 
+%             %%%
+%             % Import from RU. Add the emissions to the Finnish energy
+%             % mix
+%             EmissionTrade.RU = Power.FI.TSO.TradeRU * Emissions.RU.TSO.(EFSource).intensityprod ;
+%         else
+%             %%%
+%             % Export to RU. educe the emissions from the Finnish energy
+%             % mix
+%             EmissionTrade.RU = Power.FI.TSO.TradeRU * Emissions.FI.(SourceFI).(EFSource).intensityprod ;
+%         end
+%         if Power.FI.TSO.TradeNO > 0 
+%             %%%
+%             % Import from NO
+%             EmissionTrade.NO = Power.FI.TSO.TradeNO * Emissions.NO.ENTSOE.(EFSource).intensityprod ;
+%         else
+%             %%%
+%             % Export to NO
+%             EmissionTrade.NO = Power.FI.TSO.TradeNO * Emissions.FI.(SourceFI).(EFSource).intensityprod ;
+%         end
+%         if Power.FI.TSO.TradeEE > 0 
+%             %%%
+%             % Import from EE
+%             EmissionTrade.EE = Power.FI.TSO.TradeEE * Emissions.EE.(SourceFI).(EFSource).intensityprod ;
+%         else
+%             %%%
+%             % Export to EE
+%             EmissionTrade.EE = Power.FI.TSO.TradeEE * Emissions.FI.(SourceFI).(EFSource).intensityprod ;
+%         end
+%         if Power.FI.TSO.TradeSE > 0 
+%             %%%
+%             % Import from SE
+%             EmissionTrade.SE = Power.FI.TSO.TradeSE * Emissions.SE.(SourceFI).(EFSource).intensityprod ;
+%         else
+%             %%%
+%             % Export to SE
+%             EmissionTrade.SE = Power.FI.TSO.TradeSE * Emissions.FI.(SourceFI).(EFSource).intensityprod ;
+%         end
+%         Balance = Emissions.FI.(SourceFI).(EFSource).total + sum(struct2array(EmissionTrade)) ;
+%         %%%
+%         % Recalculate the emission intensity based on the consumption of
+%         % electricity in FI and including the traded electricity and their
+%         % emission impact.
+%         Emissions.FI.(SourceFI).(EFSource).intensitycons = Balance / Power.FI.(SourceFI).TotalConsumption ;
+%     end
+% end
 %% Save all values in XML files
 
 currenttime = datetime('now','TimeZone','UTC') ;

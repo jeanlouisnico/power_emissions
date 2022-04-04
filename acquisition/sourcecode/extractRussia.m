@@ -24,14 +24,14 @@ try
     data = webread(url);
     Power.bytech = data.m_Item2(timeextract.Hour + 1) ;
 
-    bytech.nuclear = Power.bytech.P_AES ;
+    bytech.nuclear_BWR = Power.bytech.P_AES ;
     bytech.solar = Power.bytech.P_REN ;
     bytech.oil = Power.bytech.P_BS ;
     bytech.thermal = Power.bytech.P_TES ;
-    bytech.hydro = Power.bytech.P_GES ;
+    bytech.hydro_runof = Power.bytech.P_GES ;
     
-    byfuel.nuclear = bytech.nuclear ;
-    byfuel.hydro   = bytech.hydro ;
+    byfuel.nuclear_BWR = bytech.nuclear_BWR ;
+    byfuel.hydro_runof   = bytech.hydro_runof ;
     byfuel.solar   = bytech.solar ;
     byfuel.oil     = .023 * bytech.thermal + 2/3 * bytech.oil ;
     byfuel.coal    = .4406 * bytech.thermal ;
@@ -44,14 +44,14 @@ try
     Powerout.TSO = convertTT_Time(Powerout.TSO,'UTC') ;
 
 catch
-    bytech.nuclear = 0 ;
+    bytech.nuclear_BWR = 0 ;
     bytech.solar = 0 ;
     bytech.oil = 0 ;
     bytech.thermal = 0 ;
-    bytech.hydro = 0 ;
+    bytech.hydro_runof = 0 ;
     
-    byfuel.nuclear = 0 ;
-    byfuel.hydro   = 0 ;
+    byfuel.nuclear_BWR = 0 ;
+    byfuel.hydro_runof   = 0 ;
     byfuel.solar   = 0 ;
     byfuel.oil     = 0 ;
     byfuel.coal    = 0 ;

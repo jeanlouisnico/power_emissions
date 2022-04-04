@@ -1,47 +1,78 @@
-function Emissions = emissions_cons
+function [Emissions, track] = emissions_cons(varargin)
 
-tes = load("testing_xchangev2.mat") ;
-Country = country2fetch ;
+if nargin > 1
+    defaultPower     = struct ;     
+    defaultEmissions = struct ;
+    
+    p = inputParser;
+    
+    validScalarPosNum = @(x) isnumeric(x) && isscalar(x) && (x >= 0) && (mod(x,1)==0);
+    validVector = @(x) all(isnumeric(x)) && all(isvector(x)) ;
+    validstring = @(x) isstring(x) || ischar(x) ;
+    
+    addParameter(p,'power',defaultPower, @isstruct);
+    addParameter(p,'emissions',defaultEmissions, @isstruct);
+    
+    parse(p, varargin{:});
+    
+    results = p.Results ;
+
+    Power = results.power ; 
+    Emissions = results.emissions ;
+else
+    tes = load("testing_xchangev2.mat") ;
+    Power = tes.Power ; 
+    Emissions = tes.Emissions ;
+end
+% Country = country2fetch ;
 p = mfilename('fullpath') ;
 [filepath,~,~] = fileparts(p) ;
 fparts = split(filepath, filesep) ;
 fparts = join(fparts(1:end-2), filesep) ;
-country_code = countrycode(Country) ;
-Power = tes.Power ; 
-Emissions = tes.Emissions ;
+% country_code = countrycode(Country) ;
+
 Xchnage = jsondecode(fileread([fparts{1} filesep 'Xchange.json']));  
+
+country_codein = {Power(:).zone}';
 
 Source = {'IPCC'
           'EcoInvent'} ;
 FIsource = {'ENTSOE'
             'TSO'} ;
 Emissionsdatabase = load_emissions      ;    
+devsummary = ones(1,length(country_codein)) * 100 ;
 for ipower = 1:length(FIsource)
     SourceFI = FIsource{ipower} ;
     for iEFSource = 1:length(Source)
         EFSource = Source{iEFSource} ;
         %%% Loop until the standard deviation for each country is less than
         %%% X
-        devtraget = 15 ;
+        devtraget = 5 ;
         devcheck = true ;
+        loopcount = 0  ;
         while devcheck
-            for icountry = 1:length(Country)
-                if icountry == 23
+            loopcount = loopcount + 1 ;
+            for icountry = 1:length(country_codein)
+                country_code = country_codein{icountry} ;
+%                 if devsummary(icountry) < devtraget
+%                     continue;
+%                 end
+                if icountry == 21
                     x = 1 ;
                 end
-                getcountry = ismember({Power.zone},country_code.alpha2{icountry}) ;
-                switch SourceFI
+                getcountry = ismember({Power.zone},country_code) ;
+                switch FIsource{ipower}
                     case 'ENTSOE'
-                        XChange_country = Xchnage.(country_code.alpha2{icountry}) ;
-                        [emend, Emissions] = extractENTSOExchange(XChange_country, Emissions, country_code, SourceFI, EFSource, icountry,Emissionsdatabase.(EFSource)) ;
-                        if isa(Power(getcountry).(SourceFI).bytech.(country_code.alpha2{icountry}), 'double')
-                            if isa(Power(getcountry).(SourceFI).TotalConsumption.(country_code.alpha2{icountry}),'double')
-                                totprod = Power(getcountry).(SourceFI).TotalConsumption.(country_code.alpha2{icountry}) ;
+                        XChange_country = Xchnage.(country_code) ;
+                        [emend, Emissions] = extractENTSOExchange(XChange_country, Emissions, country_code, SourceFI, EFSource, Emissionsdatabase, loopcount) ;
+                        if isa(Power(getcountry).(SourceFI).bytech.(country_code), 'double')
+                            if isa(Power(getcountry).(SourceFI).TotalConsumption.(country_code),'double')
+                                totprod = Power(getcountry).(SourceFI).TotalConsumption.(country_code) ;
                             else
-                                totprod = Power(getcountry).(SourceFI).TotalConsumption.(country_code.alpha2{icountry}).Variables ;
+                                totprod = Power(getcountry).(SourceFI).TotalConsumption.(country_code).Variables ;
                             end
                         else
-                            totprod = sum(Power(getcountry).(SourceFI).bytech.(country_code.alpha2{icountry}).Variables) ;
+                            totprod = sum(Power(getcountry).(SourceFI).bytech.(country_code).Variables) ;
                         end
                         if isa(XChange_country, 'table')
                             XChange_country = removevars(XChange_country, 'Time') ;
@@ -55,52 +86,63 @@ for ipower = 1:length(FIsource)
                         if emend < 0
                             emend = 0 ;
                         end
-                        if isfield(Emissions.(country_code.alpha2{icountry}).(SourceFI).(EFSource),'intensitycons')
-                            dev.(country_code.alpha2{icountry}).IC_before = Emissions.(country_code.alpha2{icountry}).(SourceFI).(EFSource).intensitycons ;
+                        if isfield(Emissions.(country_code).(SourceFI).(EFSource),'intensitycons')
+                            dev.(country_code).previous = Emissions.(country_code).(SourceFI).(EFSource).currentloopintensitycons ;
                         else
-                            dev.(country_code.alpha2{icountry}).IC_before = Emissions.(country_code.alpha2{icountry}).(SourceFI).(EFSource).intensityprod ;
+                            dev.(country_code).previous = Emissions.(country_code).(SourceFI).(EFSource).intensityprod ;
                         end
-                        if Load<0
-                            Emissions.(country_code.alpha2{icountry}).(SourceFI).(EFSource).intensitycons = 0 ;
+                        if Load < 0 || totprod == 0
+                            Emissions.(country_code).(SourceFI).(EFSource).intensitycons = extractdata('mean', country_code, 'GlobalWarming', Emissionsdatabase.EcoInvent) ;
                         else
-                            Emissions.(country_code.alpha2{icountry}).(SourceFI).(EFSource).intensitycons = emend/Load ;
+                            Emissions.(country_code).(SourceFI).(EFSource).intensitycons = emend/Load ;
+                            Emissions.(country_code).(SourceFI).(EFSource).total = emend/Load * totprod;
                         end
-                            
-                        p  = [dev.(country_code.alpha2{icountry}).IC_before Emissions.(country_code.alpha2{icountry}).(SourceFI).(EFSource).intensitycons] ;
+                        
+                        track.(country_code).(SourceFI).(EFSource)(loopcount) = Emissions.(country_code).(SourceFI).(EFSource).intensitycons ;
+
+                        p  = [dev.(country_code).previous Emissions.(country_code).(SourceFI).(EFSource).intensitycons] ;
     
-                        dev.(country_code.alpha2{icountry}).value = std(p) ;
+                        dev.(country_code).value = std(p) ;
                         if ~isempty(p)
                             devsummary(icountry) = std(p) ;
                         else
                             devsummary(icountry) = 0 ;
                         end
                     case 'TSO'
+                        SourceFIP = FIsource{ipower} ;
+                        SourceFI  = 'emissionskit' ;
                         if isa(Power(getcountry).xCHANGE,"double")
                             % This means that there are no data from the TSO,
                             % use the data from ENTSOE
-                            XChange_country = Xchnage.(country_code.alpha2{icountry}) ;
-                            [emend, Emissions] = extractENTSOExchange(XChange_country, Emissions, country_code, SourceFI, EFSource, icountry,Emissionsdatabase.(EFSource)) ;
+                            XChange_country = Xchnage.(country_code) ;
+                            [emend, Emissions] = extractENTSOExchange(XChange_country, Emissions, country_code, SourceFIP, EFSource, Emissionsdatabase, loopcount) ;
                         else
                             XChange_country = Power(getcountry).xCHANGE ;
-                            [emend, Emissions] = extractENTSOExchange(XChange_country, Emissions, country_code, SourceFI, EFSource, icountry,Emissionsdatabase.(EFSource)) ;
+                            [emend, Emissions] = extractENTSOExchange(XChange_country, Emissions, country_code, SourceFIP, EFSource, Emissionsdatabase, loopcount) ;
                         end
                         
                         % Get the total power produced from within the country
-                        if isa(Power(getcountry).(SourceFI),'double')
+                        if isa(Power(getcountry).(SourceFIP),'double')
                             % This means that there is no data for EK, so must
                             % take the data from ENTSOE
-                            if isa(Power(getcountry).ENTSOE.bytech.(country_code.alpha2{icountry}), 'double')
-                                totprod = 0 ;
+                            if isa(Power(getcountry).ENTSOE.bytech.(country_code), 'double')
+                                if isa(Power(getcountry).ENTSOE.TotalConsumption.(country_code),'double')
+                                    totprod = Power(getcountry).ENTSOE.TotalConsumption.(country_code) ;
+                                else
+                                    totprod = Power(getcountry).ENTSOE.TotalConsumption.(country_code).Variables ;
+                                end
                             else
-                                totprod = sum(Power(getcountry).ENTSOE.bytech.(country_code.alpha2{icountry}).Variables) ;
+                                totprod = sum(Power(getcountry).ENTSOE.bytech.(country_code).Variables) ;
                             end
                         else
-                            if isa(Power(getcountry).(SourceFI).emissionskit,'double')
-                                totprod = sum(Power(getcountry).(SourceFI).emissionskit) ;
+                            if isa(Power(getcountry).(SourceFIP).emissionskit,'double')
+                                totprod = sum(Power(getcountry).(SourceFIP).emissionskit) ;
                             else
-                                totprod = sum(Power(getcountry).(SourceFI).emissionskit.Variables) ;
+                                totprod = sum(Power(getcountry).(SourceFIP).emissionskit.Variables) ;
                             end
                         end
+
+
                         if isa(XChange_country, 'struct')
                             XChange_country = rmfield(XChange_country, 'Time') ;
                             totexch = sum(struct2array(XChange_country)) ;
@@ -109,21 +151,52 @@ for ipower = 1:length(FIsource)
                         elseif isa(XChange_country, 'timetable')
                             totexch = sum(XChange_country.Variables) ;        
                         end
-    
+        
                         Load = totprod + totexch ;
                         if emend < 0
                             emend = 0 ;
                         end
-                        Emissions.(country_code.alpha2{icountry}).(SourceFI).(EFSource).intensitycons = emend/Load ;
+
+                        if isfield(Emissions.(country_code).(SourceFI).(EFSource),'intensitycons')
+                            dev.(country_code).previous = Emissions.(country_code).(SourceFI).(EFSource).currentloopintensitycons ;
+                        else
+                            dev.(country_code).previous = Emissions.(country_code).(SourceFI).(EFSource).intensityprod ;
+                        end
+                        if Load < 0 || totprod == 0
+                            Emissions.(country_code).(SourceFI).(EFSource).intensitycons = extractdata('mean', country_code, 'GlobalWarming', Emissionsdatabase.EcoInvent) ;
+                        else
+                            Emissions.(country_code).(SourceFI).(EFSource).intensitycons = emend/Load ;
+                            Emissions.(country_code).(SourceFI).(EFSource).total = emend/Load * totprod;
+                        end
+
+                        track.(country_code).(SourceFI).(EFSource)(loopcount) = Emissions.(country_code).(SourceFI).(EFSource).intensitycons ;
+
+                        p  = [dev.(country_code).previous Emissions.(country_code).(SourceFI).(EFSource).intensitycons] ;
+    
+                        dev.(country_code).value = std(p) ;
+                        if ~isempty(p)
+                            devsummary(icountry) = std(p) ;
+                        else
+                            devsummary(icountry) = 0 ;
+                        end
                 end
             end
+            % Once all the countries have been gatherd, we can re-allocate
+            % the new emission intensity to the new slot to consider them
+            % in the next iteration.
+
+            for icountry = 1:length(country_codein)
+                country_code = country_codein{icountry} ;
+                Emissions.(country_code).(SourceFI).(EFSource).currentloopintensitycons = Emissions.(country_code).(SourceFI).(EFSource).intensitycons ;
+            end
+
             devcheck = any(devsummary>devtraget) ;
             bar(devsummary)
         end
     end
 end
 
-    function [emend, Emissions] = extractENTSOExchange(inputstruct,  Emissions, country_code, SourceFI, EFSource, icountry, Emissionsdatabase)
+    function [emend, Emissions] = extractENTSOExchange(inputstruct,  Emissions, country_code, SourceFI, EFSource, Emissionsdatabase, loopcount)
         if isa(inputstruct, 'struct')
             geteach = fieldnames(inputstruct) ;
         elseif isa(inputstruct, 'table')
@@ -138,18 +211,18 @@ end
                 source = SourceFI ;
         end
         
-        if ~isfield(Emissions.(country_code.alpha2{icountry}), source)
-            Emissions.(country_code.alpha2{icountry}).(source).EcoInvent.intensityprod = ...
-                            Emissions.(country_code.alpha2{icountry}).ENTSOE.EcoInvent.intensityprod ;
-            Emissions.(country_code.alpha2{icountry}).(source).EcoInvent.total = ...
-                            Emissions.(country_code.alpha2{icountry}).ENTSOE.EcoInvent.total ;
-            Emissions.(country_code.alpha2{icountry}).(source).IPCC.intensityprod = ...
-                            Emissions.(country_code.alpha2{icountry}).ENTSOE.IPCC.intensityprod ;
-            Emissions.(country_code.alpha2{icountry}).(source).IPCC.total = ...
-                            Emissions.(country_code.alpha2{icountry}).ENTSOE.IPCC.total ;
+        if ~isfield(Emissions.(country_code), source)
+            Emissions.(country_code).(source).EcoInvent.intensityprod = ...
+                            Emissions.(country_code).ENTSOE.EcoInvent.intensityprod ;
+            Emissions.(country_code).(source).EcoInvent.total = ...
+                            Emissions.(country_code).ENTSOE.EcoInvent.total ;
+            Emissions.(country_code).(source).IPCC.intensityprod = ...
+                            Emissions.(country_code).ENTSOE.IPCC.intensityprod ;
+            Emissions.(country_code).(source).IPCC.total = ...
+                            Emissions.(country_code).ENTSOE.IPCC.total ;
         end
 
-        emend = Emissions.(country_code.alpha2{icountry}).(source).(EFSource).total ;
+        emend = Emissions.(country_code).(source).(EFSource).total ;
 
         EmissionsCategory = 'GlobalWarming' ;
         for each = 1:length(geteach)
@@ -161,10 +234,10 @@ end
                     ccode = ccode(1:2) ; % --> this is to make sure that only the first 2 letters are considered
                     %%% Negative is export to the country
                     if inputstruct.(geteach{each}) < 0
-                        if isfield(Emissions.(country_code.alpha2{icountry}).(source).(EFSource), 'intensitycons')
-                            emend = emend + (inputstruct.(geteach{each}) * Emissions.(country_code.alpha2{icountry}).(source).(EFSource).intensitycons);
+                        if isfield(Emissions.(country_code).(source).(EFSource), 'intensitycons') && loopcount > 1
+                            emend = emend + (inputstruct.(geteach{each}) * Emissions.(country_code).(source).(EFSource).currentloopintensitycons);
                         else
-                            emend = emend + (inputstruct.(geteach{each}) * Emissions.(country_code.alpha2{icountry}).(source).(EFSource).intensityprod);
+                            emend = emend + (inputstruct.(geteach{each}) * Emissions.(country_code).(source).(EFSource).intensityprod);
                         end
                     %%% Positive is import from the country
                     elseif inputstruct.(geteach{each}) > 0
@@ -172,7 +245,7 @@ end
                         if isfield(Emissions,ccode)
                             % Check if the DB exist
                             if isfield(Emissions.(ccode), source)
-                                emend = getemissions(inputstruct, Emissions, EFSource, emend, geteach{each}, ccode, source) ;
+                                emend = getemissions(inputstruct, Emissions, EFSource, emend, geteach{each}, ccode, source, loopcount, Emissionsdatabase) ;
                             else
                                 switch source
                                     case 'emissionskit'
@@ -180,7 +253,7 @@ end
                                         Emissions.(ccode).(source).EcoInvent.total = Emissions.(ccode).ENTSOE.EcoInvent.total ;
                                         Emissions.(ccode).(source).IPCC.intensityprod = Emissions.(ccode).ENTSOE.IPCC.intensityprod ;
                                         Emissions.(ccode).(source).IPCC.total = Emissions.(ccode).ENTSOE.IPCC.total ;
-                                        emend = getemissions(inputstruct, Emissions, EFSource, emend, geteach{each}, ccode, source) ;
+                                        emend = getemissions(inputstruct, Emissions, EFSource, emend, geteach{each}, ccode, source, loopcount, Emissionsdatabase) ;
                                     case 'ENTSOE'
     
                                     otherwise
@@ -189,17 +262,17 @@ end
     
                             end
                         else
-                            Emissionsextract = Emissionsdatabase.(EmissionsCategory)(strcmp(Emissionsdatabase.Technology,'mean') & strcmp(Emissionsdatabase.Country,ccode)) ;
+                            Emissionsextract = Emissionsdatabase.(EFSource).(EmissionsCategory)(strcmp(Emissionsdatabase.(EFSource).Technology,'mean') & strcmp(Emissionsdatabase.(EFSource).Country,ccode)) ;
                             if isempty(Emissionsextract)
                                 switch ccode
                                     case 'AX'
-                                        emend = getemissions(inputstruct, Emissions, EFSource, emend, geteach{each}, 'FI', source) ;
+                                        emend = getemissions(inputstruct, Emissions, EFSource, emend, geteach{each}, 'FI', source, loopcount, Emissionsdatabase) ;
                                     case {'TR' 'AL'}
-                                        emend = getemissions(inputstruct, Emissions, EFSource, emend, geteach{each}, 'EL', source) ;
+                                        emend = getemissions(inputstruct, Emissions, EFSource, emend, geteach{each}, 'GR', source, loopcount, Emissionsdatabase) ;
                                     case {'UA' 'BY'}
-                                        emend = getemissions(inputstruct, Emissions, EFSource, emend, geteach{each}, 'RU', source) ;
+                                        emend = getemissions(inputstruct, Emissions, EFSource, emend, geteach{each}, 'RU', source, loopcount, Emissionsdatabase) ;
                                     case 'KX'
-                                        emend = getemissions(inputstruct, Emissions, EFSource, emend, geteach{each}, 'ME', source) ;
+                                        emend = getemissions(inputstruct, Emissions, EFSource, emend, geteach{each}, 'ME', source, loopcount, Emissionsdatabase) ;
                                     otherwise                                  
                                         
                                 end
@@ -212,24 +285,23 @@ end
                     end
             end
         end
-        Emissions.(country_code.alpha2{icountry}).(source).(EFSource).total = emend;
     end
     %%%%%%%%%%%%%% SETUP EMISSIONKIT IF MISSING %%%%%%%%%%%%%%%%%%%%%%% 
     function setupEK
         
     end
 
-    function emend = getemissions(inputstruct, Emissions, EFSource, emend, geteach, ccode, source)
-        if isfield(Emissions.(ccode).(source).(EFSource), 'intensitycons')
-            if isempty(Emissions.(ccode).(source).(EFSource).intensitycons) || isnan(Emissions.(ccode).(source).(EFSource).intensitycons)
-                emmult = 0 ;
+    function emend = getemissions(inputstruct, Emissions, EFSource, emend, geteach, ccode, source, loopcount, Emissionsdatabase)
+        if isfield(Emissions.(ccode).(source).(EFSource), 'intensitycons') && loopcount > 1
+            if isempty(Emissions.(ccode).(source).(EFSource).currentloopintensitycons) || isnan(Emissions.(ccode).(source).(EFSource).currentloopintensitycons)
+                emmult = extractdata('mean', ccode, 'GlobalWarming', Emissionsdatabase.EcoInvent) ;
             else
-                emmult = Emissions.(ccode).(source).(EFSource).intensitycons ;                
+                emmult = Emissions.(ccode).(source).(EFSource).currentloopintensitycons ;                
             end
             emend = emend + (inputstruct.(geteach) * emmult);
         else
             if isempty(Emissions.(ccode).(source).(EFSource).intensityprod) ||  isnan(Emissions.(ccode).(source).(EFSource).intensityprod)
-                emmult = 0 ;
+                emmult = extractdata('mean', ccode, 'GlobalWarming', Emissionsdatabase.EcoInvent) ;
             else
                 emmult = Emissions.(ccode).(source).(EFSource).intensityprod ;                
             end

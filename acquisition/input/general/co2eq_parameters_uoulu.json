@@ -11033,6 +11033,977 @@
             }
           }
         },
+        "GB": {
+          "gas": {
+            "source": "LCI: EcoInvent 3.4, LCIA: ReCiPe 2016 --> midpoint (I)",
+            "GlobalWarming": {
+              "value": 364.4819611
+            },
+            "StratosphericOzoneDepletion": {
+              "value": 0.000108527
+            },
+            "IonizingRadiation": {
+              "value": 1.021648334
+            },
+            "OzoneFormation_HumanHealth": {
+              "value": 0.235324685
+            },
+            "FineParticulateMatterFormation": {
+              "value": 0.008711937
+            },
+            "OzoneFormation_TerrestrialEcosystems": {
+              "value": 0.239823186
+            },
+            "TerrestrialAcidification": {
+              "value": 0.109857215
+            },
+            "FreshwaterEutrophication": {
+              "value": 0.00217396
+            },
+            "MarineEutrophication": {
+              "value": 0.000145944
+            },
+            "TerrestrialEcotoxicity": {
+              "value": 12.86721741
+            },
+            "FreshwaterEcotoxicity": {
+              "value": 0.245736883
+            },
+            "MarineEcotoxicity": {
+              "value": 0.38029663
+            },
+            "HumanCarcinogenicToxicity": {
+              "value": 0.004089594
+            },
+            "HumanNon_carcinogenicToxicity": {
+              "value": 0.137050973
+            },
+            "LandUse": {
+              "value": 0.139845838
+            },
+            "MineralResourceScarcity": {
+              "value": 0.062773515
+            },
+            "FossilResourceScarcity": {
+              "value": 146.1341369
+            },
+            "WaterConsumption": {
+              "value": 0.548775823
+            }
+          },
+          "coal": {
+            "source": "LCI: EcoInvent 3.4, LCIA: ReCiPe 2016 --> midpoint (I)",
+            "GlobalWarming": {
+              "value": 1220.70865
+            },
+            "StratosphericOzoneDepletion": {
+              "value": 0.000103865
+            },
+            "IonizingRadiation": {
+              "value": 8.205677417
+            },
+            "OzoneFormation_HumanHealth": {
+              "value": 2.719534724
+            },
+            "FineParticulateMatterFormation": {
+              "value": 0.27386756
+            },
+            "OzoneFormation_TerrestrialEcosystems": {
+              "value": 2.732862307
+            },
+            "TerrestrialAcidification": {
+              "value": 6.025036373
+            },
+            "FreshwaterEutrophication": {
+              "value": 0.590033096
+            },
+            "MarineEutrophication": {
+              "value": 0.037554238
+            },
+            "TerrestrialEcotoxicity": {
+              "value": 221.528828
+            },
+            "FreshwaterEcotoxicity": {
+              "value": 19.73091548
+            },
+            "MarineEcotoxicity": {
+              "value": 6.78207541
+            },
+            "HumanCarcinogenicToxicity": {
+              "value": 0.185491276
+            },
+            "HumanNon_carcinogenicToxicity": {
+              "value": 3.649773232
+            },
+            "LandUse": {
+              "value": 10.13198206
+            },
+            "MineralResourceScarcity": {
+              "value": 0.23269101
+            },
+            "FossilResourceScarcity": {
+              "value": 277.2589868
+            },
+            "WaterConsumption": {
+              "value": 2.067277088
+            }
+          },
+          "oil": {
+            "source": "LCI: EcoInvent 3.4, LCIA: ReCiPe 2016 --> midpoint (I)",
+            "GlobalWarming": {
+              "value": 1348.835167
+            },
+            "StratosphericOzoneDepletion": {
+              "value": 0.000658388
+            },
+            "IonizingRadiation": {
+              "value": 12.57759186
+            },
+            "OzoneFormation_HumanHealth": {
+              "value": 4.609838531
+            },
+            "FineParticulateMatterFormation": {
+              "value": 0.148625192
+            },
+            "OzoneFormation_TerrestrialEcosystems": {
+              "value": 4.655210209
+            },
+            "TerrestrialAcidification": {
+              "value": 14.86377363
+            },
+            "FreshwaterEutrophication": {
+              "value": 0.026648899
+            },
+            "MarineEutrophication": {
+              "value": 0.002668175
+            },
+            "TerrestrialEcotoxicity": {
+              "value": 1631.414802
+            },
+            "FreshwaterEcotoxicity": {
+              "value": 3.015368387
+            },
+            "MarineEcotoxicity": {
+              "value": 1.977695875
+            },
+            "HumanCarcinogenicToxicity": {
+              "value": 0.850240219
+            },
+            "HumanNon_carcinogenicToxicity": {
+              "value": 5.253128776
+            },
+            "LandUse": {
+              "value": 2.357531389
+            },
+            "MineralResourceScarcity": {
+              "value": 0.272135498
+            },
+            "FossilResourceScarcity": {
+              "value": 425.4856242
+            },
+            "WaterConsumption": {
+              "value": 3.321527106
+            }
+          },
+          "hydro_runof": {
+            "source": "LCI: EcoInvent 3.4, LCIA: ReCiPe 2016 --> midpoint (I)",
+            "GlobalWarming": {
+              "value": 4.43140669
+            },
+            "StratosphericOzoneDepletion": {
+              "value": 8.68035E-7
+            },
+            "IonizingRadiation": {
+              "value": 0.242796962
+            },
+            "OzoneFormation_HumanHealth": {
+              "value": 0.01532338
+            },
+            "FineParticulateMatterFormation": {
+              "value": 0.005135698
+            },
+            "OzoneFormation_TerrestrialEcosystems": {
+              "value": 0.015676103
+            },
+            "TerrestrialAcidification": {
+              "value": 0.012723863
+            },
+            "FreshwaterEutrophication": {
+              "value": 0.001491898
+            },
+            "MarineEutrophication": {
+              "value": 7.1428E-5
+            },
+            "TerrestrialEcotoxicity": {
+              "value": 6.075955191
+            },
+            "FreshwaterEcotoxicity": {
+              "value": 0.181731241
+            },
+            "MarineEcotoxicity": {
+              "value": 0.0616965
+            },
+            "HumanCarcinogenicToxicity": {
+              "value": 0.001905055
+            },
+            "HumanNon_carcinogenicToxicity": {
+              "value": 0.072697337
+            },
+            "LandUse": {
+              "value": 0.178394132
+            },
+            "MineralResourceScarcity": {
+              "value": 0.051202688
+            },
+            "FossilResourceScarcity": {
+              "value": 0.804620512
+            },
+            "WaterConsumption": {
+              "value": 0.05130776
+            }
+          },
+          "oil_chp": {
+            "source": "LCI: EcoInvent 3.4, LCIA: ReCiPe 2016 --> midpoint (I)",
+            "GlobalWarming": {
+              "value": 663.9429049
+            },
+            "StratosphericOzoneDepletion": {
+              "value": 0.00032408
+            },
+            "IonizingRadiation": {
+              "value": 6.191286965
+            },
+            "OzoneFormation_HumanHealth": {
+              "value": 2.269123507
+            },
+            "FineParticulateMatterFormation": {
+              "value": 0.073162211
+            },
+            "OzoneFormation_TerrestrialEcosystems": {
+              "value": 2.291457402
+            },
+            "TerrestrialAcidification": {
+              "value": 7.316430868
+            },
+            "FreshwaterEutrophication": {
+              "value": 0.013120915
+            },
+            "MarineEutrophication": {
+              "value": 0.001313549
+            },
+            "TerrestrialEcotoxicity": {
+              "value": 803.0584297
+            },
+            "FreshwaterEcotoxicity": {
+              "value": 1.484739842
+            },
+            "MarineEcotoxicity": {
+              "value": 0.97364789
+            },
+            "HumanCarcinogenicToxicity": {
+              "value": 0.418516745
+            },
+            "HumanNon_carcinogenicToxicity": {
+              "value": 2.585967757
+            },
+            "LandUse": {
+              "value": 1.160674816
+            },
+            "MineralResourceScarcity": {
+              "value": 0.134045336
+            },
+            "FossilResourceScarcity": {
+              "value": 209.4383868
+            },
+            "WaterConsumption": {
+              "value": 47.15753779
+            }
+          },
+          "others_biogas": {
+            "source": "LCI: EcoInvent 3.4, LCIA: ReCiPe 2016 --> midpoint (I)",
+            "GlobalWarming": {
+              "value": 345.3759733
+            },
+            "StratosphericOzoneDepletion": {
+              "value": 0.00129608
+            },
+            "IonizingRadiation": {
+              "value": 7.379338814
+            },
+            "OzoneFormation_HumanHealth": {
+              "value": 0.65177403
+            },
+            "FineParticulateMatterFormation": {
+              "value": 0.08656705
+            },
+            "OzoneFormation_TerrestrialEcosystems": {
+              "value": 0.660963498
+            },
+            "TerrestrialAcidification": {
+              "value": 9.008573844
+            },
+            "FreshwaterEutrophication": {
+              "value": 0.402944846
+            },
+            "MarineEutrophication": {
+              "value": 0.084247227
+            },
+            "TerrestrialEcotoxicity": {
+              "value": 138.3859614
+            },
+            "FreshwaterEcotoxicity": {
+              "value": 36.4699903
+            },
+            "MarineEcotoxicity": {
+              "value": 10.67224709
+            },
+            "HumanCarcinogenicToxicity": {
+              "value": 0.106596896
+            },
+            "HumanNon_carcinogenicToxicity": {
+              "value": 4.925282201
+            },
+            "LandUse": {
+              "value": 44.29541411
+            },
+            "MineralResourceScarcity": {
+              "value": 0.455656375
+            },
+            "FossilResourceScarcity": {
+              "value": 32.97935236
+            },
+            "WaterConsumption": {
+              "value": 3.529482622
+            }
+          },
+          "windon": {
+            "source": "LCI: EcoInvent 3.4, LCIA: ReCiPe 2016 --> midpoint (I)",
+            "GlobalWarming": {
+              "value": 14.71871952
+            },
+            "StratosphericOzoneDepletion": {
+              "value": 4.1138E-6
+            },
+            "IonizingRadiation": {
+              "value": 0.670923971
+            },
+            "OzoneFormation_HumanHealth": {
+              "value": 0.037702787
+            },
+            "FineParticulateMatterFormation": {
+              "value": 0.014061787
+            },
+            "OzoneFormation_TerrestrialEcosystems": {
+              "value": 0.039348899
+            },
+            "TerrestrialAcidification": {
+              "value": 0.054222238
+            },
+            "FreshwaterEutrophication": {
+              "value": 0.009644665
+            },
+            "MarineEutrophication": {
+              "value": 0.000791758
+            },
+            "TerrestrialEcotoxicity": {
+              "value": 60.89473873
+            },
+            "FreshwaterEcotoxicity": {
+              "value": 4.964201133
+            },
+            "MarineEcotoxicity": {
+              "value": 1.277636524
+            },
+            "HumanCarcinogenicToxicity": {
+              "value": 0.00974894
+            },
+            "HumanNon_carcinogenicToxicity": {
+              "value": 0.567661029
+            },
+            "LandUse": {
+              "value": 0.944372639
+            },
+            "MineralResourceScarcity": {
+              "value": 0.275112511
+            },
+            "FossilResourceScarcity": {
+              "value": 3.443851941
+            },
+            "WaterConsumption": {
+              "value": 0.142281576
+            }
+          },
+          "biomass": {
+            "source": "LCI: EcoInvent 3.4, LCIA: ReCiPe 2016 --> midpoint (I)",
+            "GlobalWarming": {
+              "value": 51.49026918
+            },
+            "StratosphericOzoneDepletion": {
+              "value": 0.000277945
+            },
+            "IonizingRadiation": {
+              "value": 0.851989595
+            },
+            "OzoneFormation_HumanHealth": {
+              "value": 1.455789392
+            },
+            "FineParticulateMatterFormation": {
+              "value": 0.096823278
+            },
+            "OzoneFormation_TerrestrialEcosystems": {
+              "value": 1.479223146
+            },
+            "TerrestrialAcidification": {
+              "value": 1.149217874
+            },
+            "FreshwaterEutrophication": {
+              "value": 0.009160065
+            },
+            "MarineEutrophication": {
+              "value": 0.001237793
+            },
+            "TerrestrialEcotoxicity": {
+              "value": 557.3947003
+            },
+            "FreshwaterEcotoxicity": {
+              "value": 2.562633624
+            },
+            "MarineEcotoxicity": {
+              "value": 0.9995992
+            },
+            "HumanCarcinogenicToxicity": {
+              "value": 0.186824319
+            },
+            "HumanNon_carcinogenicToxicity": {
+              "value": 1.642460835
+            },
+            "LandUse": {
+              "value": 700.3841649
+            },
+            "MineralResourceScarcity": {
+              "value": 0.16356724
+            },
+            "FossilResourceScarcity": {
+              "value": 12.04383859
+            },
+            "WaterConsumption": {
+              "value": 0.200710974
+            }
+          },
+          "solar": {
+            "source": "LCI: EcoInvent 3.4, LCIA: ReCiPe 2016 --> midpoint (I)",
+            "GlobalWarming": {
+              "value": 90.56211577
+            },
+            "StratosphericOzoneDepletion": {
+              "value": 2.85372E-5
+            },
+            "IonizingRadiation": {
+              "value": 7.418121971
+            },
+            "OzoneFormation_HumanHealth": {
+              "value": 0.20282457
+            },
+            "FineParticulateMatterFormation": {
+              "value": 0.076966938
+            },
+            "OzoneFormation_TerrestrialEcosystems": {
+              "value": 0.212648598
+            },
+            "TerrestrialAcidification": {
+              "value": 0.346742599
+            },
+            "FreshwaterEutrophication": {
+              "value": 0.052395653
+            },
+            "MarineEutrophication": {
+              "value": 0.005823514
+            },
+            "TerrestrialEcotoxicity": {
+              "value": 774.3169468
+            },
+            "FreshwaterEcotoxicity": {
+              "value": 8.062131632
+            },
+            "MarineEcotoxicity": {
+              "value": 2.559813426
+            },
+            "HumanCarcinogenicToxicity": {
+              "value": 0.028929579
+            },
+            "HumanNon_carcinogenicToxicity": {
+              "value": 2.584005342
+            },
+            "LandUse": {
+              "value": 25.4514157
+            },
+            "MineralResourceScarcity": {
+              "value": 0.731973054
+            },
+            "FossilResourceScarcity": {
+              "value": 20.34390451
+            },
+            "WaterConsumption": {
+              "value": 2.685725719
+            }
+          },
+          "blast_furnace": {
+            "source": "LCI: EcoInvent 3.4, LCIA: ReCiPe 2016 --> midpoint (I)",
+            "GlobalWarming": {
+              "value": 952.6816159
+            },
+            "StratosphericOzoneDepletion": {
+              "value": 0.000104712
+            },
+            "IonizingRadiation": {
+              "value": 6.536715169
+            },
+            "OzoneFormation_HumanHealth": {
+              "value": 1.746081909
+            },
+            "FineParticulateMatterFormation": {
+              "value": 0.728558093
+            },
+            "OzoneFormation_TerrestrialEcosystems": {
+              "value": 1.8657433
+            },
+            "TerrestrialAcidification": {
+              "value": 2.241583796
+            },
+            "FreshwaterEutrophication": {
+              "value": 0.215494895
+            },
+            "MarineEutrophication": {
+              "value": 0.013899803
+            },
+            "TerrestrialEcotoxicity": {
+              "value": 266.0505486
+            },
+            "FreshwaterEcotoxicity": {
+              "value": 8.426393108
+            },
+            "MarineEcotoxicity": {
+              "value": 2.900462714
+            },
+            "HumanCarcinogenicToxicity": {
+              "value": 0.233857381
+            },
+            "HumanNon_carcinogenicToxicity": {
+              "value": 5.007450416
+            },
+            "LandUse": {
+              "value": 7.349041674
+            },
+            "MineralResourceScarcity": {
+              "value": 19.52254714
+            },
+            "FossilResourceScarcity": {
+              "value": 136.5585309
+            },
+            "WaterConsumption": {
+              "value": 2.346415487
+            }
+          },
+          "waste": {
+            "source": "LCI: EcoInvent 3.4, LCIA: ReCiPe 2016 --> midpoint (I)",
+            "GlobalWarming": {
+              "value": 194.2905737
+            },
+            "StratosphericOzoneDepletion": {
+              "value": 0.000544851
+            },
+            "IonizingRadiation": {
+              "value": 45.35586318
+            },
+            "OzoneFormation_HumanHealth": {
+              "value": 0.86955402
+            },
+            "FineParticulateMatterFormation": {
+              "value": 0.107941754
+            },
+            "OzoneFormation_TerrestrialEcosystems": {
+              "value": 0.889109982
+            },
+            "TerrestrialAcidification": {
+              "value": 1.129762548
+            },
+            "FreshwaterEutrophication": {
+              "value": 0.045753686
+            },
+            "MarineEutrophication": {
+              "value": 0.005021706
+            },
+            "TerrestrialEcotoxicity": {
+              "value": 427.0540603
+            },
+            "FreshwaterEcotoxicity": {
+              "value": 6.043353243
+            },
+            "MarineEcotoxicity": {
+              "value": 2.691438109
+            },
+            "HumanCarcinogenicToxicity": {
+              "value": 0.288531414
+            },
+            "HumanNon_carcinogenicToxicity": {
+              "value": 4.299521325
+            },
+            "LandUse": {
+              "value": 195.0445533
+            },
+            "MineralResourceScarcity": {
+              "value": 1.253801476
+            },
+            "FossilResourceScarcity": {
+              "value": 284.0227054
+            },
+            "WaterConsumption": {
+              "value": 2.516520225
+            }
+          },
+          "nuclear_BWR": {
+            "source": "LCI: EcoInvent 3.4, LCIA: ReCiPe 2016 --> midpoint (I)",
+            "GlobalWarming": {
+              "value": 13.50463298
+            },
+            "StratosphericOzoneDepletion": {
+              "value": 2.46159E-5
+            },
+            "IonizingRadiation": {
+              "value": 761.1804528
+            },
+            "OzoneFormation_HumanHealth": {
+              "value": 0.041578433
+            },
+            "FineParticulateMatterFormation": {
+              "value": 0.029353545
+            },
+            "OzoneFormation_TerrestrialEcosystems": {
+              "value": 0.042344522
+            },
+            "TerrestrialAcidification": {
+              "value": 0.047804971
+            },
+            "FreshwaterEutrophication": {
+              "value": 0.008875441
+            },
+            "MarineEutrophication": {
+              "value": 0.013224118
+            },
+            "TerrestrialEcotoxicity": {
+              "value": 96.59701135
+            },
+            "FreshwaterEcotoxicity": {
+              "value": 0.887924746
+            },
+            "MarineEcotoxicity": {
+              "value": 0.317406572
+            },
+            "HumanCarcinogenicToxicity": {
+              "value": 0.007181172
+            },
+            "HumanNon_carcinogenicToxicity": {
+              "value": 1.58989398
+            },
+            "LandUse": {
+              "value": 0.322076098
+            },
+            "MineralResourceScarcity": {
+              "value": 0.969745313
+            },
+            "FossilResourceScarcity": {
+              "value": 3.114553477
+            },
+            "WaterConsumption": {
+              "value": 3.058351271
+            }
+          },
+          "nuclear_PWR": {
+            "source": "LCI: EcoInvent 3.4, LCIA: ReCiPe 2016 --> midpoint (I)",
+            "GlobalWarming": {
+              "value": 12.9375931
+            },
+            "StratosphericOzoneDepletion": {
+              "value": 2.36091E-5
+            },
+            "IonizingRadiation": {
+              "value": 688.2467
+            },
+            "OzoneFormation_HumanHealth": {
+              "value": 0.039777959
+            },
+            "FineParticulateMatterFormation": {
+              "value": 0.028138199
+            },
+            "OzoneFormation_TerrestrialEcosystems": {
+              "value": 0.040507717
+            },
+            "TerrestrialAcidification": {
+              "value": 0.045969533
+            },
+            "FreshwaterEutrophication": {
+              "value": 0.008472352
+            },
+            "MarineEutrophication": {
+              "value": 0.012437596
+            },
+            "TerrestrialEcotoxicity": {
+              "value": 91.8420255
+            },
+            "FreshwaterEcotoxicity": {
+              "value": 0.844877076
+            },
+            "MarineEcotoxicity": {
+              "value": 0.302116577
+            },
+            "HumanCarcinogenicToxicity": {
+              "value": 0.006873444
+            },
+            "HumanNon_carcinogenicToxicity": {
+              "value": 1.499163107
+            },
+            "LandUse": {
+              "value": 0.290579616
+            },
+            "MineralResourceScarcity": {
+              "value": 0.91665853
+            },
+            "FossilResourceScarcity": {
+              "value": 2.990996338
+            },
+            "WaterConsumption": {
+              "value": 3.077205283
+            }
+          },
+          "geothermal": {
+            "source": "LCI: EcoInvent 3.4, LCIA: ReCiPe 2016 --> midpoint (I)",
+            "GlobalWarming": {
+              "value": 86.13939311
+            },
+            "StratosphericOzoneDepletion": {
+              "value": 1.73287E-5
+            },
+            "IonizingRadiation": {
+              "value": 9.903263125
+            },
+            "OzoneFormation_HumanHealth": {
+              "value": 0.176355038
+            },
+            "FineParticulateMatterFormation": {
+              "value": 0.079739539
+            },
+            "OzoneFormation_TerrestrialEcosystems": {
+              "value": 0.179338955
+            },
+            "TerrestrialAcidification": {
+              "value": 0.256310503
+            },
+            "FreshwaterEutrophication": {
+              "value": 0.038235583
+            },
+            "MarineEutrophication": {
+              "value": 0.00238817
+            },
+            "TerrestrialEcotoxicity": {
+              "value": 47.17447336
+            },
+            "FreshwaterEcotoxicity": {
+              "value": 2.191884283
+            },
+            "MarineEcotoxicity": {
+              "value": 0.714370306
+            },
+            "HumanCarcinogenicToxicity": {
+              "value": 0.02518513
+            },
+            "HumanNon_carcinogenicToxicity": {
+              "value": 8.978438962
+            },
+            "LandUse": {
+              "value": 1.260942042
+            },
+            "MineralResourceScarcity": {
+              "value": 0.394900426
+            },
+            "FossilResourceScarcity": {
+              "value": 17.76226569
+            },
+            "WaterConsumption": {
+              "value": 0.637104324
+            }
+          },
+          "hydro_pumped": {
+            "source": "LCI: EcoInvent 3.4, LCIA: ReCiPe 2016 --> midpoint (I)",
+            "GlobalWarming": {
+              "value": 890.1643196
+            },
+            "StratosphericOzoneDepletion": {
+              "value": 0.000205769
+            },
+            "IonizingRadiation": {
+              "value": 270.5776913
+            },
+            "OzoneFormation_HumanHealth": {
+              "value": 1.66833404
+            },
+            "FineParticulateMatterFormation": {
+              "value": 0.160611935
+            },
+            "OzoneFormation_TerrestrialEcosystems": {
+              "value": 1.680135596
+            },
+            "TerrestrialAcidification": {
+              "value": 3.118483832
+            },
+            "FreshwaterEutrophication": {
+              "value": 0.299722119
+            },
+            "MarineEutrophication": {
+              "value": 0.023662942
+            },
+            "TerrestrialEcotoxicity": {
+              "value": 210.3750083
+            },
+            "FreshwaterEcotoxicity": {
+              "value": 11.34762801
+            },
+            "MarineEcotoxicity": {
+              "value": 4.007290216
+            },
+            "HumanCarcinogenicToxicity": {
+              "value": 0.11505256
+            },
+            "HumanNon_carcinogenicToxicity": {
+              "value": 2.74035435
+            },
+            "LandUse": {
+              "value": 51.22180233
+            },
+            "MineralResourceScarcity": {
+              "value": 0.643186066
+            },
+            "FossilResourceScarcity": {
+              "value": 222.6844127
+            },
+            "WaterConsumption": {
+              "value": 2.961509365
+            }
+          },
+          "windoff": {
+            "source": "LCI: EcoInvent 3.4, LCIA: ReCiPe 2016 --> midpoint (I)",
+            "GlobalWarming": {
+              "value": 17.7713783
+            },
+            "StratosphericOzoneDepletion": {
+              "value": 5.5053E-6
+            },
+            "IonizingRadiation": {
+              "value": 0.692867003
+            },
+            "OzoneFormation_HumanHealth": {
+              "value": 0.041581723
+            },
+            "FineParticulateMatterFormation": {
+              "value": 0.016652126
+            },
+            "OzoneFormation_TerrestrialEcosystems": {
+              "value": 0.043081254
+            },
+            "TerrestrialAcidification": {
+              "value": 0.067248458
+            },
+            "FreshwaterEutrophication": {
+              "value": 0.010339034
+            },
+            "MarineEutrophication": {
+              "value": 0.001316237
+            },
+            "TerrestrialEcotoxicity": {
+              "value": 86.14556499
+            },
+            "FreshwaterEcotoxicity": {
+              "value": 3.032162127
+            },
+            "MarineEcotoxicity": {
+              "value": 0.85703743
+            },
+            "HumanCarcinogenicToxicity": {
+              "value": 0.013684639
+            },
+            "HumanNon_carcinogenicToxicity": {
+              "value": 0.645116323
+            },
+            "LandUse": {
+              "value": 0.304980039
+            },
+            "MineralResourceScarcity": {
+              "value": 0.385672434
+            },
+            "FossilResourceScarcity": {
+              "value": 3.745038551
+            },
+            "WaterConsumption": {
+              "value": 0.218663301
+            }
+          },
+          "mean": {
+            "source": "LCI: EcoInvent 3.4, LCIA: ReCiPe 2016 --> midpoint (I)",
+            "GlobalWarming": {
+              "value": 578.9122785
+            },
+            "StratosphericOzoneDepletion": {
+              "value": 0.000142464
+            },
+            "IonizingRadiation": {
+              "value": 188.8864337
+            },
+            "OzoneFormation_HumanHealth": {
+              "value": 1.154494767
+            },
+            "FineParticulateMatterFormation": {
+              "value": 0.10900661
+            },
+            "OzoneFormation_TerrestrialEcosystems": {
+              "value": 1.16250789
+            },
+            "TerrestrialAcidification": {
+              "value": 2.16954596
+            },
+            "FreshwaterEutrophication": {
+              "value": 0.208329663
+            },
+            "MarineEutrophication": {
+              "value": 0.016472283
+            },
+            "TerrestrialEcotoxicity": {
+              "value": 141.2523535
+            },
+            "FreshwaterEcotoxicity": {
+              "value": 7.787605308
+            },
+            "MarineEcotoxicity": {
+              "value": 2.75236329
+            },
+            "HumanCarcinogenicToxicity": {
+              "value": 0.078735048
+            },
+            "HumanNon_carcinogenicToxicity": {
+              "value": 1.861466614
+            },
+            "LandUse": {
+              "value": 35.73655021
+            },
+            "MineralResourceScarcity": {
+              "value": 0.407066765
+            },
+            "FossilResourceScarcity": {
+              "value": 155.0223802
+            },
+            "WaterConsumption": {
+              "value": 1.897902479
+            }
+          }
+        },
         "GR": {
           "gas_chp": {
             "source": "LCI: EcoInvent 3.4, LCIA: ReCiPe 2016 --> midpoint (I)",
@@ -17204,6 +18175,65 @@
             },
             "WaterConsumption": {
               "value": 3.900228243
+            }
+          }
+        },
+        "ME": {
+          "mean": {
+            "source": "LCI: EcoInvent 3.4, LCIA: ReCiPe 2016 --> midpoint (I)",
+            "GlobalWarming": {
+              "value": 671.1979219
+            },
+            "StratosphericOzoneDepletion": {
+              "value": 0.000109737
+            },
+            "IonizingRadiation": {
+              "value": 6.21260741
+            },
+            "OzoneFormation_HumanHealth": {
+              "value": 1.291326857
+            },
+            "FineParticulateMatterFormation": {
+              "value": 3.525286405
+            },
+            "OzoneFormation_TerrestrialEcosystems": {
+              "value": 1.293125855
+            },
+            "TerrestrialAcidification": {
+              "value": 5.33598496
+            },
+            "FreshwaterEutrophication": {
+              "value": 1.44316691
+            },
+            "MarineEutrophication": {
+              "value": 0.088550717
+            },
+            "TerrestrialEcotoxicity": {
+              "value": 129.1791824
+            },
+            "FreshwaterEcotoxicity": {
+              "value": 37.89901344
+            },
+            "MarineEcotoxicity": {
+              "value": 12.60244453
+            },
+            "HumanCarcinogenicToxicity": {
+              "value": 0.424150816
+            },
+            "HumanNon_carcinogenicToxicity": {
+              "value": 8.249744747
+            },
+            "LandUse": {
+              "value": 2.237390558
+            },
+            "MineralResourceScarcity": {
+              "value": 0.12791168
+            },
+            "FossilResourceScarcity": {
+              "value": 143.3244432
+            },
+            "WaterConsumption": {
+              "value": 2.724941581
             }
           }
         },
