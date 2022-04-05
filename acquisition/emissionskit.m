@@ -25,6 +25,8 @@ if isfile('Xchange.json')
 
     % Check daily if the data have changed
     if minutes(datecompare-datefile) >= 20
+        msgin = 'Update exchange data from ENTSOE' ;
+        looplog(msgin) ;
         tic;
         counter = 0 ;
         for icountry = 1:length(Country)
@@ -36,6 +38,8 @@ if isfile('Xchange.json')
         end
         Xchange = p_out ;
         dlmwrite([fparts{1} filesep 'Xchange.json'],jsonencode(p_out,'PrettyPrint',true),'delimiter','');
+        msgin = 'Update completed, json created' ;
+        looplog(msgin) ;
         toc
     else
         Xchange = jsondecode(fileread([fparts{1} filesep 'Xchange.json']));  
@@ -69,6 +73,8 @@ parfor icountry = 1:length(Country)
             ccout = country_code.alpha2{icountry} ;
     end
     Power(icountry).zone = ccout ; 
+    msgin = ['Update ' Country{icountry} ' completed'] ;
+    looplog(msgin) ;
 end
 EntsoeTSO = toc;
 
@@ -140,6 +146,8 @@ for icountry = 1:length(Country)
     end
 end
 emissionroutine = toc;
+msgin = 'Emissions calculation completed' ;
+looplog(msgin) ;
 
 %% Check the values between the different methods and see if they differs significanlty, 
 % if yes there might be a problem somewhere
@@ -168,11 +176,13 @@ for icountry = 1:length(allcount)
     outT = [outT;st] ;
 
 end
+
 %% Emissions balanced
 
 
 [Emissions, track] = emissions_cons('power', Power, 'emissions', Emissions) ;
-
+msgin = 'Balanced Emissions calculation completed' ;
+looplog(msgin) ;
 % Source = {'IPCC'
 %           'EcoInvent'} ;
 % FIsource = {'ENTSOE'
@@ -237,9 +247,15 @@ try
     % Test the connection, if it is valid then continue saving in the sql
     % database. If it is not valid, save using the xml format
     conn = connDB ;
+    msgin = 'connection to local DB sql successful' ;
+    looplog(msgin) ;
     close(conn);
     send2sqlcomplete(currenttime, Emissions) ;
+    msgin = 'Emissions data sent successfully to the remote server' ;
+    looplog(msgin) ;
     send2sqlpowerbyfuel(currenttime, Power) ;
+    msgin = 'Power consumption by fuel data sent successfully to the remote server' ;
+    looplog(msgin) ;
 catch
     % All variables are stored in xml format saved at the same location than
     % this function as XMLEmissions.xml. We are not storing data
