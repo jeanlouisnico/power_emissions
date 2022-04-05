@@ -257,11 +257,24 @@ try
     looplog(msgin) ;
     close(conn);
     send2sqlcomplete(currenttime, Emissions) ;
-    msgin = 'Emissions data sent successfully to the remote server' ;
+    msgin = 'Emissions data sent successfully to the local server' ;
     looplog(msgin) ;
     send2sqlpowerbyfuel(currenttime, Power) ;
-    msgin = 'Power consumption by fuel data sent successfully to the remote server' ;
+    msgin = 'Emissions data sent successfully to the local server' ;
     looplog(msgin) ;
+
+    str = which('move2SCSC.m') ;
+    if ~isempty(str)
+        move2SCSC;
+        msgin = 'Emissions data sent successfully to the remote server' ;
+        looplog(msgin) ;
+    end
+    str = which('move2SCSC_powerbyfuel.m') ;
+    if ~isempty(str)
+        move2SCSC_powerbyfuel;
+        msgin = 'Power consumption by fuel data sent successfully to the remote server' ;
+        looplog(msgin) ;
+    end
 catch
     % All variables are stored in xml format saved at the same location than
     % this function as XMLEmissions.xml. We are not storing data
