@@ -41,6 +41,7 @@ if isfile('Xchange.json')
         Xchange = jsondecode(fileread([fparts{1} filesep 'Xchange.json']));  
     end
 else
+    counter = 0 ;
     for icountry = 1:length(Country)
         [Power(icountry).ENTSOE.exchange, counter]   = ENTSOE_exch('country',Country{icountry},'documentType','Exchange', 'counter', counter)       ;
     end

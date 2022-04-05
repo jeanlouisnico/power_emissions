@@ -45,4 +45,4 @@ TTSync.TSO = table2timetable(struct2table(out),'RowTimes',timearray(1)) ;
 
 replacestring = cellfun(@(x) fuel(strcmp(fuel(:,1),x),2), TTSync.TSO.Properties.VariableNames, 'UniformOutput', false) ;
 TTSync.TSO.Properties.VariableNames = cat(1, replacestring{:}) ;
-
+TTSync.emissionskit = TTSync.TSO ;

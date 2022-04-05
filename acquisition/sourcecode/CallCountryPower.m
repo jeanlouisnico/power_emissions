@@ -98,7 +98,7 @@ try
         case 'Greece'
             TSO    = GR ;
             xCHANGE = 0 ;
-        case 'GB'
+        case 'United Kingdom'
             TSO    = UK ;
             xCHANGE = UK_Exchange ;
         case 'Montenegro'

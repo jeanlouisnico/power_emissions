@@ -258,7 +258,7 @@ end
             end
         end
         try
-            TT.powertime
+            TT.powertime(1) ;
         catch
             TT.powertime = datetime('now','TimeZone','UTC') ;
         end

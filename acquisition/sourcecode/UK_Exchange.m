@@ -2,9 +2,9 @@ function xCHANGE = UK_Exchange
 %%% Explanation for the API can be found here https://www.elexon.co.uk/documents/training-guidance/bsc-guidance-notes/bmrs-api-and-data-push-user-guide-2/
 
 fuel = {'INTFR' 'FR'
-        'INTIRL' 'IR'
+        'INTIRL' 'IE'
         'INTNED' 'NL'
-        'INTEW' 'IR'
+        'INTEW' 'IE'
         'INTNEM' 'BE'
         'INTELEC' 'FR'
         'INTIFA2' 'FR'

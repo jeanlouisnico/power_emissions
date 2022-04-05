@@ -20,6 +20,9 @@ catch
     return ;
 end
 
+if ~strcmp(pythonpath(end),filesep)
+    pythonpath = [pythonpath filesep] ;
+end
 system([pythonpath 'python ' '"' filepath filesep 'DK_request.py"']) ;
 
 setup = jsondecode(fileread('data.json'));
