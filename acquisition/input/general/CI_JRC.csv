@@ -1,0 +1,43 @@
+country,prod,prod_net,cons
+Austria,163,170,264
+Belgium,205,213,230
+Bulgaria,459,504,544
+Cyprus,728,762,791
+Czechia,487,529,564
+Germany,390,410,422
+Denmark,115,118,158
+Estonia,571,659,472
+Greece,765,785,780
+Spain,253,262,279
+Finland,114,119,141
+France,82,86,98
+Croatia,228,237,372
+Hungary,268,286,338
+Ireland,350,358,384
+Italy,358,371,356
+Latvia,197,212,325
+Lithuania,86,91,321
+Luxembourg,106,108,338
+Malta,449,462,463
+Netherlands,440,453,450
+Poland,744,807,805
+Portugal,286,292,324
+Romania,370,400,464
+Slovakia,169,182,346
+Slovenia,265,281,307
+Sweden,33,33,40
+Iceland,25,25,26
+Norway,28,28,31
+Switzerland,37,40,78
+United Kingdom,271,282,304
+Albania,19,19,24
+Bosnia and Herzegovina,758,809,831
+Kosovo,1015,1101,1101
+Moldova,210,252,488
+Montenegro,466,484,663
+North Macedonia,751,801,974
+Serbia,750,816,900
+Turkey,499,524,588
+Ukraine,434,461,492
+Belarus,485,485,516
+Russia,428,455,489
