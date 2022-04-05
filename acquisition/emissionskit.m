@@ -42,10 +42,14 @@ if isfile('Xchange.json')
         looplog(msgin) ;
         toc
     else
+        msgin = 'Exchange data loaded from json file' ;
+        looplog(msgin) ;
         Xchange = jsondecode(fileread([fparts{1} filesep 'Xchange.json']));  
     end
 else
     counter = 0 ;
+    msgin = 'Exchange data file does not exist' ;
+    looplog(msgin) ;
     for icountry = 1:length(Country)
         [Power(icountry).ENTSOE.exchange, counter]   = ENTSOE_exch('country',Country{icountry},'documentType','Exchange', 'counter', counter)       ;
     end
@@ -55,6 +59,8 @@ else
     end
     Xchange = p_out ;
     dlmwrite([fparts{1} filesep 'Xchange.json'],jsonencode(p_out,'PrettyPrint',true),'delimiter','');
+    msgin = 'Exchange data file created and json created' ;
+    looplog(msgin) ;
 end
 
 
