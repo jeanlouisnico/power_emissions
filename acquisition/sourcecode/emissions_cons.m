@@ -191,7 +191,7 @@ for ipower = 1:length(FIsource)
             end
 
             devcheck = any(devsummary>devtraget) ;
-            bar(devsummary)
+%             bar(devsummary)
         end
     end
 end
