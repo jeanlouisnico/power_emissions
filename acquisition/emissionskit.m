@@ -345,7 +345,15 @@ catch
         %%% Archive old files
     end 
 end
-
+S = struct("emissions", struct("time", datestr(currenttime, 'dd-mm-yyyy HH:MM:SS'), "emissionintensity", num2str(Emissions.FI.emissionskit.EcoInvent.intensitycons))) ;
+s = jsonencode(S) ;
+JSONFILE_name= sprintf('%s.json','emissions') ;
+fid=fopen(JSONFILE_name,'w');
+fprintf(fid, s);
+fclose('all');
+if isfolder([getenv('USERPROFILE') filesep 'OneDrive - Oulun yliopisto'])
+    movefile('emissions.json',[getenv('USERPROFILE') filesep 'OneDrive - Oulun yliopisto' filesep 'CSC']);
+end
 %% Function extract from table
     function Emissionsextract = extractdata(Tech, Country, EmissionsCategory, Emissions)
         if isa(Emissions, 'table')
