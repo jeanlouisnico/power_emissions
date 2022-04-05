@@ -58,8 +58,7 @@ n = 0 ;
                 n = 1 ;
                 counter = counter + 1;
             end
-       catch ME
-           ME
+       catch
            %%%
            % If it fails, most likely there is no production --> try the
            % previous hour to see if there was a delay in the data and retrieve
