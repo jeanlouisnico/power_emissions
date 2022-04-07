@@ -210,6 +210,7 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
     function [Powerout, counter] = parserexchange(param, code2digit, bid, counter)
         zonecodeini = makevalidstring(code2digit.alpha2,'capitalise',false) ;
+        TT = timetable ;
         if strcmp(code2digit.alpha2,'EL')
             code2digit.alpha2 = 'GR' ;
         end
@@ -257,12 +258,10 @@ end
                 end
             end
         end
-        try
-            TT.powertime(1) ;
-        catch
-            TT = TT(1,:) ;
+        if isempty(TT)
             TT.powertime = datetime('now','TimeZone','UTC') ;
         end
+        
         zonecodeini;
         balance = checkempty(balance) ;
         Powerout = table2timetable(struct2table(balance),'RowTimes',TT.powertime) ;
