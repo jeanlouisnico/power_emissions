@@ -260,6 +260,7 @@ end
         try
             TT.powertime(1) ;
         catch
+            TT = TT(1,:) ;
             TT.powertime = datetime('now','TimeZone','UTC') ;
         end
         zonecodeini;

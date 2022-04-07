@@ -22,6 +22,8 @@ for izone = 1:length(zone)
             exchange.DE = -dataout(end) ;
         case 'UK'
             exchange.GB = -dataout(end) ;
+        case 'LX'
+            exchange.LU = -dataout(end) ;
         otherwise
             exchange.(zone{izone}) = -dataout(end) ;
     end

@@ -236,8 +236,10 @@ end
                     if inputstruct.(geteach{each}) < 0
                         if isfield(Emissions.(country_code).(source).(EFSource), 'intensitycons') && loopcount > 1
                             emend = emend + (inputstruct.(geteach{each}) * Emissions.(country_code).(source).(EFSource).currentloopintensitycons);
+                            Emissions.(country_code).(source).(EFSource).exchange.(ccode) = (inputstruct.(geteach{each}) * Emissions.(country_code).(source).(EFSource).currentloopintensitycons) ;
                         else
                             emend = emend + (inputstruct.(geteach{each}) * Emissions.(country_code).(source).(EFSource).intensityprod);
+                            Emissions.(country_code).(source).(EFSource).exchange.(ccode) = (inputstruct.(geteach{each}) * Emissions.(country_code).(source).(EFSource).intensityprod) ;
                         end
                     %%% Positive is import from the country
                     elseif inputstruct.(geteach{each}) > 0
@@ -245,7 +247,7 @@ end
                         if isfield(Emissions,ccode)
                             % Check if the DB exist
                             if isfield(Emissions.(ccode), source)
-                                emend = getemissions(inputstruct, Emissions, EFSource, emend, geteach{each}, ccode, source, loopcount, Emissionsdatabase) ;
+                                [Emissions, emend] = getemissions(inputstruct, Emissions, EFSource, emend, geteach{each}, ccode, source, loopcount, Emissionsdatabase, country_code) ;
                             else
                                 switch source
                                     case 'emissionskit'
@@ -253,7 +255,7 @@ end
                                         Emissions.(ccode).(source).EcoInvent.total = Emissions.(ccode).ENTSOE.EcoInvent.total ;
                                         Emissions.(ccode).(source).IPCC.intensityprod = Emissions.(ccode).ENTSOE.IPCC.intensityprod ;
                                         Emissions.(ccode).(source).IPCC.total = Emissions.(ccode).ENTSOE.IPCC.total ;
-                                        emend = getemissions(inputstruct, Emissions, EFSource, emend, geteach{each}, ccode, source, loopcount, Emissionsdatabase) ;
+                                        [Emissions, emend] = getemissions(inputstruct, Emissions, EFSource, emend, geteach{each}, ccode, source, loopcount, Emissionsdatabase, country_code) ;
                                     case 'ENTSOE'
     
                                     otherwise
@@ -266,13 +268,13 @@ end
                             if isempty(Emissionsextract)
                                 switch ccode
                                     case 'AX'
-                                        emend = getemissions(inputstruct, Emissions, EFSource, emend, geteach{each}, 'FI', source, loopcount, Emissionsdatabase) ;
+                                        [Emissions, emend] = getemissions(inputstruct, Emissions, EFSource, emend, geteach{each}, 'FI', source, loopcount, Emissionsdatabase, country_code) ;
                                     case {'TR' 'AL'}
-                                        emend = getemissions(inputstruct, Emissions, EFSource, emend, geteach{each}, 'GR', source, loopcount, Emissionsdatabase) ;
+                                        [Emissions, emend] = getemissions(inputstruct, Emissions, EFSource, emend, geteach{each}, 'GR', source, loopcount, Emissionsdatabase, country_code) ;
                                     case {'UA' 'BY'}
-                                        emend = getemissions(inputstruct, Emissions, EFSource, emend, geteach{each}, 'RU', source, loopcount, Emissionsdatabase) ;
+                                        [Emissions, emend] = getemissions(inputstruct, Emissions, EFSource, emend, geteach{each}, 'RU', source, loopcount, Emissionsdatabase, country_code) ;
                                     case 'KX'
-                                        emend = getemissions(inputstruct, Emissions, EFSource, emend, geteach{each}, 'ME', source, loopcount, Emissionsdatabase) ;
+                                        [Emissions, emend] = getemissions(inputstruct, Emissions, EFSource, emend, geteach{each}, 'ME', source, loopcount, Emissionsdatabase, country_code) ;
                                     otherwise                                  
                                         
                                 end
@@ -291,22 +293,22 @@ end
         
     end
 
-    function emend = getemissions(inputstruct, Emissions, EFSource, emend, geteach, ccode, source, loopcount, Emissionsdatabase)
+    function [Emissions, emend] = getemissions(inputstruct, Emissions, EFSource, emend, geteach, ccode, source, loopcount, Emissionsdatabase, country_code)
         if isfield(Emissions.(ccode).(source).(EFSource), 'intensitycons') && loopcount > 1
             if isempty(Emissions.(ccode).(source).(EFSource).currentloopintensitycons) || isnan(Emissions.(ccode).(source).(EFSource).currentloopintensitycons)
                 emmult = extractdata('mean', ccode, 'GlobalWarming', Emissionsdatabase.EcoInvent) ;
             else
                 emmult = Emissions.(ccode).(source).(EFSource).currentloopintensitycons ;                
             end
-            emend = emend + (inputstruct.(geteach) * emmult);
         else
             if isempty(Emissions.(ccode).(source).(EFSource).intensityprod) ||  isnan(Emissions.(ccode).(source).(EFSource).intensityprod)
                 emmult = extractdata('mean', ccode, 'GlobalWarming', Emissionsdatabase.EcoInvent) ;
             else
                 emmult = Emissions.(ccode).(source).(EFSource).intensityprod ;                
             end
-            emend = emend + (inputstruct.(geteach) * emmult);
-        end  
+        end
+        emend = emend + (inputstruct.(geteach) * emmult);
+        Emissions.(country_code).(source).(EFSource).exchange.(ccode) = inputstruct.(geteach) * emmult ;
     end
-
+    
 end
