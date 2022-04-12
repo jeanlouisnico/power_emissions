@@ -88,59 +88,59 @@ end
         % Save the extracted data to a json file
         dlmwrite([fparts{1} filesep 'input' filesep 'general' filesep 'json_result_merged.json'],jsonencode(data3, "PrettyPrint", true),'delimiter','');
                 
-        toplot = {'CF_R', 'CF_NR', 'C0000', 'G3000', 'O4000XBIO'} ;
-        geo2plot = 'FI' ; 
-        bar(data3.(geo2plot).Time,bsxfun(@rdivide, data3.(geo2plot)(:,toplot).Variables, sum(data3.(geo2plot)(:,toplot).Variables,2)) * 100,'stacked', 'BarWidth', 1) ;
-        
-        for ileg = 1:length(toplot)
-            legfull(ileg) = source.elecfuel(strcmp(toplot{ileg}, source.elecfuel(:,1)), 2) ;
-        end
-
-        xlim([datetime(2016,12,1) datetime(now, 'ConvertFrom', "datenum")])
-        ls = xlim ;
-        xticks([ls(1):calmonths(1):ls(2)])
-        ylim([0 119])
-        xtickformat('MM/yy')
-        xtickangle(270)
-        legend(makevalidlegend(legfull), "Location","best")
-        
-        % p = mfilename('fullpath') ;
-        % m = pwd ;
-        % match = [" ",":"];
-        country = 'FI' ;
-        
-        ToExtract = {'C0100' 'S2000' 'C0200' 'P1100'} ;
-        
-        % fuelcon = readtable([m filesep 'hardfuel_europe' filesep 'nrg_cb_sffm_1_Data.csv'], 'Format','%q%q%q%q%q%q%q') ;
-        % fuelcon.Value = cellfun(@(x) str2double(erase(x, match)), fuelcon.Value, 'UniformOutput', false) ;
-        % time = cellfun(@(x) strsplit(x, 'M'), fuelcon.TIME, 'UniformOutput', false) ;
-        % time = cellfun(@(x) datetime(str2double(x{:,1}), str2double(x{:,2}),1), time, 'UniformOutput', false) ;
-        % array = [time{:}]';
-        % 
-        % fuelcon = timetable(array, fuelcon.GEO, fuelcon.NRG_BAL, fuelcon.SIEC, fuelcon.UNIT, fuelcon.Value, fuelcon.FlagAndFootnotes, 'VariableNames', ...
-        %                             {'GEO' 'NRG_BAL' 'SIEC' 'UNIT' 'Value' 'FlagAndFootnotes'}) ;
-        % 
-        % fuelbygeo = fuelcon(strcmp(fuelcon.GEO, country), :) ;
-        % 
-        % allfuels = unique(fuelbygeo.SIEC) ;
-        % 
-        % for ifuel = 1:length(allfuels)
-        %     nameout = makevalidstring(allfuels{ifuel}) ;
-        %     datatemp = fuelbygeo(strcmp(allfuels{ifuel}, fuelbygeo.SIEC), 'Value') ;
-        %     datatemp.Value = [datatemp.Value{:}]' ;
-        %     data.(nameout) = datatemp ;
-        % end
-        % allfuels = fieldnames(data) ;
-        % data2 = synchronize(data.(allfuels{1}), data.(allfuels{2})) ;
-        % for ifuel = 3:length(allfuels)
-        %     data2 = synchronize(data2, data.(allfuels{ifuel})) ;
-        % end
-        % data2.Properties.VariableNames = allfuels ;
-        data4 = data3.(country)(:,ToExtract) ;
-        
-        plot(data4.Time, data4.Variables) ;
-        legend(makevalidlegend(allfuels), "Location","bestoutside")
-        title(['hard fuel consumption - ' country])
+%         toplot = {'CF_R', 'CF_NR', 'C0000', 'G3000', 'O4000XBIO'} ;
+%         geo2plot = 'FI' ; 
+%         bar(data3.(geo2plot).Time,bsxfun(@rdivide, data3.(geo2plot)(:,toplot).Variables, sum(data3.(geo2plot)(:,toplot).Variables,2)) * 100,'stacked', 'BarWidth', 1) ;
+%         
+%         for ileg = 1:length(toplot)
+%             legfull(ileg) = source.elecfuel(strcmp(toplot{ileg}, source.elecfuel(:,1)), 2) ;
+%         end
+% 
+%         xlim([datetime(2016,12,1) datetime(now, 'ConvertFrom', "datenum")])
+%         ls = xlim ;
+%         xticks([ls(1):calmonths(1):ls(2)])
+%         ylim([0 119])
+%         xtickformat('MM/yy')
+%         xtickangle(270)
+%         legend(makevalidlegend(legfull), "Location","best")
+%         
+%         % p = mfilename('fullpath') ;
+%         % m = pwd ;
+%         % match = [" ",":"];
+%         country = 'FI' ;
+%         
+%         ToExtract = {'C0100' 'S2000' 'C0200' 'P1100'} ;
+%         
+%         % fuelcon = readtable([m filesep 'hardfuel_europe' filesep 'nrg_cb_sffm_1_Data.csv'], 'Format','%q%q%q%q%q%q%q') ;
+%         % fuelcon.Value = cellfun(@(x) str2double(erase(x, match)), fuelcon.Value, 'UniformOutput', false) ;
+%         % time = cellfun(@(x) strsplit(x, 'M'), fuelcon.TIME, 'UniformOutput', false) ;
+%         % time = cellfun(@(x) datetime(str2double(x{:,1}), str2double(x{:,2}),1), time, 'UniformOutput', false) ;
+%         % array = [time{:}]';
+%         % 
+%         % fuelcon = timetable(array, fuelcon.GEO, fuelcon.NRG_BAL, fuelcon.SIEC, fuelcon.UNIT, fuelcon.Value, fuelcon.FlagAndFootnotes, 'VariableNames', ...
+%         %                             {'GEO' 'NRG_BAL' 'SIEC' 'UNIT' 'Value' 'FlagAndFootnotes'}) ;
+%         % 
+%         % fuelbygeo = fuelcon(strcmp(fuelcon.GEO, country), :) ;
+%         % 
+%         % allfuels = unique(fuelbygeo.SIEC) ;
+%         % 
+%         % for ifuel = 1:length(allfuels)
+%         %     nameout = makevalidstring(allfuels{ifuel}) ;
+%         %     datatemp = fuelbygeo(strcmp(allfuels{ifuel}, fuelbygeo.SIEC), 'Value') ;
+%         %     datatemp.Value = [datatemp.Value{:}]' ;
+%         %     data.(nameout) = datatemp ;
+%         % end
+%         % allfuels = fieldnames(data) ;
+%         % data2 = synchronize(data.(allfuels{1}), data.(allfuels{2})) ;
+%         % for ifuel = 3:length(allfuels)
+%         %     data2 = synchronize(data2, data.(allfuels{ifuel})) ;
+%         % end
+%         % data2.Properties.VariableNames = allfuels ;
+%         data4 = data3.(country)(:,ToExtract) ;
+%         
+%         plot(data4.Time, data4.Variables) ;
+%         legend(makevalidlegend(allfuels), "Location","bestoutside")
+%         title(['hard fuel consumption - ' country])
     end
 
     function dataout = convert2timetable(obj)
