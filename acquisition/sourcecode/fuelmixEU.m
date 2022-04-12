@@ -83,11 +83,11 @@ for icountry = 1:length(country)
         end
 
         if iyears == 1
-            ener_mix = sum(datawinter1,'omitnan') + sum(datawinter2,'omitnan')     ;
+            ener_mix = sum(datawinter1,1,'omitnan') + sum(datawinter2,1,'omitnan')     ;
             ener_mix = [ener_mix ; sum(datasummer,'omitnan')] ;
         else
-            ener_mix = [ener_mix ; sum(datawinter1,'omitnan') + sum(datawinter2,'omitnan')]     ;
-            ener_mix = [ener_mix ; sum(datasummer,'omitnan')] ;
+            ener_mix = [ener_mix ; sum(datawinter1,1,'omitnan') + sum(datawinter2,1,'omitnan')]     ;
+            ener_mix = [ener_mix ; sum(datasummer,1,'omitnan')] ;
         end
     end
     seasonal_enermix.(geo2plot.alpha2)     = array2timetable(ener_mix, "RowTimes", datetime(allyears(1),1,1):calmonths(6):datetime(allyears(end),12,1), 'VariableNames', toplot) ;
