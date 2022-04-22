@@ -47,7 +47,7 @@ Power.emissionskit = convertTT_Time(Power.emissionskit,'UTC') ;
 %%
 % $P_{Fuel, Tech} = P_{tech} \times \begin{bmatrix} \eta_{fuel1} \\  \vdots \\  \eta_{fueln} \end{bmatrix}$
 %
-fueldis = table2struct(array2table((TSO.CHP_DH.Retrieveresult + TSO.CHP_Ind.Retrieveresult) * struct2array(fuelratio.chp), "VariableNames", fieldnames(fuelratio.chp))) ;
+fueldis = table2struct(array2table((TSO.CHP_DH + TSO.CHP_Ind) * struct2array(fuelratio.chp), "VariableNames", fieldnames(fuelratio.chp))) ;
 
 CHP_DH_Fuel  = (struct2array(fueldis)) .* struct2array(DHCHP.totalload) ./ (struct2array(DHCHP.totalload) + struct2array(IndCHP.totalload)) ;
 CHP_Ind_Fuel = (struct2array(fueldis)) .* struct2array(IndCHP.totalload) ./ (struct2array(DHCHP.totalload) + struct2array(IndCHP.totalload)) ;
