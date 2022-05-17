@@ -63,7 +63,7 @@ try
     catch
         data = struct2table(s, 'AsArray',true) ;
     end
-    sqlwrite(conn,'emissions',data, 'ColumnType',["bigserial","timestamp","varchar(50)","varchar(50)","float","float"]) ;
+    sqlwrite(conn,tablesql,data, 'ColumnType',["bigserial","timestamp","varchar(50)","varchar(50)","float","float"]) ;
 	    
     close(conn) ;
 catch

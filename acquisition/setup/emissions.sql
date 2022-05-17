@@ -9,6 +9,15 @@ CREATE TABLE IF NOT EXISTS emissions (
     emissionintcons    FLOAT
 );
 
+CREATE TABLE IF NOT EXISTS xchange (
+    id          BIGSERIAL NOT NULL PRIMARY key,
+    date_time   timestamp NOT NULL,
+	source   	VARCHAR(50),
+    fromcountry VARCHAR(50),
+    tocountry   VARCHAR(50),
+    powerexch   FLOAT
+);
+
 CREATE TABLE IF NOT EXISTS powerbyfuel (
     id          BIGSERIAL NOT NULL PRIMARY key,
     date_time   timestamp NOT NULL,
