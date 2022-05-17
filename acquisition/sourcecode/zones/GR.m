@@ -45,10 +45,11 @@ hydro   = {'RA110' 'RA120'} ;
 RES     = {'RA310' 'RA320'} ;  
 coal    = {'C0000'} ;
 gas     = {'G3000'} ;
-    normalisedpredicthydro = array2timetable(bsxfun(@rdivide, predictedfuel(:,hydro).Variables, sum(predictedfuel(:,hydro).Variables,2, 'omitnan')) * 100, "RowTimes", predictedfuel.Time, 'VariableNames', hydro) ;
-    normalisedpredictRES = array2timetable(bsxfun(@rdivide, predictedfuel(:,RES).Variables, sum(predictedfuel(:,RES).Variables,2, 'omitnan')) * 100, "RowTimes", predictedfuel.Time, 'VariableNames', RES) ;
-    normalisedpredictcoal = array2timetable(bsxfun(@rdivide, predictedfuel(:,coal).Variables, sum(predictedfuel(:,coal).Variables,2, 'omitnan')) * 100, "RowTimes", predictedfuel.Time, 'VariableNames', coal) ;
-    normalisedpredictgas = array2timetable(bsxfun(@rdivide, predictedfuel(:,gas).Variables, sum(predictedfuel(:,gas).Variables,2, 'omitnan')) * 100, "RowTimes", predictedfuel.Time, 'VariableNames', gas) ;
+
+normalisedpredicthydro = array2timetable(bsxfun(@rdivide, predictedfuel(:,hydro).Variables, sum(predictedfuel(:,hydro).Variables,2, 'omitnan')) * 100, "RowTimes", predictedfuel.Time, 'VariableNames', hydro) ;
+normalisedpredictRES = array2timetable(bsxfun(@rdivide, predictedfuel(:,RES).Variables, sum(predictedfuel(:,RES).Variables,2, 'omitnan')) * 100, "RowTimes", predictedfuel.Time, 'VariableNames', RES) ;
+normalisedpredictcoal = array2timetable(bsxfun(@rdivide, predictedfuel(:,coal).Variables, sum(predictedfuel(:,coal).Variables,2, 'omitnan')) * 100, "RowTimes", predictedfuel.Time, 'VariableNames', coal) ;
+normalisedpredictgas = array2timetable(bsxfun(@rdivide, predictedfuel(:,gas).Variables, sum(predictedfuel(:,gas).Variables,2, 'omitnan')) * 100, "RowTimes", predictedfuel.Time, 'VariableNames', gas) ;
 
 % According to the TSO, the RES production includes wind and solar. However, ENTSOE reports
 % RES as wind only and solar is added on top of it.
