@@ -100,9 +100,9 @@ for iEFSource = 1:length(EFSourcelist)
     EFSource = EFSourcelist{iEFSource} ;
     for icountry = 1:length(Country)
         cc = country_code.alpha2{icountry} ;
-        if strcmp(cc,'FR')
-            x=1;
-        end
+%         if strcmp(cc,'FR')
+%             x=1;
+%         end
         sublst = fieldnames(Power(icountry).ENTSOE.bytech) ;
         for isublst = 1:length(sublst)
             EmissionTotal = ENTSOEEmissions(Power(icountry).ENTSOE.bytech.(sublst{isublst}) , Emissionsdatabase.newem.emissionFactors.(EFSource), cc, EmissionsCategory, EFSource) ;
@@ -166,6 +166,12 @@ for icountry = 1:length(allcount)
     if isfield(Emissions.(countryname),'ENTSOE')
         s.ENTSOE_EcoInvent = Emissions.(countryname).ENTSOE.EcoInvent.intensityprod ;
         s.ENTSOE_IPCC      = Emissions.(countryname).ENTSOE.IPCC.intensityprod ;
+        if isempty(s.ENTSOE_EcoInvent)
+            s.ENTSOE_EcoInvent = 0 ;
+        end
+        if isempty(s.ENTSOE_IPCC)
+            s.ENTSOE_IPCC = 0 ;
+        end
     else
         s.ENTSOE_EcoInvent = 0 ;
         s.ENTSOE_IPCC      = 0 ;
@@ -180,7 +186,6 @@ for icountry = 1:length(allcount)
 
     st = struct2table(s) ;
     outT = [outT;st] ;
-
 end
 
 %% Emissions balanced

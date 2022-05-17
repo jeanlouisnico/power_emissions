@@ -50,7 +50,7 @@ for ipower = 1:length(FIsource)
         devtraget = 5 ;
         devcheck = true ;
         loopcount = 0  ;
-        while devcheck || loopcount<100
+        while devcheck && loopcount<100
             loopcount = loopcount + 1 ;
             for icountry = 1:length(country_codein)
                 country_code = country_codein{icountry} ;

@@ -2,7 +2,7 @@ function plot_testing
 % Get the emissions for the last 24 hours
 
 currentdate = datetime(now, "ConvertFrom", "datenum") ;
-currentdatestart = datetime(now, "ConvertFrom", "datenum") - hours(24*7) ;
+currentdatestart = datetime(now, "ConvertFrom", "datenum") - hours(24) ;
 
 datemovingaverage = datetime(now, "ConvertFrom", "datenum") - days(7) ;
 
@@ -44,8 +44,8 @@ emiT = synchronize(emissionT,movingmeanT,'Intersection') ;
 %% Get power by fuel
 datestart = timeURL(currentdatestart,{'-'}) ;
 dateend   = timeURL(currentdate,{'-'}) ;
-opts = weboptions("Timeout", 30) ;
-url = ['http://128.214.253.150/api/v1/resources/power/findByDate?startdate=' datestart '&enddate=' dateend '&country=' country '&powersource=TSO'] ;
+opts = weboptions("Timeout", 15) ;
+url = ['http://128.214.253.150/api/v1/resources/power/findByDate?startdate=' datestart '&enddate=' dateend '&powersource=TSO'] ;
 p = webread(url, opts) ;
 datain = jsondecode(p) ;
 
