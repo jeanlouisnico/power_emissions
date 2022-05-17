@@ -267,7 +267,9 @@ try
     send2sqlpowerbyfuel(currenttime, Power) ;
     msgin = 'Emissions data sent successfully to the local server' ;
     looplog(msgin) ;
-
+    xchange2DB(Power) ;
+    msgin = 'Exchange data sent successfully to the local server' ;
+    looplog(msgin) ;
     str = which('move2SCSC.m') ;
     if ~isempty(str)
         move2SCSC;
