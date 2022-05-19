@@ -85,7 +85,7 @@ try
     end
 
     sqlwrite(conn,tablesql,data, 'ColumnType',["bigserial","timestamp","varchar(50)","varchar(50)","varchar(50)","float"]) ;
-    executeSQLScript(conn,'clear_xchange_sql.sql') ;    
+%     executeSQLScript(conn,'clear_xchange_sql.sql') ;    
     close(conn) ;
 catch
     close(conn) ;
