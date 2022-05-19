@@ -2,7 +2,7 @@ function plot_testing
 % Get the emissions for the last 24 hours
 
 currentdate = datetime(now, "ConvertFrom", "datenum") ;
-currentdatestart = datetime(now, "ConvertFrom", "datenum") - hours(24) ;
+currentdatestart = datetime(now, "ConvertFrom", "datenum") - hours(24*7) ;
 
 datemovingaverage = datetime(now, "ConvertFrom", "datenum") - days(7) ;
 
