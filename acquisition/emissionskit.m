@@ -192,6 +192,7 @@ end
 
 
 [Emissions, track] = emissions_cons('power', Power, 'emissions', Emissions) ;
+save('pqfile.mat','track','Emissions')
 msgin = 'Balanced Emissions calculation completed' ;
 looplog(msgin) ;
 % Source = {'IPCC'

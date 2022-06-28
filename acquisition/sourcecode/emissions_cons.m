@@ -308,7 +308,7 @@ end
             end
         end
         emend = emend + (inputstruct.(geteach) * emmult);
-        Emissions.(country_code).(source).(EFSource).exchange.(ccode) = inputstruct.(geteach) * emmult ;
+        Emissions.(country_code).(source).(EFSource).exchange.(ccode)(loopcount,1) = inputstruct.(geteach) * emmult ;
     end
     
 end
