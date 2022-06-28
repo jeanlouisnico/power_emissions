@@ -1,4 +1,4 @@
-function xCHANGE =BE_Xchange
+function xCHANGE = BE_Xchange
 
 dtLCL = datetime('now', 'TimeZone','local')       ;  
 timeBE = datetime(dtLCL, 'TimeZone', 'Europe/Brussels') ;
