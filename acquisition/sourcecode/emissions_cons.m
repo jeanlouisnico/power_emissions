@@ -188,6 +188,7 @@ for ipower = 1:length(FIsource)
             for icountry = 1:length(country_codein)
                 country_code = country_codein{icountry} ;
                 Emissions.(country_code).(SourceFI).(EFSource).currentloopintensitycons = Emissions.(country_code).(SourceFI).(EFSource).intensitycons ;
+                Emissions.(country_code).(SourceFI).(EFSource).currentloopintensitycons_det(loopcount) = Emissions.(country_code).(SourceFI).(EFSource).currentloopintensitycons ;
             end
 
             devcheck = any(devsummary>devtraget) ;

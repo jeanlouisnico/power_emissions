@@ -190,65 +190,11 @@ end
 
 %% Emissions balanced
 
-
 [Emissions, track] = emissions_cons('power', Power, 'emissions', Emissions) ;
 save('pqfile.mat','track','Emissions')
 msgin = 'Balanced Emissions calculation completed' ;
 looplog(msgin) ;
-% Source = {'IPCC'
-%           'EcoInvent'} ;
-% FIsource = {'ENTSOE'
-%             'TSO'} ;
-% for ipower = 1:length(FIsource)
-%     SourceFI = FIsource{ipower} ;
-%     for iEFSource = 1:length(Source)
-%         EFSource = EFSourcelist{iEFSource} ;
-%         if Power.FI.TSO.TradeRU > 0 
-%             %%%
-%             % Import from RU. Add the emissions to the Finnish energy
-%             % mix
-%             EmissionTrade.RU = Power.FI.TSO.TradeRU * Emissions.RU.TSO.(EFSource).intensityprod ;
-%         else
-%             %%%
-%             % Export to RU. educe the emissions from the Finnish energy
-%             % mix
-%             EmissionTrade.RU = Power.FI.TSO.TradeRU * Emissions.FI.(SourceFI).(EFSource).intensityprod ;
-%         end
-%         if Power.FI.TSO.TradeNO > 0 
-%             %%%
-%             % Import from NO
-%             EmissionTrade.NO = Power.FI.TSO.TradeNO * Emissions.NO.ENTSOE.(EFSource).intensityprod ;
-%         else
-%             %%%
-%             % Export to NO
-%             EmissionTrade.NO = Power.FI.TSO.TradeNO * Emissions.FI.(SourceFI).(EFSource).intensityprod ;
-%         end
-%         if Power.FI.TSO.TradeEE > 0 
-%             %%%
-%             % Import from EE
-%             EmissionTrade.EE = Power.FI.TSO.TradeEE * Emissions.EE.(SourceFI).(EFSource).intensityprod ;
-%         else
-%             %%%
-%             % Export to EE
-%             EmissionTrade.EE = Power.FI.TSO.TradeEE * Emissions.FI.(SourceFI).(EFSource).intensityprod ;
-%         end
-%         if Power.FI.TSO.TradeSE > 0 
-%             %%%
-%             % Import from SE
-%             EmissionTrade.SE = Power.FI.TSO.TradeSE * Emissions.SE.(SourceFI).(EFSource).intensityprod ;
-%         else
-%             %%%
-%             % Export to SE
-%             EmissionTrade.SE = Power.FI.TSO.TradeSE * Emissions.FI.(SourceFI).(EFSource).intensityprod ;
-%         end
-%         Balance = Emissions.FI.(SourceFI).(EFSource).total + sum(struct2array(EmissionTrade)) ;
-%         %%%
-%         % Recalculate the emission intensity based on the consumption of
-%         % electricity in FI and including the traded electricity and their
-%         % emission impact.
-%         Emissions.FI.(SourceFI).(EFSource).intensitycons = Balance / Power.FI.(SourceFI).TotalConsumption ;
-%     end
-% end
+
 %% Save all values in XML files
 
 currenttime = datetime('now','TimeZone','UTC') ;
