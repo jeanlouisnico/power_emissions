@@ -295,18 +295,22 @@ end
     end
 
     function [Emissions, emend] = getemissions(inputstruct, Emissions, EFSource, emend, geteach, ccode, source, loopcount, Emissionsdatabase, country_code)
-        if isfield(Emissions.(ccode).(source).(EFSource), 'intensitycons') && loopcount > 1
-            if isempty(Emissions.(ccode).(source).(EFSource).currentloopintensitycons) || isnan(Emissions.(ccode).(source).(EFSource).currentloopintensitycons)
-                emmult = extractdata('mean', ccode, 'GlobalWarming', Emissionsdatabase.EcoInvent) ;
+        try
+            if isfield(Emissions.(ccode).(source).(EFSource), 'intensitycons') && loopcount > 1
+                if isempty(Emissions.(ccode).(source).(EFSource).currentloopintensitycons) || isnan(Emissions.(ccode).(source).(EFSource).currentloopintensitycons)
+                    emmult = extractdata('mean', ccode, 'GlobalWarming', Emissionsdatabase.EcoInvent) ;
+                else
+                    emmult = Emissions.(ccode).(source).(EFSource).currentloopintensitycons ;                
+                end
             else
-                emmult = Emissions.(ccode).(source).(EFSource).currentloopintensitycons ;                
+                if isempty(Emissions.(ccode).(source).(EFSource).intensityprod) ||  isnan(Emissions.(ccode).(source).(EFSource).intensityprod)
+                    emmult = extractdata('mean', ccode, 'GlobalWarming', Emissionsdatabase.EcoInvent) ;
+                else
+                    emmult = Emissions.(ccode).(source).(EFSource).intensityprod ;                
+                end
             end
-        else
-            if isempty(Emissions.(ccode).(source).(EFSource).intensityprod) ||  isnan(Emissions.(ccode).(source).(EFSource).intensityprod)
-                emmult = extractdata('mean', ccode, 'GlobalWarming', Emissionsdatabase.EcoInvent) ;
-            else
-                emmult = Emissions.(ccode).(source).(EFSource).intensityprod ;                
-            end
+        catch
+            x = 1 ;
         end
         emend = emend + (inputstruct.(geteach) * emmult);
         Emissions.(country_code).(source).(EFSource).exchange.(ccode)(loopcount,1) = inputstruct.(geteach) * emmult ;

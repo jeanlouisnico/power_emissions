@@ -129,7 +129,7 @@ for icountry = 1:length(Country)
         otherwise
             cc2 = cc ;
     end
-    if strcmp(cc,'LT')
+    if strcmp(cc,'RU')
         x=1;
     end
     if ~isa(Power(icountry).TSO,'double')

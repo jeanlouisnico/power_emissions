@@ -7,25 +7,26 @@ Powerindex = {'production', ...
               'thermal', ...
               'wind', ...
               'unknown', ...
-              'consumption'} ;
+              'consumption'...
+              'export'} ;
 
 currenttime = javaObject("java.util.Date") ; 
 timezone = -currenttime.getTimezoneOffset()/60 ;
 
 timeextract = datetime('now', 'Format','yyyy-MM-dd','TimeZone','Europe/Stockholm') ;
 
-url = ['https://www.svk.se/ControlRoom/GetProductionHistory/?productionDate=' char(timeextract) '&countryCode=SE'] ;
+url = ['https://www.svk.se/services/controlroom/v2/production?date=' char(timeextract) '&countryCode=SE'] ;
 data = webread(url);
-
+data = data.Data ;
 for itech = 1:length(data)
     Time = datetime(datestr(datenum(1970,1,1, timezone, 0, 0) + ([data(itech).data(:).x]/1000)/(24*3600))) ;
-    Power.(Powerindex{data(itech).name}) = timetable([data(itech).data(:).y]', 'RowTimes', Time) ;
+    Power.(Powerindex{str2double(data(itech).id)}) = timetable([data(itech).data(:).y]', 'RowTimes', Time) ;
 end
 
 for itech = 1:length(data)
-    Powerextract = tail(Power.(Powerindex{data(itech).name}), 1) ;
+    Powerextract = tail(Power.(Powerindex{str2double(data(itech).id)}), 1) ;
 %     Powerout.Time = Powerextract.Time ;
-    Powerout.(Powerindex{data(itech).name}) = Powerextract.Var1 ;
+    Powerout.(Powerindex{str2double(data(itech).id)}) = Powerextract.Var1 ;
 end
 if ~isfield(Powerout,'solar')
     Powerout.solar = 0 ;
