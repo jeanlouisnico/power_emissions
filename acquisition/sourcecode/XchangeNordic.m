@@ -16,7 +16,7 @@ L2 = contains(allzones.allzones(:,2),country) ;
 L_all = logical((L1 | L2) - (L1 & L2)) ; 
 
 
-Get the country code for each
+% Get the country code for each
 existingzones = unique(allzones.allzones) ;
 zoneori = existingzones ;
 ccode   = cellfun(@(x) x(length(x)>2,1:2),existingzones,'UniformOutput',false) ;
@@ -32,7 +32,7 @@ zones(L_all) ;
 dataextract(contains(allzones.allzones(L_all,1),country))
 allzones.allzones(contains(allzones.allzones(L_all,2),country))
 
-sum by zone
+% sum by zone
 pout = struct ;
 for icol = 1:2
     if icol == 1

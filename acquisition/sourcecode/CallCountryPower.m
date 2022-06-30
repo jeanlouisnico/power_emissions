@@ -107,7 +107,10 @@ try
             TSO = 0 ;
             xCHANGE = 0 ;
     end
-catch
+catch me
+    disp(datestr(now))
+    disp( getReport( me, 'extended', 'hyperlinks', 'on' ) ) ;
+    errorlog(getReport( me, 'extended', 'hyperlinks', 'off' )) ;
     TSO = 0 ;
     xCHANGE = 0 ;
 end

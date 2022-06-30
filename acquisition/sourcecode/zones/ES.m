@@ -16,12 +16,15 @@ for iyear = 1:length(timearr)
     filename = 'sunspots_annual.txt';
     opts = weboptions("Timeout",15) ;
     websave(filename,...
-            ['https://demanda.ree.es/WSvisionaMovilesPeninsulaRest/resources/demandaGeneracionPeninsula?callback=angular.callbacks._6&curva=DEMANDA&fecha=' ...
+            ['https://demanda.ree.es/WSvisionaMovilesPeninsulaRest/resources/demandaGeneracionPeninsula?callback=angular.callbacks._3&curva=NACIONAL&fecha=' ...
             sprintf('%02d',currentdate.Year) '-' ...
             sprintf('%02d',currentdate.Month) '-' ...
             sprintf('%02d',currentdate.Day)], opts) ;
+    % https://demanda.ree.es/WSvisionaMovilesPeninsulaRest/resources/demandaGeneracionPeninsula?callback=angular.callbacks._6&curva=DEMANDA&fecha=
+    % https://demanda.ree.es/WSvisionaMovilesPeninsulaRest/resources/demandaGeneracionPeninsula?callback=angular.callbacks._3&curva=NACIONAL&fecha=2022-6-30
+    % https://demanda.ree.es/WSvisionaMovilesPeninsulaRest/resources/demandaGeneracionPeninsula?callback=angular.callbacks._3&curva=NACIONAL&fecha=2022-06-30
     data = fileread('sunspots_annual.txt') ;
-    data = erase(data,'angular.callbacks._6({"valoresHorariosGeneracion":[');
+    data = erase(data,'angular.callbacks._3({"valoresHorariosGeneracion":[');
     data = split(data,'{') ;
     for itime = 1:length(data)
         datab1 = data{itime} ;
@@ -76,7 +79,7 @@ spainTT.Time = datetime(spainTT.Time, 'TimeZone', 'Europe/Madrid') ;
 spaindata = { 'dem'	'demand'
                 'eol'	'windon'
                 'nuc'	'nuclear_PWR'
-                'gf'	'gas'
+                'gas'	'gas'
                 'car'	'coal'
                 'cc'	'gas_chp' % Here it is written gas_chp but in reality this is a CC machines. in the emissions, the gas CC is taken into consideration, not gas_chp
                 'hid'	'hydro'
@@ -89,7 +92,7 @@ spaindata = { 'dem'	'demand'
                 'termRenov'	'biomass'
                 'cogenResto'	'waste'} ;
 
-extractdata = {'dem' 'eol' 'nuc' 'gf' 'car' 'cc' 'hid' 'sol' 'solFot' 'solTer' 'termRenov' 'cogenResto'} ;
+extractdata = {'dem' 'eol' 'nuc' 'gas' 'car' 'cc' 'hid' 'sol' 'solFot' 'solTer' 'termRenov' 'cogenResto'} ;
 
 TTSync.TSO = spainTT(end, extractdata) ;
 
