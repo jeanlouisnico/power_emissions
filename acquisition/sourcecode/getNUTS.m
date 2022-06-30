@@ -1,8 +1,8 @@
 function PostCode = getNUTS
     FP = mfilename('fullpath') ;
     FP = strsplit(FP,filesep)   ;
-    FP = FP(1:end-1)            ;
-    fullpath = strjoin(FP,filesep) ;
+    FP = FP(1:end-2)            ;
+    fullpath = strjoin([FP {'input'} {'general'}],filesep) ;
     
     % Load all the csv files and postcode from EU
     NUTPath = [fullpath filesep 'pc2020_NUTS-2021_v4.0'] ;
