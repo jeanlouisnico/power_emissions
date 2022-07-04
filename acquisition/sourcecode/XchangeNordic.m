@@ -29,8 +29,8 @@ zoneq = [zoneori existingzones] ;
 dataextract = alldata(L_all) ;
 zones(L_all) ;
 
-dataextract(contains(allzones.allzones(L_all,1),country))
-allzones.allzones(contains(allzones.allzones(L_all,2),country))
+dataextract(contains(allzones.allzones(L_all,1),country)) ;
+allzones.allzones(contains(allzones.allzones(L_all,2),country)) ;
 
 % sum by zone
 pout = struct ;
