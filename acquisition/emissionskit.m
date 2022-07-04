@@ -66,7 +66,13 @@ end
 
 tic;
 parfor icountry = 1:length(Country)
-    [ENTSOE, TSO, PoweroutLoad, xCHANGE] = CallCountryPower(Country{icountry}) ;
+    try
+        [ENTSOE, TSO, PoweroutLoad, xCHANGE] = CallCountryPower(Country{icountry}) ;
+    catch ME
+        disp(datestr(now))
+        disp( getReport( ME, 'extended', 'hyperlinks', 'on' ) ) ;
+        errorlog(getReport( ME, 'extended', 'hyperlinks', 'off' )) ;
+    end
     Power(icountry).ENTSOE.bytech = ENTSOE ;
     Power(icountry).ENTSOE.byfuel = ENTSOEbyfuel(ENTSOE) ;
     Power(icountry).ENTSOE.TotalConsumption = PoweroutLoad ;
