@@ -5,7 +5,7 @@ timePT = datetime(dtLCL, 'TimeZone', 'Europe/Lisbon');
 
 sqltime  = (datenum(timePT) * (24*60*60) - ((367)*24*60*60))*10^7 ;
 
-data = webread(['https://datahub.ren.pt/service/Electricity/ImportBalance/1395?culture=en-GB&dayToSearchString=' char((compose("%d",round(sqltime))))]) ;
+data = webwrite(['https://datahub.ren.pt/service/Electricity/ImportBalance/1395?culture=en-GB&dayToSearchString=' char((compose("%d",round(sqltime))))],'RequestMethod','post') ;
 
 power.(makevalidstring(data.series(2).name)) = data.series(2).data ;
 power.(makevalidstring(data.series(1).name)) = data.series(1).data  ;
