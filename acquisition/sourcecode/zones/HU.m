@@ -27,7 +27,9 @@ for icode = 1 : length(allfields)
         websave('tempHU.xlsx',url_load) ;
         opt=detectImportOptions('tempHU.xlsx');
     catch
-        opt=detectImportOptions('tempHU.xlsx');
+        TTSync = 0 ;
+        return ;
+        %opt=detectImportOptions('tempHU.xlsx');
     end
     try
         powerHR.(allfields{icode}) = readtable('tempHU.xlsx', opt) ;
