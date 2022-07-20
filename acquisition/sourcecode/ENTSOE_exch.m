@@ -248,7 +248,11 @@ end
                         param2pass.in_Domain  = zone ;
                         [powerexport, counter] = getdata(param2pass, bid, counter) ;
                         if ~isa(powerimport,'double')
-                            TT = synchronize(powerimport,powerexport,'commonrange') ;    
+                            TT = synchronize(powerimport,powerexport,'commonrange') ;  
+                            if isempty(TT)
+                                TT_temp = synchronize(powerimport,powerexport) ;
+                                TT = TT_temp(end,:) ;
+                            end
                             balance.(zonecode) = TT(:,'powerarray_powerimport').Variables  - TT(:,'powerarray_powerexport').Variables ;
                         else
                             balance.(zonecode) = 0 ;
