@@ -12,8 +12,10 @@ inc =    1.5 ;
 v = expspace(minemintenc, maxemintenc, inc) ;
 
 countrylist = fieldnames(Emissions) ;
-figure
+fig = figure ;
 gx = geoaxes;
+vid = VideoWriter('newfile.avi');
+open(vid)
 for iloop = 1:50
 cla(gx)
     for icountry = 1:numel(countrylist)
@@ -62,10 +64,16 @@ cla(gx)
             
             if Emissions.(countrylist{icountry}).emissionskit.EcoInvent.exchange.(countrydestination{jcountry})(min(iloop,maxlen)) >= 0
                 maxlen = numel(track.(countrylist{icountry}).emissionskit.EcoInvent) ;
-                newcol = track.(countrydestination{icountry}).emissionskit.EcoInvent(min(iloop,maxlen)) ;
+                newcol = track.(countrylist{icountry}).emissionskit.EcoInvent(min(iloop,maxlen)) ;
             else
-                maxlen = numel(track.(countrydestination{jcountry}).emissionskit.EcoInvent) ;
-                newcol = track.(countrydestination{jcountry}).emissionskit.EcoInvent(min(iloop,maxlen)) ;
+                try
+                    maxlen = numel(track.(countrydestination{jcountry}).emissionskit.EcoInvent) ;
+                    newcol = track.(countrydestination{jcountry}).emissionskit.EcoInvent(min(iloop,maxlen)) ;
+                catch
+                    x = 1 ;
+                    newcol = 500 ;
+                end
+                
             end
             A = repmat(v,[1 numel(newcol)]) ;
             [~,closestIndex] = min(abs(A-newcol')) ;
@@ -87,4 +95,8 @@ cla(gx)
         set(hL,{'LineWidth'},num2cell(wd'))
         set(hL,{'Color'},col)
     end
+    f(iloop) = getframe(fig);
+    writeVideo(vid,f(iloop));
 end
+close(vid);
+

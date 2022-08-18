@@ -167,7 +167,7 @@ countries = {   'Afghanistan'	'The Islamic Republic of Afghanistan'	'UN member s
                 'Niue'	'Niue'	'New Zealand'	'NU'	'NIU'  '' '' ''
                 'Norfolk Island'	'The Territory of Norfolk Island'	'Australia'	'NF'	'NFK' '' '' ''
                 'Northern Mariana Islands (the)'	'The Commonwealth of the Northern Mariana Islands'	'United States'	'MP'	'MNP' '' '' ''
-                'Norway'	'The Kingdom of Norway'	'UN member state'	'NO'	'NOR' 'Oslo' '59.9133301000000' '13.3888599000000'
+                'Norway'	'The Kingdom of Norway'	'UN member state'	'NO'	'NOR' 'Oslo' '59.9133301000000' '10.757933'
                 'Oman'	'The Sultanate of Oman'	'UN member state'	'OM'	'OMN' 'Muscat' '' ''
                 'Pakistan'	'The Islamic Republic of Pakistan'	'UN member state'	'PK'	'PAK' 'Islamabad' '' ''
                 'Palau'	'The Republic of Palau'	'UN member state'	'PW'	'PLW' 'Ngerulmud' '' ''
