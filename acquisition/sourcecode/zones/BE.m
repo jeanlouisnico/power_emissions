@@ -13,6 +13,11 @@ catch
     solar(1).startsOn = datetime(timeBE,"Format",'uuuu-MM-dd''T''HH:mm:ss''Z', 'TimeZone', 'UTC') ;
     solar(1).realTime = 0 ;
 end
+if isempty(solar)
+    a = cell2mat({data.timeUtc}' ) ;
+    solar(1).startsOn = datetime(a,"Format",'uuuu-MM-dd''T''HH:mm:ss''Z', 'TimeZone', 'UTC') ;
+    solar(1).realTime = zeros(1,length(a)) ;
+end
 try
     windoffdata  = webread(['https://griddata.elia.be/eliabecontrols.prod/interface/windforecasting/forecastdata?beginDate=' datein '&endDate=' datein '&region=1&isEliaConnected=&isOffshore=True']) ;
 catch
