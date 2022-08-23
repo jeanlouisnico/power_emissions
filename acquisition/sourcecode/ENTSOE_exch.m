@@ -249,7 +249,12 @@ end
                         [powerexport, counter] = getdata(param2pass, bid, counter) ;
                         if ~isa(powerimport,'double')
                             try
-                                TT = synchronize(powerimport,powerexport,'commonrange') ;  
+                                if isa(powerexport, 'timetable')
+                                    TT = synchronize(powerimport,powerexport,'commonrange') ;  
+                                else
+                                    powerexport = array2timetable(powerexport,"RowTimes",powerimport.powertime, 'VariableNames', {'powerarray'}) ;
+                                    TT = synchronize(powerimport,powerexport,'commonrange') ;  
+                                end
                             catch
                                 TT = [] ;
                             end
