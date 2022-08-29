@@ -55,7 +55,7 @@ catch
     byfuel.solar   = 0 ;
     byfuel.oil     = 0 ;
     byfuel.coal    = 0 ;
-    byfuel.gas     = .0 ;
+    byfuel.gas     = 0 ;
 
     Powerout.TSO = table2timetable(struct2table(bytech),'RowTimes',datetime(timeextract,'Format','dd/MM/uuuu HH:mm:ss')) ;
     Powerout.emissionskit = table2timetable(struct2table(byfuel),'RowTimes',datetime(timeextract,'Format','dd/MM/uuuu HH:mm:ss')) ;
