@@ -17,7 +17,7 @@ Country = country2fetch ;
 country_code = countrycode(Country) ;
 Power = struct ;
 
-
+fuelconsmonth_europe ;
 if isfile('Xchange.json')
     FileInfo = dir('Xchange.json') ;
     datecompare = datetime('now') ;
