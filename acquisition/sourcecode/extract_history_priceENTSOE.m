@@ -76,7 +76,7 @@ for igeo = 1:length(allgeo)
 end
 
 % Save the extracted data to a json file
-dlmwrite(strjoin({fparts{1},'input','general','elspot_pricesTT.json'},filesep),jsonencode(data3, "PrettyPrint", true),'delimiter','');
+dlmwrite(strjoin({fparts{1},'input','general','elspot_pricesTT.json'},filesep),jsonencode(data3.total, "PrettyPrint", true),'delimiter','');
 
 
 save(strjoin({fparts{1},'input','general','elspot_pricesTT.mat'},filesep),'priceout') ;
