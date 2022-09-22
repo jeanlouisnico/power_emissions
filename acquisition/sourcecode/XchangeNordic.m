@@ -1,12 +1,14 @@
 function Xchange = XchangeNordic(country)
 
 
+X = convertTo(datetime('now','TimeZone','UTC'),'epochtime','TicksPerSecond',1000) ;
+% data        = webread('https://www.svk.se/services/controlroom/v2/map/flow/latest') ;
 
-data        = webread('https://www.svk.se/services/controlroom/v2/map/flow/latest') ;
+data        = webread(['https://www.svk.se/services/controlroom/v2/map/flow?ticks=' num2str(X)]) ;
 timeextract = datetime(data.LastUpdated/1000,'ConvertFrom','posixtime','TimeZone','UTC') ;
 
-alldata = [data.Data(:).value]' ;
-zones = {data.Data.id}' ;
+alldata = [data.Data(1).data.value]';
+zones = {data.Data(1).data.id}' ;
 
 allzones = cellfun(@(x) strsplit(x,'_') , zones  , 'UniformOutput' , false) ;
 allzones = cell2table(allzones) ;
