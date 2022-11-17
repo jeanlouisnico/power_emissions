@@ -4,7 +4,7 @@ function [energy, databyfuel] = extract_estonie_emissions(power)
 % Fisrt try to locate the file for the current day
 currenttime = javaObject("java.util.Date") ; 
 timezone = -currenttime.getTimezoneOffset()/60 ;
-timeextract = datetime(datetime(datestr(now)) - hours(timezone)) ;
+timeextract = datetime(datetime('now') - hours(timezone)) ;
 isforeign = isforeign_region ;
 
 if isfile('Estonia_data.csv')
