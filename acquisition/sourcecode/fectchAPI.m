@@ -2,15 +2,16 @@ function [emissions,power] = fectchAPI(varargin)
 
 defaultstart     = datetime(2022,9,1) ;  
 defaultend       = datetime(2022,9,3) ;
-
+defaultparam     = 'all' ;
 p = inputParser;
 
 % validScalarPosNum = @(x) isnumeric(x) && isscalar(x) && (x >= 0) && (mod(x,1)==0);
 % validVector = @(x) all(isnumeric(x)) && all(isvector(x)) ;
-% validstring = @(x) isstring(x) || ischar(x) ;
+validstring = @(x) isstring(x) || ischar(x) ;
 % 
 addParameter(p,'startdate',defaultstart, @isdatetime);
 addParameter(p,'enddate',defaultend, @isdatetime);
+addParameter(p,'param',defaultparam, validstring);
 
 parse(p, varargin{:});
 
@@ -18,8 +19,17 @@ results = p.Results ;
 
     startdate = results.startdate ;
     enddate   = results.enddate ;
-    
-    source = {'emissions', 'power'} ;
+    switch results.param
+        case 'all'
+            source = {'emissions', 'power'} ;
+        otherwise
+            if ismember(results.param, {'emissions', 'power'})
+                source = {results.param} ;
+            else
+                error_msg('Parameter input error', ['The parameter ''' results.param ''' is not a valid parameter, should be ''emissions'' or ''power''']);
+                return ;
+            end
+    end
     
     datefecth = startdate:caldays(1):enddate ;
     opts = weboptions("Timeout",60) ;

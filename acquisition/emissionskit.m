@@ -69,7 +69,7 @@ parfor icountry = 1:length(Country)
     try
         [ENTSOE, TSO, PoweroutLoad, xCHANGE] = CallCountryPower(Country{icountry}) ;
     catch ME
-        disp(datestr(now))
+        disp(char(datetime('now')))
         disp( getReport( ME, 'extended', 'hyperlinks', 'on' ) ) ;
         errorlog(getReport( ME, 'extended', 'hyperlinks', 'off' )) ;
     end
@@ -106,9 +106,6 @@ for iEFSource = 1:length(EFSourcelist)
     EFSource = EFSourcelist{iEFSource} ;
     for icountry = 1:length(Country)
         cc = country_code.alpha2{icountry} ;
-%         if strcmp(cc,'FR')
-%             x=1;
-%         end
         sublst = fieldnames(Power(icountry).ENTSOE.bytech) ;
         for isublst = 1:length(sublst)
             EmissionTotal = ENTSOEEmissions(Power(icountry).ENTSOE.bytech.(sublst{isublst}) , Emissionsdatabase.newem.emissionFactors.(EFSource), cc, EmissionsCategory, EFSource) ;
@@ -253,17 +250,17 @@ catch
         s = xml2struct2(Filename) ;
         nbrexistingdata = length(s.EmissionsFinland.Data) ;
         if nbrexistingdata == 1
-            s.EmissionsFinland.Data(nbrexistingdata+1).Date = datestr(currenttime, 'dd-mm-yyyy HH:MM:SS') ;
+            s.EmissionsFinland.Data(nbrexistingdata+1).Date = char(datetime(currenttime,'Format', 'dd-mm-yyyy HH:MM:SS')) ;
             s.EmissionsFinland.Data(nbrexistingdata+1).Power = Power ;
             s.EmissionsFinland.Data(nbrexistingdata+1).Emissions = Emissions ;
         else
-            s.EmissionsFinland.Data{nbrexistingdata+1}.Date = datestr(currenttime, 'dd-mm-yyyy HH:MM:SS') ;
+            s.EmissionsFinland.Data{nbrexistingdata+1}.Date = char(datetime(currenttime,'Format', 'dd-mm-yyyy HH:MM:SS')) ;
             s.EmissionsFinland.Data{nbrexistingdata+1}.Power = Power ;
             s.EmissionsFinland.Data{nbrexistingdata+1}.Emissions = Emissions ;
         end
     else  
         archive = true ;
-        s.EmissionsFinland.Data(1).Date = datestr(currenttime, 'dd-mm-yyyy HH:MM:SS') ;
+        s.EmissionsFinland.Data(1).Date = char(datetime(currenttime,'Format', 'dd-mm-yyyy HH:MM:SS')) ;
         s.EmissionsFinland.Data(1).Power = Power ;
         s.EmissionsFinland.Data(1).Emissions = Emissions ;
     end
@@ -305,7 +302,7 @@ catch
         %%% Archive old files
     end 
 end
-S = struct("emissions", struct("time", datestr(currenttime, 'dd-mm-yyyy HH:MM:SS'), "emissionintensity", num2str(Emissions.FI.emissionskit.EcoInvent.intensitycons))) ;
+S = struct("emissions", struct("time", char(datetime(currenttime,'Format', 'dd-mm-yyyy HH:MM:SS')), "emissionintensity", num2str(Emissions.FI.emissionskit.EcoInvent.intensitycons))) ;
 s = jsonencode(S) ;
 JSONFILE_name= sprintf('%s.json','emissions') ;
 fid=fopen(JSONFILE_name,'w');

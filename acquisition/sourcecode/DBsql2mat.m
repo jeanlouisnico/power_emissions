@@ -3,7 +3,7 @@ function DBsql2mat(datain)
 power = [] ;
 
 power = extract_power(datain, power) ;
-save(['power_DB_' char(datetime('now','Format','yyyyMMddHHmm'))],'power','-mat') ;
+save(['power_DB_old_' char(datetime('now','Format','yyyyMMddHHmm'))],'power','-mat') ;
 end
 
 function power = extract_power(x, power)
