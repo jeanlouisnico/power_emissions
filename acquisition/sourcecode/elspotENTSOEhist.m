@@ -55,7 +55,7 @@ for idom = 1:size(domain,1)
                '&periodStart=' char(periodStart) ...
                '&periodEnd=' char(periodEnd)] ;
     
-    options = weboptions('Timeout',30);
+    options = weboptions('Timeout',60);
     try
         data = webread(url,options);
     catch

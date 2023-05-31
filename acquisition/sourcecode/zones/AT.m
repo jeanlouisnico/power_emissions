@@ -142,5 +142,5 @@ TTSync.emissionskit = genbyfuel_thermal ;
 % replacestring = cellfun(@(x) elecfuel(strcmp(elecfuel(:,1),x),2), TTSync.emissionskit.Properties.VariableNames, 'UniformOutput', false) ;
 % TTSync.emissionskit.Properties.VariableNames = cat(1, replacestring{:}) ;
 
-TTSync.emissionskit = synchronize(TTSync.emissionskit, TTSync.TSO(:,{'windon' 'solar' 'geothermal' 'hydro_pumped' 'hydro_reservoir' 'hydro_runof' 'other_biogas'})) ;
-
+%TTSync.emissionskit = synchronize(TTSync.emissionskit, TTSync.TSO(:,{'windon' 'solar' 'geothermal' 'hydro_pumped' 'hydro_reservoir' 'hydro_runof' 'other_biogas'})) ;
+TTSync.emissionskit = TTSync.TSO ;

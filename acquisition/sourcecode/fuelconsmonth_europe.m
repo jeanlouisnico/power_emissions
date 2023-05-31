@@ -13,7 +13,7 @@ if isfile(inputfile)
     datefile    = datetime(FileInfo.datenum, "ConvertFrom", "datenum") ;
 
     % Check daily if the data have changed
-    if ~(datecompare.Year == datefile.Year && datecompare.Month==datefile.Month && weeknum(datecompare)==weeknum(datefile))
+    if ~(datecompare.Year == datefile.Year && datecompare.Month==datefile.Month && week(datecompare)==week(datefile))
         data2 = extractdata(fparts) ;
     else
         data2 = loadEUfuelmonth ;
@@ -23,9 +23,9 @@ else
 end
 
     function data2 = extractdata(fparts)
-
+        json_result = struct ;
         toc = jsondecode(fileread([fparts{1} filesep 'input' filesep 'general' filesep 'TOC_eurostat.json']));              
-        [codes, countries, source.liquidfuel, source.solidfuel, source.gasfuel, source.elecfuel] = setnames ;
+        [codes, countries, source.liquidfuel, source.solidfuel, source.elecfuel] = setnames ;
         
         allsource = fieldnames(source) ;
         for isource = 1:length(allsource)
@@ -35,47 +35,88 @@ end
                 for ifuel = 1:size(allfuels,1)
                     fuelcode = allfuels{ifuel, 1} ;
                     fuelname = makevalidstring(allfuels{ifuel, 2}) ;
-                    d = dbEUROSTAT();
+%                     d = dbEUROSTAT();
+                    d.baseURL = 'https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/' ;
                     d.table = toc.data.envir.nrg.nrg_quant.nrg_quantm.nrg_cb_m.(codes{isource}) ;
         
                     filt = struct();
-                    switch codes{isource}
-                        case 'nrg_cb_pem'
-                            filt.unit = 'GWH'; % Gigawatt-hour
-                        case {'nrg_cb_oilm','nrg_cb_sffm','nrg_cb_gasm'}
-                            filt.nrg_bal = 'TI_EHG_MAP'; % Transformation input - electricity and heat generation - main activity producers
-                            filt.unit = 'THS_T'; % Thousand tonnes
-                        otherwise
-                            filt.nrg_bal = 'TI_EHG_MAP'; % Transformation input - electricity and heat generation - main activity producers
-                            filt.unit = 'THS_T'; % Thousand tonnes
-                    end
+                    
                     
                     filt.siec = fuelcode; % 'C0100';'C0200';'P1100';'S2000'
                     filt.geo = countrycode;
+                    filt.freq = '' ;
                     d.filter = filt;
-        
+                    
                     d.engine = 'json';
-                    try
-                        obj = tsobj(d);
-                        json_result.(countrycode).(fuelcode) = convert2timetable(obj) ;
-                    catch
-                        % No data available for this country or fuel category
+
+                    %%% Build up the URL
+                    switch codes{isource}
+                        case 'nrg_cb_pem'
+                            filt.unit = 'GWH'; % Gigawatt-hour
+                            query = [d.baseURL codes{isource} '/' filt.freq '.' fuelcode '.' filt.unit '.' countrycode '?format=' d.engine] ;
+                        case {'nrg_cb_oilm','nrg_cb_sffm','nrg_cb_gasm'}
+                            filt.nrg_bal = 'TI_EHG_MAP'; % Transformation input - electricity and heat generation - main activity producers
+                            filt.unit = 'THS_T'; % Thousand tonnes
+                            query = [d.baseURL codes{isource} '/' filt.freq '.' filt.nrg_bal '.' fuelcode '.' filt.unit '.' countrycode '?format=' d.engine] ;
+                        otherwise
+                            filt.nrg_bal = 'TI_EHG_MAP'; % Transformation input - electricity and heat generation - main activity producers
+                            filt.unit = 'THS_T'; % Thousand tonnes
+                            query = [d.baseURL codes{isource} '/' filt.freq '.' filt.nrg_bal '.' fuelcode '.' filt.unit '.' countrycode '?format=' d.engine] ;
                     end
+                    
+                    dataout = urlread(query) ;
+                    fprintf([filt.freq '.' fuelcode '.' filt.unit '.' countrycode '>>> download OK!\n']);
+                    data = jsondecode(dataout) ;
+                    timechar = struct2table(data.dimension.time.category.label) ;
+                    timestring = [timechar.Properties.VariableNames] ; 
+                    time = cellfun(@(x) datetime(erase(x,'x'),"InputFormat",'yyyy_MM','TimeZone','UTC'),timestring)';
+
+                    if isempty(fieldnames(data.value))
+                         % create an array of zero values of the size of
+                         % the time array
+                         emptyarray = zeros(length(time),1) ;
+                         TT = array2timetable(emptyarray,"RowTimes",time,"VariableNames",{fuelcode}) ;
+                    else
+                         % Access the data by value and extract its index
+                         allfields = fieldnames(data.value) ;
+                         timefields = fieldnames(data.dimension.time.category.index) ;
+                         value = zeros(length(allfields),1) ;
+                         timetemp = NaT(length(allfields),1,'TimeZone','UTC') ;
+                         for i = 1:length(allfields)
+                             fieldin = allfields{i} ;
+                             index = erase(fieldin,'x') ;
+                             value(i) = data.value.(fieldin) ;
+                             timetemp(i) = time(str2double(index) + 1) ;
+                         end
+                         TT = array2timetable(value,"RowTimes",timetemp,"VariableNames",{fuelcode}) ;
+                    end
+                    if isfield(json_result,countrycode)
+                        json_result.(countrycode) = synchronize(json_result.(countrycode),TT) ;
+                    else
+                        json_result.(countrycode) = TT ;
+                    end
+%                     try
+%                         obj = tsobj(d);
+%                         json_result.(countrycode).(fuelcode) = convert2timetable(obj) ;
+%                     catch
+%                         % No data available for this country or fuel category
+%                     end
                 end
             end
         end
         % Transform the structure array of cells into a structure array of timetables
         allgeo = fieldnames(json_result) ;
-        for igeo = 1:length(allgeo)
-            geo = allgeo{igeo} ;
-            allfuels = fieldnames(json_result.(geo)) ;
-            
-            data2.(geo) = synchronize(json_result.(geo).(allfuels{1}), json_result.(geo).(allfuels{2})) ;
-            for ifuel = 3:length(allfuels)
-                data2.(geo) = synchronize(data2.(geo), json_result.(geo).(allfuels{ifuel})) ;
-            end
-            data2.(geo).Properties.VariableNames = fieldnames(json_result.(geo)) ;
-        end
+        data2 = json_result ;
+%         for igeo = 1:length(allgeo)
+%             geo = allgeo{igeo} ;
+%             allfuels = fieldnames(json_result.(geo)) ;
+%             
+%             data2.(geo) = synchronize(json_result.(geo).(allfuels{1}), json_result.(geo).(allfuels{2})) ;
+%             for ifuel = 3:length(allfuels)
+%                 data2.(geo) = synchronize(data2.(geo), json_result.(geo).(allfuels{ifuel})) ;
+%             end
+%             data2.(geo).Properties.VariableNames = fieldnames(json_result.(geo)) ;
+%         end
         
         % convert it back to table to save the results into a table.
         % jsonencode does not handle timetables well.
@@ -151,7 +192,7 @@ end
         dataout = timetable(obj.values, 'RowTimes', array) ;
     end
 
-    function [codes, countries, liquidfuel, solidfuel, gasfuel, elecfuel] = setnames
+    function [codes, countries, liquidfuel, solidfuel, elecfuel] = setnames
         liquidfuel = {'O4100_TOT_4200-4500'	'Crude oil, NGL, refinery feedstocks, additives and oxygenates and other hydrocarbons'
         'O4100_TOT'	'Crude oil'
         'O4200'	'Natural gas liquids'
@@ -233,7 +274,7 @@ end
             'P1100' 'Peat'
             'S2000' 'Oil shale and oil sands'} ;
         
-        gasfuel = {'G3000'	'Natural gas'} ;
+        % gasfuel = {'G3000'	'Natural gas'} ;
         
         elecfuel = {'CF'	'Combustible fuels'
                     'CF_R'	'Combustible fuels - renewable'
@@ -256,7 +297,7 @@ end
                     'N9000'	'Nuclear fuels and other fuels n.e.c.'
                     'X9900'	'Other fuels n.e.c.' } ;
         
-        codes = {'nrg_cb_oilm' 'nrg_cb_sffm' 'nrg_cb_gasm' 'nrg_cb_pem'} ;
+        codes = {'nrg_cb_oilm' 'nrg_cb_sffm' 'nrg_cb_pem'} ;
         
     end
 

@@ -1,6 +1,6 @@
 function [alldata, seasonal] = fuelmixEU(country, plotbin, type)
 
-[codes, countries, source.liquidfuel, source.solidfuel, source.gasfuel, source.elecfuel] = setnames ;
+[codes, countries, source.liquidfuel, source.solidfuel, source.elecfuel] = setnames ;
 data2 = loadEUfuelmonth ;
 for icountry = 1:length(country)
     if isa(country,'char') || isa(country,'string')
@@ -115,7 +115,7 @@ end
 %% Nested functions
 
 
-    function [codes, countries, liquidfuel, solidfuel, gasfuel, elecfuel] = setnames
+    function [codes, countries, liquidfuel, solidfuel, elecfuel] = setnames
         liquidfuel = {'O4100_TOT_4200-4500'	'Crude oil, NGL, refinery feedstocks, additives and oxygenates and other hydrocarbons'
         'O4100_TOT'	'Crude oil'
         'O4200'	'Natural gas liquids'
@@ -195,7 +195,7 @@ end
                     'P1100' 'Peat'
                     'S2000' 'Oil shale and oil sands'} ;
         
-        gasfuel = {'G3000'	'Natural gas'} ;
+        % gasfuel = {'G3000'	'Natural gas'} ;
         
         elecfuel = {'CF'	'Combustible fuels'
                     'CF_R'	'Combustible fuels - renewable'
@@ -233,7 +233,7 @@ end
             legfull(ileg) = source.elecfuel(strcmp(toplot{ileg}, source.elecfuel(:,1)), 2) ;
         end
 
-        xlim([datetime(2016,12,1) datetime(now, 'ConvertFrom', "datenum")])
+        xlim([datetime(2016,12,1) datetime('now')])
         ls = xlim ;
         switch timescale
             case 'month'

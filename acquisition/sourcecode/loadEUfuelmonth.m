@@ -1,6 +1,12 @@
 function data3 = loadEUfuelmonth
 
-data3 = jsondecode(fileread('json_result_merged.json'));
+p = mfilename('fullpath') ;
+[filepath,~,~] = fileparts(p) ;
+fparts = split(filepath, filesep) ;
+fparts = join(fparts(1:end-1), filesep) ;
+
+data3 = jsondecode(fileread([fparts{1} filesep 'input' filesep 'general' filesep 'json_result_merged.json'])) ;
+%data3 = jsondecode(fileread('json_result_merged.json'));
 allgeo = fieldnames(data3) ;
 
 for igeo = 1:length(allgeo)
