@@ -25,7 +25,7 @@ end
     function data2 = extractdata(fparts)
         json_result = struct ;
         toc = jsondecode(fileread([fparts{1} filesep 'input' filesep 'general' filesep 'TOC_eurostat.json']));              
-        [codes, countries, source.liquidfuel, source.solidfuel, source.elecfuel] = setnames ;
+        [codes, countries, source.liquidfuel, source.solidfuel, source.gasfuel, source.elecfuel] = setnames ;
         
         allsource = fieldnames(source) ;
         for isource = 1:length(allsource)
@@ -63,8 +63,11 @@ end
                             filt.unit = 'THS_T'; % Thousand tonnes
                             query = [d.baseURL codes{isource} '/' filt.freq '.' filt.nrg_bal '.' fuelcode '.' filt.unit '.' countrycode '?format=' d.engine] ;
                     end
-                    
-                    dataout = urlread(query) ;
+                    try
+                        dataout = urlread(query) ;
+                    catch
+                        continue;
+                    end
                     fprintf([filt.freq '.' fuelcode '.' filt.unit '.' countrycode '>>> download OK!\n']);
                     data = jsondecode(dataout) ;
                     timechar = struct2table(data.dimension.time.category.label) ;
@@ -192,7 +195,7 @@ end
         dataout = timetable(obj.values, 'RowTimes', array) ;
     end
 
-    function [codes, countries, liquidfuel, solidfuel, elecfuel] = setnames
+    function [codes, countries, liquidfuel, solidfuel, gasfuel, elecfuel] = setnames
         liquidfuel = {'O4100_TOT_4200-4500'	'Crude oil, NGL, refinery feedstocks, additives and oxygenates and other hydrocarbons'
         'O4100_TOT'	'Crude oil'
         'O4200'	'Natural gas liquids'
@@ -274,7 +277,7 @@ end
             'P1100' 'Peat'
             'S2000' 'Oil shale and oil sands'} ;
         
-        % gasfuel = {'G3000'	'Natural gas'} ;
+        gasfuel = {'G3000'	'Natural gas'} ;
         
         elecfuel = {'CF'	'Combustible fuels'
                     'CF_R'	'Combustible fuels - renewable'
@@ -297,7 +300,7 @@ end
                     'N9000'	'Nuclear fuels and other fuels n.e.c.'
                     'X9900'	'Other fuels n.e.c.' } ;
         
-        codes = {'nrg_cb_oilm' 'nrg_cb_sffm' 'nrg_cb_pem'} ;
+        codes = {'nrg_cb_oilm' 'nrg_cb_sffm' 'nrg_cb_gasm' 'nrg_cb_pem'} ;
         
     end
 
