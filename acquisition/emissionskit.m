@@ -197,7 +197,8 @@ end
 save('pqfile.mat','track','Emissions')
 msgin = 'Balanced Emissions calculation completed' ;
 looplog(msgin) ;
-
+ [exportlist,importlist] = toXchangemap(Emissions) ;
+ save('exchange_listing.mat','exportlist','importlist') ;
 %% Save all values in XML files
 
 currenttime = datetime('now','TimeZone','UTC') ;

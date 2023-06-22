@@ -12,10 +12,10 @@ catch
     return;
 end
 t = uint64(systemdata_month.data.timestamp*1000) ;
-d = datetime(t,'ConvertFrom','epochtime','TicksPerSecond',1e3,'Format','dd-MMM-yyyy HH:mm:ss.SSS') ;
+d = datetime(t,'ConvertFrom','epochtime','TicksPerSecond',1e3,'Format','dd-MMM-yyyy HH:mm:ss.sss') ;
 
-datestart = datestr(datetime('now')  - hours(6), 'yyyy-mm-ddTHH:MM:SS.FFFZ') ;
-dateend = datestr(datetime('now')  + hours(6), 'yyyy-mm-ddTHH:MM:SS.FFFZ')   ;
+datestart = char(datetime(datetime('now')  - hours(6),'Format','yyyy-MM-dd''T''HH:mm:ss.sss''Z')) ;
+dateend = char(datetime(datetime('now')  + hours(6),'Format','yyyy-MM-dd''T''HH:mm:ss.sss''Z'))   ;
 url = ['https://dashboard.elering.ee/api/system/with-plan?start=' datestart '&end=' dateend] ;
 systemdata = webread(url) ;
 
@@ -63,7 +63,7 @@ Powerout.Latvia = transmission.data.latvia ;
 %% HEre is a second extract from the Latvian TSO that has more regular updates for Estonia (about every 3 minutes)
 
 options = weboptions('Timeout',15) ;
-timeextract = datestr(now, 'yyyy-mm-dd') ;
+timeextract = char(datetime('now','Format', 'yyyy-MM-dd')) ;
 try
     estoniaprod = webread(['https://www.ast.lv/lv/ajax/charts/production?productionDate=' timeextract '&countryCode=EE'], options) ;
 catch

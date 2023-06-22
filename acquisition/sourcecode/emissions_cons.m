@@ -57,7 +57,7 @@ for ipower = 1:length(FIsource)
 %                 if devsummary(icountry) < devtraget
 %                     continue;
 %                 end
-                if icountry == 21
+                if icountry == 23
                     x = 1 ;
                 end
                 getcountry = ismember({Power.zone},country_code) ;
@@ -236,12 +236,12 @@ end
                     %%% Negative is export to the country
                     if inputstruct.(geteach{each}) < 0
                         if isfield(Emissions.(country_code).(source).(EFSource), 'intensitycons') && loopcount > 1
-                            emend = emend + (inputstruct.(geteach{each}) * Emissions.(country_code).(source).(EFSource).currentloopintensitycons);
-                            Emissions.(country_code).(source).(EFSource).exchange.(ccode) = (inputstruct.(geteach{each}) * Emissions.(country_code).(source).(EFSource).currentloopintensitycons) ;
+                            emissions_export = (inputstruct.(geteach{each}) * Emissions.(country_code).(source).(EFSource).currentloopintensitycons) ; % In absolute term,  this is negative
                         else
-                            emend = emend + (inputstruct.(geteach{each}) * Emissions.(country_code).(source).(EFSource).intensityprod);
-                            Emissions.(country_code).(source).(EFSource).exchange.(ccode) = (inputstruct.(geteach{each}) * Emissions.(country_code).(source).(EFSource).intensityprod) ;
+                            emissions_export = (inputstruct.(geteach{each}) * Emissions.(country_code).(source).(EFSource).intensityprod) ; % In absolute term,  this is negative
                         end
+                        emend = emend + emissions_export;
+                        Emissions.(country_code).(source).(EFSource).exchange.(ccode) = emissions_export ;
                     %%% Positive is import from the country
                     elseif inputstruct.(geteach{each}) > 0
                         % Check if the country exist
