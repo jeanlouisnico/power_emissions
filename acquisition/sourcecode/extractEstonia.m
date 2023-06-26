@@ -1,3 +1,4 @@
+
 function TTSync = extractEstonia
 
 currenttime = javaObject("java.util.Date") ; 
