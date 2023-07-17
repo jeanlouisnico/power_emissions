@@ -129,6 +129,11 @@ end
             data3.(geo) = timetable2table(data2.(geo)) ;
         end
         
+        % load the previous data
+        data2_past = loadEUfuelmonth ; 
+
+        % Merge the previous data with the new data
+        data2write = mergedatatset(data2, data2_past) ;
         % Save the extracted data to a json file
         dlmwrite([fparts{1} filesep 'input' filesep 'general' filesep 'json_result_merged.json'],jsonencode(data3, "PrettyPrint", true),'delimiter','');
                 
