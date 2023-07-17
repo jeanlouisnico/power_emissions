@@ -9,7 +9,7 @@ timestart   = posixtime(datetime('now','TimeZone',['+0' num2str(timezone) ':00']
 timeend     = posixtime(d1) * 1000 ;
 
 code.loadcode = 7678 ;
-code.Xchangecode = 5229 ;
+% code.Xchangecode = 5229 ;
 % code.solarcode = 11838 ;
 % code.windcode = 11840 ;
 code.PPgen = 4401 ;
