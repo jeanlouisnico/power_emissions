@@ -124,16 +124,22 @@ end
         % convert it back to table to save the results into a table.
         % jsonencode does not handle timetables well.
 
-        for igeo = 1:length(allgeo)
-            geo = allgeo{igeo} ;    
-            data3.(geo) = timetable2table(data2.(geo)) ;
-        end
-        
+%         for igeo = 1:length(allgeo)
+%             geo = allgeo{igeo} ;    
+%             data3.(geo) = timetable2table(data2.(geo)) ;
+%         end
+%         
         % load the previous data
         data2_past = loadEUfuelmonth ; 
 
         % Merge the previous data with the new data
         data2write = mergedatatset(data2, data2_past) ;
+        allgeo = fieldnames(data2write) ;
+        for igeo = 1:length(allgeo)
+            geo = allgeo{igeo} ;    
+            data3.(geo) = timetable2table(data2write.(geo)) ;
+        end
+
         % Save the extracted data to a json file
         dlmwrite([fparts{1} filesep 'input' filesep 'general' filesep 'json_result_merged.json'],jsonencode(data3, "PrettyPrint", true),'delimiter','');
                 
