@@ -1,6 +1,6 @@
 function TTSync = GR
 
-currenttime = datetime("now",'TimeZone','Europe/Athens','Format','uuuuMMdd') ;
+currenttime = datetime("now",'TimeZone','UTC','Format','uuuuMMdd') ;
 
 url = ['https://www.admie.gr/services/scadaprod.php?date=' char(currenttime)] ;
 dataGR = jsondecode(webread(url)) ;

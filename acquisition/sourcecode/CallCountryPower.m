@@ -108,7 +108,7 @@ try
             xCHANGE = 0 ;
     end
 catch me
-    disp(datestr(now))
+    disp(char(datetime('now')))
     disp( getReport( me, 'extended', 'hyperlinks', 'on' ) ) ;
     errorlog(getReport( me, 'extended', 'hyperlinks', 'off' )) ;
     TSO = 0 ;

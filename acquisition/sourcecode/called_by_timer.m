@@ -9,7 +9,7 @@ function  called_by_timer(app, event)
         looplog(msgin) ;
 
     catch me
-        disp(datestr(now))
+        disp(char(datetime('now')))
         disp( getReport( me, 'extended', 'hyperlinks', 'on' ) ) ;
         errorlog(getReport( me, 'extended', 'hyperlinks', 'off' )) ;
     end
