@@ -13,5 +13,5 @@ fid = fopen(fullfile(fparts{1}, 'fetcher.log'), 'a');
 if fid == -1
   error('Cannot open log file.');
 end
-fprintf(fid, '%s: %s\n', datestr(now, 0), msgin);
+fprintf(fid, '%s: %s\n', char(datetime('now')), msgin);
 fclose(fid);

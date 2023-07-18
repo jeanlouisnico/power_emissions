@@ -10,6 +10,10 @@ function extractdata_fuel
         [codes, countries, source.liquidfuel, source.solidfuel, source.gasfuel, source.elecfuel] = setnames ;
         
         allsource = fieldnames(source) ;
+
+%         opt = weboptions("ArrayFormat",'json','CharacterEncoding','UTF-8') ;
+        opt = weboptions("ContentType",'json','HeaderFields',{'Accept-Encoding', ''; 'Accept', ''}) ;
+
         for isource = 1:length(allsource)
             allfuels = source.(allsource{isource}) ;
             for icountry = 1:length(countries(:,1))
@@ -46,12 +50,14 @@ function extractdata_fuel
                             query = [d.baseURL codes{isource} '/' filt.freq '.' filt.nrg_bal '.' fuelcode '.' filt.unit '.' countrycode '?format=' d.engine] ;
                     end
                     try
-                        dataout = urlread(query) ;
-                    catch
+                        dataout = webread(query, opt) ;
+                    catch me
+                        looplog(me.message) ;
+%                         fprintf([filt.freq '.' fuelcode '.' filt.unit '.' countrycode '>>> download FAILED!\n']);
                         continue;
                     end
                     fprintf([filt.freq '.' fuelcode '.' filt.unit '.' countrycode '>>> download OK!\n']);
-                    data = jsondecode(dataout) ;
+                    data = dataout ;
                     timechar = struct2table(data.dimension.time.category.label) ;
                     timestring = [timechar.Properties.VariableNames] ; 
                     time = cellfun(@(x) datetime(erase(x,'x'),"InputFormat",'yyyy_MM','TimeZone','UTC'),timestring)';
@@ -124,7 +130,8 @@ function extractdata_fuel
 
         % Save the extracted data to a json file
         dlmwrite([fparts{1} filesep 'input' filesep 'general' filesep 'json_result_merged.json'],jsonencode(data3, "PrettyPrint", true),'delimiter','');
-                
+        msgin = 'Fuel consumption data extraction completed' ;
+        looplog(msgin) ;        
 %         toplot = {'CF_R', 'CF_NR', 'C0000', 'G3000', 'O4000XBIO'} ;
 %         geo2plot = 'FI' ; 
 %         bar(data3.(geo2plot).Time,bsxfun(@rdivide, data3.(geo2plot)(:,toplot).Variables, sum(data3.(geo2plot)(:,toplot).Variables,2)) * 100,'stacked', 'BarWidth', 1) ;

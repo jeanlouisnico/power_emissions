@@ -13,7 +13,7 @@ if isfile(inputfile)
     datefile    = datetime(FileInfo.datenum, "ConvertFrom", "datenum") ;
 
     % Check daily if the data have changed
-    if ~(datecompare.Year == datefile.Year && datecompare.Month==datefile.Month && week(datecompare)==week(datefile) && minute(datecompare)==minute(datefile))
+    if ~(datecompare.Year == datefile.Year && datecompare.Month==datefile.Month && week(datecompare)==week(datefile))
         start(timer('StartDelay',5, 'TimerFcn',@(~,~)delay_extract));
         data5 = loadEUfuelmonth ;
     else
@@ -27,12 +27,4 @@ disp('function completed')
     function delay_extract
         !"matlab.exe" -batch "declarepath"
     end
-    function dataout = convert2timetable(obj)
-        match = [" ",":"];
-        time = cellfun(@(x) strsplit(x, 'M'), obj.range, 'UniformOutput', false) ;
-        time = cellfun(@(x) datetime(str2double(x{:,1}), str2double(x{:,2}),1), time, 'UniformOutput', false) ;
-        array = [time{:}]';
-        dataout = timetable(obj.values, 'RowTimes', array) ;
-    end
-
 end

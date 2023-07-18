@@ -43,7 +43,11 @@ for icountry = 1:length(gatherallcountries_past)
                     else
                         % Replace with the new values
                         oldtime = col_old.Time(end-imonth + 1) ;
-                        oldDB(oldtime,sub_old{isubs}) = col_new(oldtime,sub_old{isubs}) ;
+                        try
+                            oldDB(oldtime,sub_old{isubs}) = col_new(oldtime,sub_old{isubs}) ;
+                        catch
+                            x=1;
+                        end
                     end
                 end
                 % if it is different
