@@ -19,14 +19,14 @@ L_all = logical((L1 | L2) - (L1 & L2)) ;
 
 
 % Get the country code for each
-existingzones = unique(allzones.allzones) ;
-zoneori = existingzones ;
-ccode   = cellfun(@(x) x(length(x)>2,1:2),existingzones,'UniformOutput',false) ;
-ccodeem = cell2mat(cellfun(@(x) ~isempty(x),ccode,'UniformOutput',false)) ;
+% existingzones = unique(allzones.allzones) ;
+% zoneori = existingzones ;
+% ccode   = cellfun(@(x) x(length(x)>2,1:2),existingzones,'UniformOutput',false) ;
+% ccodeem = cell2mat(cellfun(@(x) ~isempty(x),ccode,'UniformOutput',false)) ;
 
-existingzones(ccodeem) = join([ccode(ccodeem), existingzones(ccodeem)],'_') ;
+% existingzones(ccodeem) = join([ccode(ccodeem), existingzones(ccodeem)],'_') ;
 
-zoneq = [zoneori existingzones] ;
+% zoneq = [zoneori existingzones] ;
 
 dataextract = alldata(L_all) ;
 zones(L_all) ;

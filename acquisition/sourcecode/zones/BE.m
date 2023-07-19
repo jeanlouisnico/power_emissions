@@ -4,7 +4,7 @@ function TTSync = BE
 dtLCL = datetime('now', 'TimeZone','local')       ;  
 timeBE = datetime(dtLCL, 'TimeZone', 'Europe/Brussels') ;
 
-datein = datestr(timeBE, 'yyyy-mm-dd') ;
+datein = char(datetime(timeBE,"Format",'uuuu-MM-dd')) ;
 
 data = webread(['https://griddata.elia.be/eliabecontrols.prod/interface/generations/generatedcipupowerbyfueltypebyquarterhour/' datein]) ;
 try

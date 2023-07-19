@@ -56,7 +56,7 @@ CHP_DH_Fuel = table2struct(array2table(CHP_DH_Fuel, "VariableNames", fieldnames(
 CHP_Ind_Fuel = table2struct(array2table(CHP_Ind_Fuel, "VariableNames", fieldnames(fuelratio.chp))) ;   % MWh
 
 Sep_Fuel = table2struct(array2table(struct2array(Sep.ratioload) * TSO.other / 100 , "VariableNames", fieldnames(Sep.ratioload))) ;  % MWh
-WindCat  = table2struct(array2table(struct2array(capacity.wind.ratioload) * TSO.windon / 100 , "VariableNames", fieldnames(capacity.wind.ratioload))) ;  % MWh
+% WindCat  = table2struct(array2table(struct2array(capacity.wind.ratioload) * TSO.windon / 100 , "VariableNames", fieldnames(capacity.wind.ratioload))) ;  % MWh
 
 if ~isfield(Sep_Fuel, 'biomass')
     Sep_Fuel.biomass = 0 ;
