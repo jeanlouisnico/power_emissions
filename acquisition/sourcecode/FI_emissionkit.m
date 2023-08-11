@@ -88,7 +88,7 @@ genbyfuel_thermal.Properties.VariableNames = cat(1, replacestring{:}) ;
 % toreallocate = abs(sum(proddiff(proddiff<0))) ;
 % genbyfuel_thermal(:,extracteurostat).Variables = newlimit(:,extractFinland).Variables ;
 
-tables = {genbyfuel_thermal, genbyfuel_wind, genbyfuel_hydro, genbyfuel_nuclear} ;
+tables = {genbyfuel_thermal, genbyfuel_wind, genbyfuel_hydro, genbyfuel_nuclear, genbyfuel_solar} ;
 
 TTSync = synchronize(tables{:,:},'union','nearest');
 
