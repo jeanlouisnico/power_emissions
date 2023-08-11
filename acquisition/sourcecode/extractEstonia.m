@@ -7,13 +7,13 @@ timezone = -currenttime.getTimezoneOffset()/60 ;
 %% Get the mix for the previous month to complement the data from statistic Estonia
 
 try 
-    systemdata_month = webread('https://dashboard.elering.ee/api/balance/total/latest') ;
+    webread('https://dashboard.elering.ee/api/balance/total/latest') ;
 catch
-    Powerout = 0 ;
+%     Powerout = 0 ;
     return;
 end
-t = uint64(systemdata_month.data.timestamp*1000) ;
-d = datetime(t,'ConvertFrom','epochtime','TicksPerSecond',1e3,'Format','dd-MMM-yyyy HH:mm:ss.sss') ;
+% t = uint64(systemdata_month.data.timestamp*1000) ;
+% d = datetime(t,'ConvertFrom','epochtime','TicksPerSecond',1e3,'Format','dd-MMM-yyyy HH:mm:ss.sss') ;
 
 datestart = char(datetime(datetime('now')  - hours(6),'Format','yyyy-MM-dd''T''HH:mm:ss.sss''Z')) ;
 dateend = char(datetime(datetime('now')  + hours(6),'Format','yyyy-MM-dd''T''HH:mm:ss.sss''Z'))   ;
@@ -48,14 +48,14 @@ if isempty(Powerout.solar)
     alldates = [systemdata.data.plan.timestamp] ;
     t = uint64(alldates*1000) ;
     alldates = datetime(t,'ConvertFrom','epochtime','TicksPerSecond',1e3,'Format','dd-MMM-yyyy HH:mm:ss.SSS','TimeZone','UTC')  ;
-    datecompare = datetime('now') ;
+%     datecompare = datetime('now') ;
     Powerout.solar = systemdata.data.plan(alldates.Hour == d.Hour).solar_energy_forecast ;
 end
 
 try
     transmission = webread('https://dashboard.elering.ee/api/transmission/cross-border/latest') ;
 catch
-    Powerout = 0 ;
+%     Powerout = 0 ;
     return;
 end
 Powerout.Finland = transmission.data.finland ;

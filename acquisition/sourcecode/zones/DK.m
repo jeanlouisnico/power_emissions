@@ -57,8 +57,8 @@ PP_DK = PPDB(strcmp(PPDB.country,'DK'),:);
 
 allenergy = unique(PP_DK.energy_source) ;
 
-installedcapL100 = sum(PP_DK.capacity(PP_DK.capacity<=100)) ;
-installedcapG100 = sum(PP_DK.capacity(PP_DK.capacity>100))  ;
+% installedcapL100 = sum(PP_DK.capacity(PP_DK.capacity<=100)) ;
+% installedcapG100 = sum(PP_DK.capacity(PP_DK.capacity>100))  ;
 
 fueleq = {  'Biomass and biogas'	'biomass'
             'Mixed fossil fuels'	'coal_chp'
@@ -90,9 +90,9 @@ eneroutL100           = struct2table(eneroutL100,"AsArray",true);
 eneroutG100           = struct2table(eneroutG100,"AsArray",true);
 
 extractcountry_fuel = {'biomass' 'coal_chp' 'other' 'gas' 'oil_chp' 'waste'} ;
-extracteurostat = {'biomass' 'coal' 'unknown' 'gas' 'oil' 'waste'} ;
+% extracteurostat = {'biomass' 'coal' 'unknown' 'gas' 'oil' 'waste'} ;
 
-init        = normalisedpredictthermal(end,extracteurostat).Variables / 100 ;
+% init        = normalisedpredictthermal(end,extracteurostat).Variables / 100 ;
 
 for icode = 1:length(areacode)
     codename = areacode{icode} ;

@@ -3,7 +3,7 @@ function xCHANGE = BE_Xchange
 dtLCL = datetime('now', 'TimeZone','local')       ;  
 timeBE = datetime(dtLCL, 'TimeZone', 'Europe/Brussels') ;
 
-datein = datestr(timeBE, 'yyyy-mm-dd') ;
+datein = char(datetime(timeBE,"Format",'uuuu-MM-dd')) ;
 
 zone = {'FR' 'NL' 'UK' 'LX' 'GE'} ;
 

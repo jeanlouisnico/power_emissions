@@ -27,8 +27,6 @@ if isfile('Xchange.json')
     if minutes(datecompare-datefile) >= 20
         msgin = 'Update exchange data from ENTSOE' ;
         looplog(msgin) ;
-        tic;
-        counter = 0 ;
         for icountry = 1:length(Country)
             [Power(icountry).ENTSOE.exchange]   = ENTSOE_exch('country',Country{icountry},'documentType','Exchange')       ;
         end
@@ -40,7 +38,6 @@ if isfile('Xchange.json')
         dlmwrite([fparts{1} filesep 'Xchange.json'],jsonencode(p_out,'PrettyPrint',true),'delimiter','');
         msgin = 'Update completed, json created' ;
         looplog(msgin) ;
-        toc
     else
         msgin = 'Exchange data loaded from json file' ;
         looplog(msgin) ;

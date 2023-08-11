@@ -6,8 +6,8 @@ function TTSync = ES
 dtLCL = datetime('now', 'TimeZone','local')       ;  
 timeSpain = datetime(dtLCL, 'TimeZone', 'Europe/Madrid') ;
 
-timeres = 'day' ;
-region = 'ccaa' ;
+% timeres = 'day' ;
+% region = 'ccaa' ;
 
 timearr = timeSpain ; 
 outtable = struct ;
@@ -51,7 +51,7 @@ for iyear = 1:length(timearr)
                         varname = erase(varname,'"') ;
                     varvalue = str2double(datab3{2}) ;
                     if strcmp(varname,'cogenResto')
-                        x = 1 ;
+%                         x = 1 ;
                     end
                     if isfield(outtable, varname)
                         outtable.(varname)(end + 1,1) = varvalue ;

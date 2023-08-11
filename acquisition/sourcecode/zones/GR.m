@@ -1,6 +1,6 @@
 function TTSync = GR
 
-currenttime = datetime("now",'TimeZone','Europe/Athens','Format','uuuuMMdd') ;
+currenttime = datetime("now",'TimeZone','UTC','Format','uuuuMMdd') ;
 
 url = ['https://www.admie.gr/services/scadaprod.php?date=' char(currenttime)] ;
 dataGR = jsondecode(webread(url)) ;
@@ -39,7 +39,7 @@ solarCF = getSolardata(country) ;
 installedcap    = loadEUnrgcap('country',{alphadigit}) ;
 predictedcap    = fuelmixEU_lpredict(installedcap.(alphadigit.alpha2),'resolution','year') ;
 predictedfuel   = fuelmixEU_lpredict(alldata.(alphadigit.alpha2)) ;
-minval          = CF_tech(country) ;
+% minval          = CF_tech(country) ;
 
 hydro   = {'RA110' 'RA120'} ;
 RES     = {'RA310' 'RA320'} ;  

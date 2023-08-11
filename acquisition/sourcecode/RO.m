@@ -5,7 +5,7 @@ d1 = datetime('now', 'TimeZone','Europe/Sofia') ;
 timestartepoch  = d1 - hours(1) ;
 timeendepoch    = d1 ;
 timestartUNIX   = posixtime(d1  - hours(1)) * 1000;
-timeendUNIX     = posixtime(d1) * 1000 ;
+% timeendUNIX     = posixtime(d1) * 1000 ;
 
 header = {'consumption'
         'average consumption'

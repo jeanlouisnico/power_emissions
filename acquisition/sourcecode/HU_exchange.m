@@ -2,10 +2,10 @@ function TTSync = HU_exchange
 warning('OFF', 'all' )
 currenttime = javaObject("java.util.Date") ;
 timezone    = -currenttime.getTimezoneOffset()/60 ;
-d1 = datetime(now, 'ConvertFrom', 'datenum','TimeZone',['+0' num2str(timezone) ':00']);
+d1 = datetime('now','TimeZone',['+0' num2str(timezone) ':00']);
 
 
-timestart   = posixtime(datetime(now, 'ConvertFrom', 'datenum','TimeZone',['+0' num2str(timezone) ':00'])  - hours(1)) * 1000;
+timestart   = posixtime(datetime('now','TimeZone',['+0' num2str(timezone) ':00'])  - hours(1)) * 1000;
 timeend     = posixtime(d1) * 1000 ;
 
 code.Xchangecode = 5229 ;

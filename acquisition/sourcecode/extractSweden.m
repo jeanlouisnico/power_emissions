@@ -10,8 +10,8 @@ Powerindex = {'production', ...
               'consumption'...
               'export'} ;
 
-currenttime = javaObject("java.util.Date") ; 
-timezone = -currenttime.getTimezoneOffset()/60 ;
+% currenttime = javaObject("java.util.Date") ; 
+% timezone = -currenttime.getTimezoneOffset()/60 ;
 
 timeextract = datetime('now', 'Format','yyyy-MM-dd','TimeZone','Europe/Stockholm') ;
 
@@ -19,7 +19,7 @@ url = ['https://www.svk.se/services/controlroom/v2/production?date=' char(timeex
 data = webread(url);
 data = data.Data ;
 for itech = 1:length(data)
-    Time = datetime(datestr(datenum(1970,1,1, timezone, 0, 0) + ([data(itech).data(:).x]/1000)/(24*3600))) ;
+    Time = datetime([data(itech).data(:).x]/1000, 'ConvertFrom', 'posixtime','TimeZone','UTC') ;
     Power.(Powerindex{str2double(data(itech).id)}) = timetable([data(itech).data(:).y]', 'RowTimes', Time) ;
 end
 
