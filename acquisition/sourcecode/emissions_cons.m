@@ -57,7 +57,7 @@ for ipower = 1:length(FIsource)
 %                 if devsummary(icountry) < devtraget
 %                     continue;
 %                 end
-                if icountry == 23
+                if icountry == 22
                     x = 1 ;
                 end
                 getcountry = ismember({Power.zone},country_code) ;

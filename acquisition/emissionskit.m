@@ -132,7 +132,7 @@ for icountry = 1:length(Country)
         otherwise
             cc2 = cc ;
     end
-    if strcmp(cc,'RU')
+    if strcmp(cc,'NL')
         x=1;
     end
     if ~isa(Power(icountry).TSO,'double')
@@ -190,7 +190,7 @@ for icountry = 1:length(allcount)
     st = struct2table(s) ;
     outT = [outT;st] ;
 end
-
+save('EI_comparison.mat','outT') ;
 %% Emissions balanced
 
 [Emissions, track] = emissions_cons('power', Power, 'emissions', Emissions) ;
