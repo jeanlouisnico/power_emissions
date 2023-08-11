@@ -80,7 +80,7 @@ replacestring = cellfun(@(x) elecfuel(strcmp(elecfuel(:,1),x),2), genbyfuel_ther
 genbyfuel_thermal.Properties.VariableNames = cat(1, replacestring{:}) ;
 
 
-tables = {genbyfuel_thermal, genbyfuel_wind, genbyfuel_hydro, genbyfuel_nuclear} ;
+tables = {genbyfuel_thermal, genbyfuel_wind, genbyfuel_hydro, genbyfuel_nuclear, genbyfuel_solar} ;
 
 TTSync.emissionskit = synchronize(tables{:,:},'union','nearest');
 TTSync.TSO = table2timetable(struct2table(Powerout),'RowTimes',d) ;
