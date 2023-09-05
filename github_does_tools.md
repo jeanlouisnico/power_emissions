@@ -1,9 +1,5 @@
 # github.md
 
-
-
-
-
 <svg
    width="309.05054mm"
    height="128.64041mm"
@@ -795,7 +791,7 @@
 
 
 
-
+![](.\github_does_tools.svg)
 
 
 
