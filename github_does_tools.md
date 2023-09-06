@@ -1,9 +1,5 @@
 # github.md
 
-
-
-
-
 <svg
    width="309.05054mm"
    height="128.64041mm"
@@ -751,7 +747,9 @@
                y="195.30504"
                id="tspan7911-0-2">Household-level flexibility</tspan></text></g></a></g></g></svg>
 
-![sometext](C:\Users\JLJEAN\OneDrive - Teknologian Tutkimuskeskus VTT\DOES Documents\Media\Logo and communication\github_does_tools.svg)
+
+
+# HTML Test
 
 
 
