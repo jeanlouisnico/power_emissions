@@ -5,3 +5,6 @@ nav:
   - Overview: github_does_tools.md
   - Our Tools: our_tools.md
 theme: readthedocs
+
+plugins:
+  - mkdocs-video
