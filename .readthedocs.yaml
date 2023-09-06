@@ -1,6 +1,5 @@
-site_name: DOES VTT
-site_url: https://www.google.com
-nav:
-  - Home: index.md
-  - About: github_does_tools.md
-theme: readthedocs
+version: 2
+
+mkdocs:
+  configuration: mkdocs.yml
+  fail_on_warning: false
