@@ -2,5 +2,6 @@ site_name: DOES VTT
 site_url: https://www.google.com
 nav:
   - Home: index.md
-  - About: github_does_tools.md
+  - Overview: github_does_tools.md
+  - Our Tools: our_tools.md
 theme: readthedocs
