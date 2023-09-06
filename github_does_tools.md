@@ -751,10 +751,6 @@
                y="195.30504"
                id="tspan7911-0-2">Household-level flexibility</tspan></text></g></a></g></g></svg>
 
-```
-![](C:\Users\JLJEAN\OneDrive - Teknologian Tutkimuskeskus VTT\DOES Documents\Media\Logo and communication\github_does_tools.svg)
-```
-
 ![sometext](C:\Users\JLJEAN\OneDrive - Teknologian Tutkimuskeskus VTT\DOES Documents\Media\Logo and communication\github_does_tools.svg)
 
 
